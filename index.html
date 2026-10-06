@@ -65,13 +65,15 @@
     .subprod-chip:hover { background: #d0e4ff; }
     .subprod-chip.active { background: #0d47a1; color: #ffffff; border-color: #0d47a1; box-shadow: 0 2px 6px rgba(13,71,161,0.25); }
 
-    .metric-wrapper { margin-bottom: 14px; display: flex; flex-direction: column; gap: 12px; }
-    .metric-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    @media (max-width: 900px) { .metric-grid-3 { grid-template-columns: 1fr; } }
-    .metric-card-pro { background: #f8fbff; border-radius: 18px; border-left: 6px solid #0066cc; box-shadow: 0 4px 16px rgba(0,102,204,0.08); padding: 12px 18px; text-align: center; transition: all 0.2s ease-in-out; }
-    .metric-card-pro:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,102,204,0.16); }
-    .metric-label-pro { font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .metric-value-pro { font-size: 26px; font-weight: 900; color: #0b3d91; letter-spacing: -0.5px; }
+    /* 6 thẻ chỉ số gọn trên 1 hàng (màn nhỏ tự xuống 3 / 2 cột) */
+    .metric-wrapper { margin-bottom: 12px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+    .metric-grid-3 { display: contents; }
+    @media (max-width: 1200px) { .metric-wrapper { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 650px) { .metric-wrapper { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .metric-card-pro { background: #f8fbff; border-radius: 12px; border-left: 4px solid #0066cc; box-shadow: 0 2px 10px rgba(0,102,204,0.08); padding: 8px 10px; text-align: center; transition: all 0.2s ease-in-out; }
+    .metric-card-pro:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,102,204,0.16); }
+    .metric-label-pro { font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 2px; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .metric-value-pro { font-size: 21px; font-weight: 900; color: #0b3d91; letter-spacing: -0.3px; }
 
     .divider { height: 1px; background: linear-gradient(90deg, transparent, #b9d4ff, transparent); margin: 10px 0 12px 0; border: none; }
 
@@ -746,7 +748,7 @@
         });
       }
       populateFilterOptions();
-      onPeriodChange();
+      onPeriodChange(true); // tải lại dữ liệu: giữ tháng/quý đang chọn
     }
 
     /* ================= BỘ LỌC ================= */
@@ -796,22 +798,22 @@
         `<option value="ALL">Tất cả tình trạng</option>` + statuses.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join(''));
     }
 
-    function onPeriodChange() {
+    /** keepSub = true khi tải lại dữ liệu (giữ tháng/quý đang chọn); người dùng đổi Kỳ báo cáo thì để họ tự chọn. */
+    function onPeriodChange(keepSub) {
       const p = document.getElementById('f-period').value;
       const sub = document.getElementById('f-subperiod');
       const old = sub.value;
-      const now = new Date();
-      const curMonth = now.getMonth() + 1;
-      const curQuarter = Math.ceil(curMonth / 3);
 
       if (p === 'MONTH') {
         sub.disabled = false;
-        sub.innerHTML = Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}">Tháng ${i + 1}</option>`).join('');
-        sub.value = (filtersInitialized && old >= 1 && old <= 12) ? old : String(curMonth);
+        sub.innerHTML = `<option value="">-- Chọn tháng --</option>` +
+          Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}">Tháng ${i + 1}</option>`).join('');
+        sub.value = (keepSub === true && old >= 1 && old <= 12) ? old : '';
       } else if (p === 'QUARTER') {
         sub.disabled = false;
-        sub.innerHTML = [1, 2, 3, 4].map(q => `<option value="${q}">Quý ${q}</option>`).join('');
-        sub.value = String(curQuarter);
+        sub.innerHTML = `<option value="">-- Chọn quý --</option>` +
+          [1, 2, 3, 4].map(q => `<option value="${q}">Quý ${q}</option>`).join('');
+        sub.value = (keepSub === true && old >= 1 && old <= 4) ? old : '';
       } else {
         sub.disabled = true;
         sub.innerHTML = `<option value="ALL">Tất cả (Cả năm)</option>`;
@@ -858,12 +860,12 @@
       } else {
         const yearEff = parseInt(y, 10);
         let start, end;
-        if (p === 'MONTH') {
+        if (p === 'MONTH' && sub) {
           const m = parseInt(sub, 10);
           start = new Date(yearEff, m - 1, 1, 0, 0, 0);
           end = new Date(yearEff, m, 0, 23, 59, 59);
           labelKyDatMoi = `Đặt Mới Tháng ${m}/${yearEff}`;
-        } else if (p === 'QUARTER') {
+        } else if (p === 'QUARTER' && sub) {
           const q = parseInt(sub, 10);
           start = new Date(yearEff, (q - 1) * 3, 1, 0, 0, 0);
           end = new Date(yearEff, q * 3, 0, 23, 59, 59);

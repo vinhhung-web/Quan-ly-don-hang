@@ -166,17 +166,11 @@
       font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.6px;
       margin-bottom: 10px; padding-bottom: 6px; border-bottom: 4px solid transparent;
       border-image: linear-gradient(90deg, #0d47a1, #00b4d8, #90e0ef) 1;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      display: flex; align-items: center; gap: 12px;
     }
     .vh-header-icon {
-      height: 32px;
-      width: auto;
-      max-width: 120px;
-      object-fit: contain;
-      vertical-align: middle;
-      flex-shrink: 0;
+      height: 32px; width: auto; max-width: 120px; object-fit: contain;
+      vertical-align: middle; flex-shrink: 0;
     }
 
     .filter-box {
@@ -224,52 +218,22 @@
       background: #0d47a1; color: #ffffff; border-color: #0d47a1; box-shadow: 0 2px 6px rgba(13,71,161,0.25);
     }
 
-    .metric-wrapper {
-      margin-bottom: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .metric-grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    @media (max-width: 900px) {
-      .metric-grid-3 { grid-template-columns: 1fr; }
-    }
+    .metric-wrapper { margin-bottom: 14px; display: flex; flex-direction: column; gap: 12px; }
+    .metric-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 900px) { .metric-grid-3 { grid-template-columns: 1fr; } }
     .metric-card-pro {
-      background: #f8fbff;
-      border-radius: 18px;
-      border-left: 6px solid #0066cc;
-      box-shadow: 0 4px 16px rgba(0, 102, 204, 0.08);
-      padding: 12px 18px;
-      text-align: center;
-      transition: all 0.2s ease-in-out;
+      background: #f8fbff; border-radius: 18px; border-left: 6px solid #0066cc;
+      box-shadow: 0 4px 16px rgba(0, 102, 204, 0.08); padding: 12px 18px;
+      text-align: center; transition: all 0.2s ease-in-out;
     }
-    .metric-card-pro:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 22px rgba(0, 102, 204, 0.16);
-    }
+    .metric-card-pro:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0, 102, 204, 0.16); }
     .metric-label-pro {
-      font-size: 13px;
-      font-weight: 700;
-      color: #334155;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 4px;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
     }
-    .metric-value-pro {
-      font-size: 26px;
-      font-weight: 900;
-      color: #0b3d91;
-      letter-spacing: -0.5px;
-    }
+    .metric-value-pro { font-size: 26px; font-weight: 900; color: #0b3d91; letter-spacing: -0.5px; }
 
     .divider { height: 1px; background: linear-gradient(90deg, transparent, #b9d4ff, transparent); margin: 10px 0 12px 0; border: none; }
-
     .sub-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
     .sub-tabs { display: flex; gap: 6px; }
     .sub-tab-btn {
@@ -409,24 +373,14 @@
 
         <div>
           <span class="filter-chip-label">📅 Chọn Năm</span>
-
-          <select
-            id="f-year"
-            class="filter-select"
-            onchange="render()"
-          >
+          <select id="f-year" class="filter-select" onchange="render()">
             <option value="ALL">Tất cả các năm</option>
           </select>
         </div>
 
         <div>
           <span class="filter-chip-label">⏱️ Kỳ Báo Cáo</span>
-
-          <select
-            id="f-period"
-            class="filter-select"
-            onchange="onPeriodChange()"
-          >
+          <select id="f-period" class="filter-select" onchange="onPeriodChange()">
             <option value="YEAR">Cả Năm</option>
             <option value="MONTH" selected>Theo Tháng</option>
             <option value="QUARTER">Theo Quý</option>
@@ -435,179 +389,102 @@
 
         <div>
           <span class="filter-chip-label">🗓️ Chi Tiết Kỳ</span>
-
-          <select
-            id="f-subperiod"
-            class="filter-select"
-            onchange="render()"
-          ></select>
+          <select id="f-subperiod" class="filter-select" onchange="render()"></select>
         </div>
 
         <div>
           <span class="filter-chip-label">🏭 Tình Trạng SX</span>
-
-          <select
-            id="f-status"
-            class="filter-select"
-            onchange="render()"
-          >
+          <select id="f-status" class="filter-select" onchange="render()">
             <option value="ALL">Tất cả tình trạng</option>
           </select>
         </div>
 
         <div>
           <span class="filter-chip-label">🏢 Bộ Phận KD</span>
-
-          <select
-            id="f-dept"
-            class="filter-select"
-            onchange="onDeptChange()"
-          >
+          <select id="f-dept" class="filter-select" onchange="onDeptChange()">
             <option value="ALL">Tất cả bộ phận</option>
           </select>
         </div>
 
         <div>
           <span class="filter-chip-label">👤 Gõ / Chọn NVKD</span>
-
-          <input
-            list="nvkd-list"
-            id="f-emp"
-            class="filter-input"
-            placeholder="🔍 Gõ Biên, Trang..."
-            oninput="render()"
-          >
-
+          <input list="nvkd-list" id="f-emp" class="filter-input"
+                 placeholder="🔍 Gõ Biên, Trang..." oninput="render()">
           <datalist id="nvkd-list"></datalist>
         </div>
 
       </div>
     </div>
 
-
-    <!-- TABS SẢN PHẨM -->
     <div class="nav-tabs" id="product-tabs"></div>
 
-
-    <!-- SUBPRODUCT BAR KHI CHỌN SẢN PHẨM KHÁC -->
     <div class="subproduct-bar" id="subproduct-bar">
 
-      <span class="subproduct-label">
-        🔍 Chi tiết SP Khác:
-      </span>
+      <span class="subproduct-label">🔍 Chi tiết SP Khác:</span>
 
-      <button
-        class="subprod-chip active"
-        onclick="setSubProduct('ALL')"
-      >
+      <button class="subprod-chip active" onclick="setSubProduct('ALL')">
         Tất cả SP Khác
       </button>
 
-      <button
-        class="subprod-chip"
-        onclick="setSubProduct('SL_TamDeNeo')"
-      >
+      <button class="subprod-chip" onclick="setSubProduct('SL_TamDeNeo')">
         Tấm Đế Neo
       </button>
 
-      <button
-        class="subprod-chip"
-        onclick="setSubProduct('SL_ThanhNeo')"
-      >
+      <button class="subprod-chip" onclick="setSubProduct('SL_ThanhNeo')">
         Thanh Neo
       </button>
 
-      <button
-        class="subprod-chip"
-        onclick="setSubProduct('SL_StelPin')"
-      >
+      <button class="subprod-chip" onclick="setSubProduct('SL_StelPin')">
         Stel Pin
       </button>
 
-      <button
-        class="subprod-chip"
-        onclick="setSubProduct('SL_LoXoNeo')"
-      >
+      <button class="subprod-chip" onclick="setSubProduct('SL_LoXoNeo')">
         Lò Xo Neo
       </button>
 
-      <button
-        class="subprod-chip"
-        onclick="setSubProduct('SL_VanKhuon')"
-      >
+      <button class="subprod-chip" onclick="setSubProduct('SL_VanKhuon')">
         Ván Khuôn
       </button>
 
-      <button
-        class="subprod-chip"
-        onclick="setSubProduct('SL_LanCan')"
-      >
+      <button class="subprod-chip" onclick="setSubProduct('SL_LanCan')">
         Lan Can
       </button>
 
-      <button
-        class="subprod-chip"
-        onclick="setSubProduct('SL_KheRangLuocNhom')"
-      >
+      <button class="subprod-chip" onclick="setSubProduct('SL_KheRangLuocNhom')">
         Khe Nhôm
       </button>
 
-      <button
-        class="subprod-chip"
-        onclick="setSubProduct('SL_SPKhac')"
-      >
+      <button class="subprod-chip" onclick="setSubProduct('SL_SPKhac')">
         SP Khác
       </button>
 
     </div>
 
-
-    <!-- BỘ 6 THẺ CHỈ SỐ -->
-    <div
-      class="metric-wrapper"
-      id="metrics-container"
-    ></div>
+    <div class="metric-wrapper" id="metrics-container"></div>
 
     <hr class="divider">
 
-
     <div class="sub-bar">
 
-      <div
-        class="sub-tabs"
-        id="sub-tabs-container"
-      >
+      <div class="sub-tabs" id="sub-tabs-container">
 
-        <button
-          class="sub-tab-btn active"
-          onclick="setSubTab('MOI')"
-        >
+        <button class="sub-tab-btn active" onclick="setSubTab('MOI')">
           📦 Đặt Mới
         </button>
 
-        <button
-          class="sub-tab-btn"
-          onclick="setSubTab('CAN_GIAO')"
-        >
+        <button class="sub-tab-btn" onclick="setSubTab('CAN_GIAO')">
           🔥 Đặt & Cần Giao
         </button>
 
-        <button
-          class="sub-tab-btn"
-          onclick="setSubTab('TON')"
-        >
+        <button class="sub-tab-btn" onclick="setSubTab('TON')">
           ⏳ Tồn Lũy Kế
         </button>
 
-        <button
-          class="sub-tab-btn"
-          onclick="setSubTab('DONE')"
-        >
+        <button class="sub-tab-btn" onclick="setSubTab('DONE')">
           ✅ Đã Nhập Kho
         </button>
 
       </div>
-
 
       <div class="actions-wrap">
 
@@ -630,7 +507,6 @@
       </div>
 
     </div>
-
 
     <div class="table-container">
 
@@ -662,11 +538,7 @@
 
   </div>
 
-
-  <div
-    id="loading"
-    style="display: none;"
-  >
+  <div id="loading" style="display: none;">
     Đang kết nối dữ liệu từ Google Sheets, vui lòng đợi...
   </div>
 
@@ -690,23 +562,12 @@
 
       currentAuthMode = mode;
 
-      const btnLogin =
-        document.getElementById('btn-mode-login');
-
-      const btnReg =
-        document.getElementById('btn-mode-reg');
-
-      const submitText =
-        document.getElementById('auth-btn-text');
-
-      const alertBox =
-        document.getElementById('auth-alert');
-
-      const emailInput =
-        document.getElementById('auth-email');
-
-      const passwordInput =
-        document.getElementById('auth-password');
+      const btnLogin = document.getElementById('btn-mode-login');
+      const btnReg = document.getElementById('btn-mode-reg');
+      const submitText = document.getElementById('auth-btn-text');
+      const alertBox = document.getElementById('auth-alert');
+      const emailInput = document.getElementById('auth-email');
+      const passwordInput = document.getElementById('auth-password');
 
       alertBox.style.display = 'none';
 
@@ -717,14 +578,9 @@
 
         submitText.innerText = 'Đăng nhập';
 
-        emailInput.placeholder =
-          'Nhập Email công ty';
-
-        passwordInput.placeholder =
-          'Mật khẩu';
-
-        passwordInput.autocomplete =
-          'current-password';
+        emailInput.placeholder = 'Nhập Email công ty';
+        passwordInput.placeholder = 'Mật khẩu';
+        passwordInput.autocomplete = 'current-password';
 
         document.getElementById('auth-footer-text').innerText =
           'Chỉ tài khoản đã được Quản trị viên phê duyệt mới được đăng nhập.';
@@ -734,17 +590,11 @@
         btnReg.classList.add('active');
         btnLogin.classList.remove('active');
 
-        submitText.innerText =
-          'Tạo tài khoản';
+        submitText.innerText = 'Tạo tài khoản';
 
-        emailInput.placeholder =
-          'Nhập Email @vinhhungjsc.com';
-
-        passwordInput.placeholder =
-          'Tạo mật khẩu (tối thiểu 6 ký tự)';
-
-        passwordInput.autocomplete =
-          'new-password';
+        emailInput.placeholder = 'Nhập Email @vinhhungjsc.com';
+        passwordInput.placeholder = 'Tạo mật khẩu (tối thiểu 6 ký tự)';
+        passwordInput.autocomplete = 'new-password';
 
         document.getElementById('auth-footer-text').innerText =
           'Đăng ký xong, hệ thống sẽ gửi yêu cầu phê duyệt tới Quản trị viên.';
@@ -758,17 +608,53 @@
         document.getElementById('auth-alert');
 
       alertBox.innerText = msg;
-
       alertBox.style.display = 'block';
     }
 
 
     /*
-     * ĐĂNG KÝ / ĐĂNG NHẬP THẬT
-     * Kết nối Apps Script Web App
+     * =========================================================
+     * AUTH KHÔNG DÙNG FETCH
+     *
+     * Dùng form POST trực tiếp tới Apps Script.
+     * Cách này tránh lỗi CORS của Google Apps Script Web App.
+     * Mật khẩu chỉ nằm trong POST body, không nằm trên URL.
+     * =========================================================
      */
 
-    async function handleAuthSubmit() {
+    function submitAuthForm(action, email, password) {
+
+      const form =
+        document.createElement('form');
+
+      form.method = 'POST';
+      form.action = AUTH_API_URL;
+      form.target = '_self';
+      form.style.display = 'none';
+
+      function addField(name, value) {
+
+        const input =
+          document.createElement('input');
+
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+
+        form.appendChild(input);
+      }
+
+      addField('action', action);
+      addField('email', email);
+      addField('password', password);
+
+      document.body.appendChild(form);
+
+      form.submit();
+    }
+
+
+    function handleAuthSubmit() {
 
       const email =
         document.getElementById('auth-email')
@@ -835,103 +721,105 @@
           : 'Đang kiểm tra...';
 
 
+      const action =
+        currentAuthMode === 'reg'
+          ? 'register'
+          : 'login';
+
+
+      /*
+       * Gửi POST trực tiếp.
+       *
+       * Không dùng fetch()
+       * Không có CORS
+       * Không có OPTIONS preflight
+       */
+
+      submitAuthForm(
+        action,
+        email,
+        password
+      );
+    }
+
+
+    /*
+     * =========================================================
+     * NHẬN KẾT QUẢ TỪ APPS SCRIPT
+     *
+     * Apps Script sẽ xử lý xong rồi chuyển trình duyệt
+     * quay lại GitHub Pages với các thông tin:
+     *
+     * auth=login/register
+     * success=1/0
+     * status=...
+     * message=...
+     * email=...
+     *
+     * Tuyệt đối không đưa password vào URL.
+     * =========================================================
+     */
+
+    function handleAuthCallback() {
+
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+
+      if (
+        !params.has('auth')
+      ) {
+
+        return false;
+      }
+
+
+      const action =
+        params.get('auth') || '';
+
+      const success =
+        params.get('success') === '1';
+
+      const status =
+        params.get('status') || '';
+
+      const message =
+        params.get('message') || '';
+
+      const email =
+        params.get('email') || '';
+
+
+      /*
+       * Xóa thông tin callback khỏi thanh địa chỉ.
+       */
+
       try {
 
-        /*
-         * Dùng text/plain để tránh trình duyệt
-         * gửi CORS preflight OPTIONS.
-         */
+        window.history.replaceState(
+          {},
+          document.title,
+          window.location.pathname
+        );
 
-        const response =
-          await fetch(
-            AUTH_API_URL,
-            {
-              method: 'POST',
+      } catch (e) {
 
-              headers: {
-                'Content-Type':
-                  'text/plain;charset=utf-8'
-              },
-
-              body: JSON.stringify({
-
-                action:
-                  currentAuthMode === 'reg'
-                    ? 'register'
-                    : 'login',
-
-                email:
-                  email,
-
-                password:
-                  password
-
-              })
-            }
-          );
+        console.warn(
+          'Không thể xóa callback khỏi URL:',
+          e
+        );
+      }
 
 
-        if (!response.ok) {
+      /* ================= ĐĂNG NHẬP ================= */
 
-          throw new Error(
-            'Máy chủ phản hồi lỗi HTTP ' +
-            response.status
-          );
-        }
+      if (
+        action === 'login'
+      ) {
 
-
-        const result =
-          await response.json();
-
-
-        /* ================= ĐĂNG KÝ ================= */
-
-        if (
-          currentAuthMode === 'reg'
-        ) {
-
-          if (result.success) {
-
-            showAlert(
-              'Đăng ký thành công! ' +
-              'Yêu cầu đã được gửi tới Quản trị viên. ' +
-              'Vui lòng chờ phê duyệt trước khi đăng nhập.'
-            );
-
-            document.getElementById(
-              'auth-password'
-            ).value = '';
-
-            /*
-             * Chuyển về màn hình đăng nhập
-             * sau khi đăng ký thành công.
-             */
-
-            setTimeout(function () {
-
-              switchMode('login');
-
-              document.getElementById(
-                'auth-password'
-              ).value = '';
-
-            }, 1800);
-
-          } else {
-
-            showAlert(
-              result.message ||
-              'Đăng ký không thành công.'
-            );
-          }
-
-          return;
-        }
-
-
-        /* ================= ĐĂNG NHẬP ================= */
-
-        if (result.success) {
+        if (success) {
 
           sessionStorage.setItem(
             'vhip_logged_in',
@@ -945,86 +833,83 @@
 
           showApp();
 
-          return;
+        } else {
+
+          if (
+            status === 'CHỜ DUYỆT'
+          ) {
+
+            showAlert(
+              'Tài khoản của bạn đang chờ Quản trị viên phê duyệt.'
+            );
+
+          } else if (
+            status === 'TỪ CHỐI'
+          ) {
+
+            showAlert(
+              'Tài khoản của bạn đã bị từ chối.'
+            );
+
+          } else if (
+            status === 'SAI_MAT_KHAU' ||
+            status === 'KHONG_TIM_THAY'
+          ) {
+
+            showAlert(
+              'Email hoặc mật khẩu không đúng.'
+            );
+
+          } else {
+
+            showAlert(
+              message ||
+              'Đăng nhập không thành công.'
+            );
+          }
         }
 
-
-        /*
-         * Tài khoản đang chờ duyệt
-         */
-
-        if (
-          result.status === 'CHỜ DUYỆT'
-        ) {
-
-          showAlert(
-            'Tài khoản của bạn đang chờ Quản trị viên phê duyệt.'
-          );
-
-          return;
-        }
-
-
-        /*
-         * Tài khoản bị từ chối
-         */
-
-        if (
-          result.status === 'TỪ CHỐI'
-        ) {
-
-          showAlert(
-            'Tài khoản của bạn đã bị từ chối.'
-          );
-
-          return;
-        }
-
-
-        /*
-         * Sai mật khẩu / không tìm thấy
-         */
-
-        if (
-          result.status === 'SAI_MAT_KHAU' ||
-          result.status === 'KHONG_TIM_THAY'
-        ) {
-
-          showAlert(
-            'Email hoặc mật khẩu không đúng.'
-          );
-
-          return;
-        }
-
-
-        showAlert(
-          result.message ||
-          'Đăng nhập không thành công.'
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          'AUTH ERROR:',
-          error
-        );
-
-        showAlert(
-          'Không thể kết nối đến hệ thống xác thực. ' +
-          'Vui lòng thử lại sau.'
-        );
-
-      } finally {
-
-        btn.disabled = false;
-
-        submitText.innerText =
-          currentAuthMode === 'reg'
-            ? 'Tạo tài khoản'
-            : 'Đăng nhập';
+        return true;
       }
+
+
+      /* ================= ĐĂNG KÝ ================= */
+
+      if (
+        action === 'register'
+      ) {
+
+        switchMode('login');
+
+
+        if (success) {
+
+          showAlert(
+            message ||
+            'Đăng ký thành công! Yêu cầu đã được gửi tới Quản trị viên. Vui lòng chờ phê duyệt trước khi đăng nhập.'
+          );
+
+          document.getElementById(
+            'auth-email'
+          ).value = email;
+
+          document.getElementById(
+            'auth-password'
+          ).value = '';
+
+        } else {
+
+          showAlert(
+            message ||
+            'Đăng ký không thành công.'
+          );
+        }
+
+        return true;
+      }
+
+
+      return true;
     }
 
 
@@ -1062,11 +947,22 @@
 
 
     /*
-     * Nếu đã đăng nhập trong phiên hiện tại
-     * thì mở dashboard.
+     * =========================================================
+     * KHỞI ĐỘNG XÁC THỰC
+     * =========================================================
+     */
+
+    const authCallbackHandled =
+      handleAuthCallback();
+
+
+    /*
+     * Nếu chưa có callback mà đã đăng nhập
+     * trong phiên hiện tại thì mở dashboard.
      */
 
     if (
+      !authCallbackHandled &&
       sessionStorage.getItem(
         'vhip_logged_in'
       ) === 'true'
@@ -1084,11 +980,8 @@
       "https://docs.google.com/spreadsheets/d/1Wewl_WwSYLR0ydq71vtHJC82ndk4EjqcNMqSVNvsByw/export?format=csv&gid=984933238";
 
     let rawData = [];
-
     let currentTab = 0;
-
     let currentSubTab = 'MOI';
-
     let currentSubProduct = 'ALL';
 
 
@@ -1250,9 +1143,12 @@
             )
         );
 
-      event.target.classList.add(
-        'active'
-      );
+      if (event && event.target) {
+
+        event.target.classList.add(
+          'active'
+        );
+      }
 
       render();
     }
@@ -1274,9 +1170,12 @@
             )
         );
 
-      event.target.classList.add(
-        'active'
-      );
+      if (event && event.target) {
+
+        event.target.classList.add(
+          'active'
+        );
+      }
 
       renderTable();
     }
@@ -1285,15 +1184,10 @@
     function parseCSVText(text) {
 
       let p = '';
-
       let c = '';
-
       let r = [];
-
       let q = false;
-
       let row = [''];
-
 
       for (
         let i = 0;
@@ -1616,9 +1510,7 @@
     }
 
 
-    function chuan_hoa_ten_nv(
-      ten
-    ) {
+    function chuan_hoa_ten_nv(ten) {
 
       if (!ten) return '';
 
@@ -2244,7 +2136,6 @@
 
 
     function onDeptChange() {
-
       render();
     }
 
@@ -2314,25 +2205,15 @@
 
 
     let filteredMoi = [];
-
     let filteredCanGiao = [];
-
     let filteredTon = [];
-
     let filteredDone = [];
-
     let filteredChuaChot = [];
 
+    let currentStartDate = null;
+    let currentEndDate = null;
 
-    let currentStartDate =
-      null;
-
-    let currentEndDate =
-      null;
-
-
-    let labelKyDatMoi =
-      "Đặt Mới";
+    let labelKyDatMoi = "Đặt Mới";
 
 
     function getActiveCol() {
@@ -2773,9 +2654,7 @@
     }
 
 
-    function format_number_smart(
-      val
-    ) {
+    function format_number_smart(val) {
 
       if (
         val === null ||
@@ -2861,96 +2740,49 @@
           <div class="metric-grid-3">
 
             <div class="metric-card-pro">
-
-              <div class="metric-label-pro">
-                📄 ĐH Chưa Chốt
-              </div>
-
+              <div class="metric-label-pro">📄 ĐH Chưa Chốt</div>
               <div class="metric-value-pro">
-                ${format_number_smart(
-                  filteredChuaChot.length
-                )}
+                ${format_number_smart(filteredChuaChot.length)}
               </div>
-
             </div>
 
-
             <div class="metric-card-pro">
-
-              <div class="metric-label-pro">
-                📦 Gối Chậu
-              </div>
-
+              <div class="metric-label-pro">📦 Gối Chậu</div>
               <div class="metric-value-pro">
-                ${format_number_smart(
-                  sum('SL_GoiChau')
-                )}
+                ${format_number_smart(sum('SL_GoiChau'))}
               </div>
-
             </div>
 
-
             <div class="metric-card-pro">
-
-              <div class="metric-label-pro">
-                ⚙️ Khe Răng
-              </div>
-
+              <div class="metric-label-pro">⚙️ Khe Răng</div>
               <div class="metric-value-pro">
-                ${format_number_smart(
-                  sum('SL_KheRangLuoc')
-                )}
+                ${format_number_smart(sum('SL_KheRangLuoc'))}
               </div>
-
             </div>
 
           </div>
 
-
           <div class="metric-grid-3">
 
             <div class="metric-card-pro">
-
-              <div class="metric-label-pro">
-                🧱 Tấm VCO
-              </div>
-
+              <div class="metric-label-pro">🧱 Tấm VCO</div>
               <div class="metric-value-pro">
-                ${format_number_smart(
-                  sum('SL_TamVCO')
-                )}
+                ${format_number_smart(sum('SL_TamVCO'))}
               </div>
-
             </div>
 
-
             <div class="metric-card-pro">
-
-              <div class="metric-label-pro">
-                🏗️ Cột H
-              </div>
-
+              <div class="metric-label-pro">🏗️ Cột H</div>
               <div class="metric-value-pro">
-                ${format_number_smart(
-                  sum('SL_HeCotPhuKien')
-                )}
+                ${format_number_smart(sum('SL_HeCotPhuKien'))}
               </div>
-
             </div>
 
-
             <div class="metric-card-pro">
-
-              <div class="metric-label-pro">
-                🎯 Tổng Số Lượng
-              </div>
-
+              <div class="metric-label-pro">🎯 Tổng Số Lượng</div>
               <div class="metric-value-pro">
-                ${format_number_smart(
-                  sum('So_Luong_Tong_DH')
-                )}
+                ${format_number_smart(sum('So_Luong_Tong_DH'))}
               </div>
-
             </div>
 
           </div>
@@ -3027,14 +2859,11 @@
         let tongDatMoi =
           sumCol(subM);
 
-
         let datVaCanGiao =
           sumCol(subCG);
 
-
         let tonLuyKe =
           sumCol(subT);
-
 
         let tongCanSX =
           sumCol(
@@ -3044,10 +2873,8 @@
           ) +
           tonLuyKe;
 
-
         let daNhapKho =
           sumCol(subD);
-
 
         let conPhaiSX =
           (
@@ -3064,96 +2891,61 @@
           <div class="metric-grid-3">
 
             <div class="metric-card-pro">
-
               <div class="metric-label-pro">
                 📦 ${labelKyDatMoi}
               </div>
-
               <div class="metric-value-pro">
-                ${format_number_smart(
-                  tongDatMoi
-                )}
+                ${format_number_smart(tongDatMoi)}
               </div>
-
             </div>
 
-
             <div class="metric-card-pro">
-
               <div class="metric-label-pro">
                 🔥 Đặt & Cần Giao
               </div>
-
               <div class="metric-value-pro">
-                ${format_number_smart(
-                  datVaCanGiao
-                )}
+                ${format_number_smart(datVaCanGiao)}
               </div>
-
             </div>
 
-
             <div class="metric-card-pro">
-
               <div class="metric-label-pro">
                 ⏳ Tồn Lũy Kế
               </div>
-
               <div class="metric-value-pro">
-                ${format_number_smart(
-                  tonLuyKe
-                )}
+                ${format_number_smart(tonLuyKe)}
               </div>
-
             </div>
 
           </div>
 
-
           <div class="metric-grid-3">
 
             <div class="metric-card-pro">
-
               <div class="metric-label-pro">
                 🎯 Tổng Cần SX
               </div>
-
               <div class="metric-value-pro">
-                ${format_number_smart(
-                  tongCanSX
-                )}
+                ${format_number_smart(tongCanSX)}
               </div>
-
             </div>
 
-
             <div class="metric-card-pro">
-
               <div class="metric-label-pro">
                 ✅ Đã Nhập Kho
               </div>
-
               <div class="metric-value-pro">
-                ${format_number_smart(
-                  daNhapKho
-                )}
+                ${format_number_smart(daNhapKho)}
               </div>
-
             </div>
 
-
             <div class="metric-card-pro">
-
               <div class="metric-label-pro">
                 ⚠️ Còn Phải SX
               </div>
-
               <div class="metric-value-pro">
-                ${format_number_smart(
-                  conPhaiSX
-                )}
+                ${format_number_smart(conPhaiSX)}
               </div>
-
             </div>
 
           </div>
@@ -3164,44 +2956,29 @@
 
     function calcCanhBao(d) {
 
-      if (
-        d.Da_Nhap_Kho
-      ) {
+      if (d.Da_Nhap_Kho) {
 
         return {
-          text:
-            "✅ Đã Hoàn Thành",
-
-          cls:
-            "cb-green"
+          text: "✅ Đã Hoàn Thành",
+          cls: "cb-green"
         };
       }
 
 
-      if (
-        !d.Ngay_Duyet_AB
-      ) {
+      if (!d.Ngay_Duyet_AB) {
 
         return {
-          text:
-            "⚪ Chưa Duyệt SX (AB trống)",
-
-          cls:
-            "cb-gray"
+          text: "⚪ Chưa Duyệt SX (AB trống)",
+          cls: "cb-gray"
         };
       }
 
 
-      if (
-        !d.Ngay_Chot_AG
-      ) {
+      if (!d.Ngay_Chot_AG) {
 
         return {
-          text:
-            "⚠️ Thiếu Ngày Chốt AG",
-
-          cls:
-            "cb-yellow"
+          text: "⚠️ Thiếu Ngày Chốt AG",
+          cls: "cb-yellow"
         };
       }
 
@@ -3221,68 +2998,45 @@
         );
 
 
-      if (
-        diffDays <= 5
-      ) {
+      if (diffDays <= 5) {
 
         return {
-          text:
-            "🔴 Rất Nguy Hiểm (≤ 5 Ngày)",
-
-          cls:
-            "cb-red"
+          text: "🔴 Rất Nguy Hiểm (≤ 5 Ngày)",
+          cls: "cb-red"
         };
       }
 
 
-      if (
-        diffDays <= 7
-      ) {
+      if (diffDays <= 7) {
 
         return {
-          text:
-            "🟠 Cấp Bách (6-7 Ngày)",
-
-          cls:
-            "cb-orange"
+          text: "🟠 Cấp Bách (6-7 Ngày)",
+          cls: "cb-orange"
         };
       }
 
 
-      if (
-        diffDays <= 15
-      ) {
+      if (diffDays <= 15) {
 
         return {
-          text:
-            "🟡 Tiến Độ Bình Thường (8-15 Ngày)",
-
-          cls:
-            "cb-yellow"
+          text: "🟡 Tiến Độ Bình Thường (8-15 Ngày)",
+          cls: "cb-yellow"
         };
       }
 
 
-      if (
-        diffDays <= 30
-      ) {
+      if (diffDays <= 30) {
 
         return {
-          text:
-            "🟢 An Toàn (16-30 Ngày)",
-
-          cls:
-            "cb-green"
+          text: "🟢 An Toàn (16-30 Ngày)",
+          cls: "cb-green"
         };
       }
 
 
       return {
-        text:
-          "🔵 Rất An Toàn (> 30 Ngày)",
-
-        cls:
-          ""
+        text: "🔵 Rất An Toàn (> 30 Ngày)",
+        cls: ""
       };
     }
 
@@ -3309,7 +3063,6 @@
 
       const qCol =
         getActiveCol();
-
 
       let data = [];
 
@@ -3402,10 +3155,8 @@
       const list =
         getTableData();
 
-
       const qCol =
         getActiveCol();
-
 
       const tbody =
         document.getElementById(
@@ -3498,9 +3249,7 @@
                   )}
                 </td>
 
-                <td
-                  class="${cb.cls}"
-                >
+                <td class="${cb.cls}">
                   ${cb.text}
                 </td>
 
@@ -3545,10 +3294,8 @@
       const list =
         getTableData();
 
-
       const qCol =
         getActiveCol();
-
 
       const currentTabObj =
         TABS[currentTab];

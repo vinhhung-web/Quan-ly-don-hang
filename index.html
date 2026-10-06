@@ -100,6 +100,28 @@
     .cb-green { background-color: #d4edda !important; color: #155724; }
     .cb-gray { background-color: #e9ecef !important; color: #6c757d; }
 
+    /* Ghi ngày chốt tiến độ */
+    .ag-cell { display: inline-flex; align-items: center; gap: 6px; }
+    .ag-edit { border: 1.5px solid #93b8f2; background: #ffffff; color: #0d47a1; border-radius: 7px; padding: 2px 7px; font-size: 11.5px; font-weight: 700; cursor: pointer; }
+    .ag-edit:hover { background: #0d47a1; color: #ffffff; }
+    .ag-edit.empty { border-style: dashed; color: #b45309; border-color: #f59e0b; }
+    .ag-edit.empty:hover { background: #f59e0b; color: #ffffff; }
+    .edit-hint { font-size: 12px; color: #475569; margin: 0 0 6px 2px; }
+    .modal-bg { position: fixed; inset: 0; background: rgba(15,23,42,0.45); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+    .modal { background: #ffffff; border-radius: 16px; width: 100%; max-width: 420px; padding: 20px 22px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+    .modal h3 { color: #0d47a1; font-size: 16px; font-weight: 800; margin-bottom: 10px; }
+    .modal .info { font-size: 12.5px; color: #334155; line-height: 1.7; background: #f4f8ff; border-radius: 10px; padding: 8px 12px; margin-bottom: 12px; }
+    .modal label { font-weight: 700; color: #0d47a1; font-size: 12.5px; }
+    .modal input[type=date] { width: 100%; padding: 9px 12px; border: 1.5px solid #93b8f2; border-radius: 10px; font-size: 14px; margin-top: 4px; }
+    .modal .err { color: #b91c1c; font-size: 12px; margin-top: 8px; min-height: 16px; }
+    .modal .btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; flex-wrap: wrap; }
+    .modal .btns button { padding: 8px 14px; border-radius: 10px; font-weight: 800; font-size: 12.5px; cursor: pointer; border: 1.5px solid #93b8f2; background: #ffffff; color: #0d47a1; }
+    .modal .btns .primary { background: linear-gradient(90deg, #0d47a1, #00b4d8); color: #ffffff; border: none; }
+    .modal .btns .danger { color: #b91c1c; border-color: #fca5a5; margin-right: auto; }
+    .modal .btns button:disabled { opacity: 0.6; cursor: wait; }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #166534; color: #ffffff; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 13px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); display: none; z-index: 1100; max-width: 90vw; }
+    .toast.err { background: #b91c1c; }
+
     #loading { text-align: center; padding: 35px; font-weight: 800; color: #0d47a1; font-size: 15px; }
   </style>
 </head>
@@ -229,6 +251,7 @@
       </div>
     </div>
 
+    <div class="edit-hint" id="edit-hint" style="display:none;"></div>
     <div class="table-container">
       <table id="data-table">
         <thead>
@@ -244,6 +267,23 @@
 
     <div id="loading" style="display: none;">Đang kết nối dữ liệu từ Google Sheets, vui lòng đợi...</div>
   </div>
+
+  <!-- HỘP GHI NGÀY CHỐT TIẾN ĐỘ -->
+  <div class="modal-bg" id="ag-modal" onclick="if(event.target===this) closeAgModal()">
+    <div class="modal">
+      <h3>📅 Ghi Ngày Chốt Tiến Độ Giao Hàng</h3>
+      <div class="info" id="ag-info"></div>
+      <label for="ag-date">Ngày cần giao hàng</label>
+      <input type="date" id="ag-date">
+      <div class="err" id="ag-err"></div>
+      <div class="btns">
+        <button type="button" class="danger" id="ag-clear" onclick="saveAgDate(true)">🗑 Xóa ngày</button>
+        <button type="button" onclick="closeAgModal()">Hủy</button>
+        <button type="button" class="primary" id="ag-save" onclick="saveAgDate(false)">💾 Lưu</button>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
 
   <script>
     /* ================= CẤU HÌNH ================= */
@@ -371,6 +411,8 @@
           ssSet(SS_SESSION, session);
           ssSet(SS_EMAIL, email);
           showApp();
+        } else if (success && !session) {
+          showAlert('Mật khẩu đúng nhưng Apps Script đang chạy BẢN CŨ (không trả về phiên đăng nhập). Vui lòng Deploy → Manage deployments → Edit → New version.');
         } else {
           showAlert(msg || 'Email hoặc mật khẩu không đúng.');
         }
@@ -408,6 +450,7 @@
       ssDel(SS_SESSION);
       ssDel(SS_EMAIL);
       rawData = [];
+      closeAgModal();
       document.body.style.background = '';
       document.getElementById('app').style.display = 'none';
       document.getElementById('login-wrapper').style.display = 'flex';
@@ -425,10 +468,42 @@
       fetchData();
     }
 
-    /* ================= TẢI DỮ LIỆU (JSONP) ================= */
+    /* ================= GỌI APPS SCRIPT (JSONP) ================= */
+    /** Gọi Apps Script, trả về Promise với payload. Tự đính kèm session. */
+    function callApi(params, timeoutMs) {
+      return new Promise((resolve, reject) => {
+        const callbackName = 'vhipCb_' + Date.now() + '_' + Math.floor(Math.random() * 1e6);
+        const script = document.createElement('script');
+        let done = false;
+        const timer = setTimeout(() => finish(new Error('Apps Script không phản hồi. Vui lòng thử lại.')), timeoutMs || 30000);
+        function finish(err, res) {
+          if (done) return;
+          done = true;
+          clearTimeout(timer);
+          try { delete window[callbackName]; } catch (e) { window[callbackName] = undefined; }
+          if (script.parentNode) script.parentNode.removeChild(script);
+          err ? reject(err) : resolve(res);
+        }
+        window[callbackName] = res => finish(null, res);
+        script.onerror = () => finish(new Error('Không kết nối được Apps Script. Hãy kiểm tra Web App đã Deploy phiên bản mới nhất với quyền "Anyone".'));
+        const q = Object.assign({}, params, { callback: callbackName, session: ssGet(SS_SESSION) || '', _v: Date.now() });
+        script.src = API_URL + '?' + Object.keys(q).map(k => k + '=' + encodeURIComponent(q[k])).join('&');
+        document.body.appendChild(script);
+      });
+    }
+
+    function showToast(msg, isErr) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.toggle('err', !!isErr);
+      t.style.display = 'block';
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => { t.style.display = 'none'; }, 3500);
+    }
+
+    /* ================= TẢI DỮ LIỆU ================= */
     function fetchData() {
-      const session = ssGet(SS_SESSION);
-      if (!session) { handleLogout('Vui lòng đăng nhập.'); return; }
+      if (!ssGet(SS_SESSION)) { handleLogout('Vui lòng đăng nhập.'); return; }
       if (dataLoading) return;
       dataLoading = true;
 
@@ -437,30 +512,7 @@
       loading.style.display = 'block';
       badge.textContent = '🔄 Đang tải dữ liệu...';
 
-      const callbackName = 'vhipCb_' + Date.now();
-      const script = document.createElement('script');
-      let finished = false;
-      let timeoutId = null;
-
-      function cleanup() {
-        dataLoading = false;
-        if (timeoutId) clearTimeout(timeoutId);
-        try { delete window[callbackName]; } catch (e) { window[callbackName] = undefined; }
-        if (script.parentNode) script.parentNode.removeChild(script);
-        loading.style.display = 'none';
-      }
-      function fail(message) {
-        if (finished) return;
-        finished = true;
-        cleanup();
-        badge.textContent = '❌ Không tải được dữ liệu';
-        alert(message);
-      }
-
-      window[callbackName] = function (res) {
-        if (finished) return;
-        finished = true;
-        cleanup();
+      callApi({ action: 'get_dashboard_data' }).then(res => {
         if (res && res.error === 'unauthorized') {
           handleLogout(res.message || 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
           return;
@@ -470,26 +522,78 @@
           alert('Lỗi Apps Script: ' + (res.message || res.error));
           return;
         }
-        try {
-          const rows = res && res.rows;
-          if (!Array.isArray(rows) || !rows.length) throw new Error('Apps Script không trả về dữ liệu.');
-          parseData(rows);
-          const now = new Date();
-          badge.textContent = `🔄 Cập nhật: ${now.toLocaleTimeString('vi-VN')} ${now.toLocaleDateString('vi-VN')}`;
-        } catch (err) {
-          badge.textContent = '❌ Lỗi xử lý dữ liệu';
-          alert('Lỗi xử lý dữ liệu Dashboard: ' + (err.message || err));
-        }
-      };
-
-      script.onerror = () => fail('Không kết nối được Apps Script. Hãy kiểm tra Web App đã Deploy phiên bản mới nhất với quyền "Anyone".');
-      timeoutId = setTimeout(() => fail('Apps Script không phản hồi sau 30 giây. Vui lòng bấm "Làm Mới Ngay".'), 30000);
-      script.src = API_URL + '?action=get_dashboard_data'
-        + '&callback=' + encodeURIComponent(callbackName)
-        + '&session=' + encodeURIComponent(session)
-        + '&_v=' + Date.now();
-      document.body.appendChild(script);
+        const rows = res && res.rows;
+        if (!Array.isArray(rows) || !rows.length) throw new Error('Apps Script không trả về dữ liệu.');
+        updateEditHint();
+        parseData(rows);
+        const now = new Date();
+        badge.textContent = `🔄 Cập nhật: ${now.toLocaleTimeString('vi-VN')} ${now.toLocaleDateString('vi-VN')}`;
+      }).catch(err => {
+        badge.textContent = '❌ Không tải được dữ liệu';
+        alert(err.message || err);
+      }).finally(() => {
+        dataLoading = false;
+        loading.style.display = 'none';
+      });
     }
+
+    /* ================= GHI NGÀY CHỐT TIẾN ĐỘ (CỘT AG) ================= */
+    function canEditAg(d) { return true; } // Mọi tài khoản đã duyệt đều ghi được
+    function updateEditHint() {
+      const el = document.getElementById('edit-hint');
+      el.textContent = '✏️ Bấm nút ở cột "Chốt Tiến Độ Giao Hàng" để ghi / sửa ngày cần giao. Mọi thay đổi đều được lưu nhật ký (người ghi, thời gian).';
+      el.style.display = 'block';
+    }
+
+    let agEditing = null;
+    function toIsoDate(d) {
+      return d ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` : '';
+    }
+    function openAgModal(row) {
+      const d = rawData.find(x => x._row === row);
+      if (!d || !canEditAg(d)) return;
+      agEditing = d;
+      document.getElementById('ag-info').innerHTML =
+        `<b>Mã ĐH:</b> ${esc(d.So_DH)}<br><b>Dự án:</b> ${esc(d.Du_An)}<br><b>Quy cách:</b> ${esc(d.Quy_Cach)}<br>` +
+        `<b>NVKD:</b> ${esc(d.NV_KD)}<br><b>KD cần ngày giao (AC):</b> ${fmtDate(d.Ngay_KD_Can_AC) || '—'}<br>` +
+        `<b>Ngày chốt hiện tại:</b> ${fmtDate(d.Ngay_Chot_AG) || '—'}`;
+      document.getElementById('ag-date').value = toIsoDate(d.Ngay_Chot_AG || d.Ngay_KD_Can_AC);
+      document.getElementById('ag-err').textContent = '';
+      document.getElementById('ag-clear').style.display = d.Ngay_Chot_AG ? '' : 'none';
+      setAgBusy(false);
+      document.getElementById('ag-modal').style.display = 'flex';
+      document.getElementById('ag-date').focus();
+    }
+    function closeAgModal() {
+      document.getElementById('ag-modal').style.display = 'none';
+      agEditing = null;
+    }
+    function setAgBusy(b) {
+      ['ag-save', 'ag-clear'].forEach(id => document.getElementById(id).disabled = b);
+      document.getElementById('ag-save').textContent = b ? '⏳ Đang lưu...' : '💾 Lưu';
+    }
+    function saveAgDate(clear) {
+      const d = agEditing;
+      if (!d) return;
+      const val = clear ? '' : document.getElementById('ag-date').value;
+      const errEl = document.getElementById('ag-err');
+      if (!clear && !val) { errEl.textContent = 'Vui lòng chọn ngày.'; return; }
+      if (clear && !confirm('Xóa ngày chốt tiến độ của đơn ' + d.So_DH + '?')) return;
+      setAgBusy(true);
+      errEl.textContent = '';
+      callApi({ action: 'set_chot_date', row: d._row, dh: d.So_DH, date: val }, 30000).then(res => {
+        if (res && res.error === 'unauthorized') { closeAgModal(); handleLogout(res.message); return; }
+        if (!res || res.error) { errEl.textContent = (res && res.message) || 'Không lưu được.'; setAgBusy(false); return; }
+        d.Ngay_Chot_AG = parseDate(res.date);
+        closeAgModal();
+        render();
+        showToast('✅ ' + (res.message || 'Đã lưu.'));
+      }).catch(err => {
+        errEl.textContent = err.message || String(err);
+        setAgBusy(false);
+      });
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && agEditing) closeAgModal(); });
 
     /* ================= TABS ================= */
     function buildTabs() {
@@ -628,6 +732,7 @@
           : new Date().getFullYear();
 
         rawData.push({
+          _row: r + 1, NV_KD_Goc: chuan_hoa_ten_nv(row[6]),
           So_DH: dh, Trang_Thai_SX: status, Nam_DatHang: namDat,
           Bo_Phan_KD: dept, NV_KD: emp, Du_An: project, Quy_Cach: spec, DVT: unit,
           So_Luong_Tong_DH: slTong, SL_GoiChau: slGoi, SL_KheRangLuoc: slKhe, SL_TamVCO: slVCO,
@@ -878,6 +983,14 @@
       return data;
     }
 
+    function agCell(d) {
+      const txt = fmtDate(d.Ngay_Chot_AG);
+      if (!canEditAg(d)) return txt;
+      return txt
+        ? `<span class="ag-cell">${txt}<button class="ag-edit" title="Sửa ngày" onclick="openAgModal(${d._row})">✏️</button></span>`
+        : `<button class="ag-edit empty" onclick="openAgModal(${d._row})">✏️ Ghi ngày</button>`;
+    }
+
     function renderTable() {
       const list = getTableData();
       const qCol = getActiveCol();
@@ -902,7 +1015,7 @@
           <td>${esc(d.Trang_Thai_SX)}</td>
           <td>${fmtDate(d.Ngay_Duyet_AB)}</td>
           <td>${fmtDate(d.Ngay_KD_Can_AC)}</td>
-          <td>${fmtDate(d.Ngay_Chot_AG)}</td>
+          <td>${agCell(d)}</td>
           <td>${fmtDate(d.Ngay_NhapKho_DT)}</td>
         </tr>`;
       }).join('');

@@ -685,20 +685,22 @@
       const callbackName = 'vhipDashboardCallback_' + Date.now();
       const script = document.createElement('script');
       let finished = false;
+      let timeoutId = null;
 
-      const cleanup = () => {
+      function cleanup() {
+        if (timeoutId) clearTimeout(timeoutId);
         try { delete window[callbackName]; } catch (e) { window[callbackName] = undefined; }
         if (script.parentNode) script.parentNode.removeChild(script);
-      };
+      }
 
-      const fail = (message) => {
+      function fail(message) {
         if (finished) return;
         finished = true;
         cleanup();
         document.getElementById('loading').style.display = 'none';
         document.getElementById('update-badge').innerText = '❌ Không tải được dữ liệu';
         alert(message);
-      };
+      }
 
       window[callbackName] = function(rows) {
         if (finished) return;
@@ -718,6 +720,7 @@
       };
 
       script.onerror = () => fail('Không kết nối được Apps Script Dashboard. Bạn hãy kiểm tra Web App đã Deploy lại phiên bản mới nhất và quyền "Anyone" chưa.');
+      timeoutId = setTimeout(() => fail('Apps Script không trả dữ liệu Dashboard sau 20 giây. Hãy kiểm tra phiên bản Deploy của Web App.'), 20000);
       script.src = DASHBOARD_API_URL + '?action=get_dashboard_data&callback=' + encodeURIComponent(callbackName) + '&_v=' + Date.now();
       document.body.appendChild(script);
     }

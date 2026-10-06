@@ -592,8 +592,7 @@
     if(!authCallbackHandled&&sessionStorage.getItem('vhip_logged_in')==='true') showApp();
 
     /* ================= LOGIC DỮ LIỆU & DASHBOARD ================= */
-    const GGS_CSV_URL = "https://docs.google.com/spreadsheets/d/1Wewl_WwSYLR0ydq71vtHJC82ndk4EjqcNMqSVNvsByw/export?format=csv&gid=984933238";
-    const DASHBOARD_API_URL = AUTH_API_URL;
+    const DASHBOARD_API_URL = "https://script.google.com/macros/s/AKfycbzZcpG88JppgUGqDPDATusX0yOwZXmWkWsm0Wt075DWEa4r4OlsiKqtuEiVY9udouz9/exec";
     let rawData = [];
     let currentTab = 0;
     let currentSubTab = 'MOI';
@@ -679,64 +678,56 @@
       return r;
     }
 
-    let dashboardRequestTimer = null;
-    let dashboardScriptNode = null;
-
     function fetchData() {
       const loading = document.getElementById('loading');
       const badge = document.getElementById('update-badge');
       loading.style.display = 'block';
       badge.innerText = '🔄 Đang tải dữ liệu...';
 
-      if (dashboardRequestTimer) clearTimeout(dashboardRequestTimer);
-      if (dashboardScriptNode) { dashboardScriptNode.remove(); dashboardScriptNode = null; }
-
       const callbackName = 'vhipDashboardCallback_' + Date.now();
+      const script = document.createElement('script');
       let finished = false;
 
-      window[callbackName] = function(payload) {
+      function finish() {
         if (finished) return;
         finished = true;
-        if (dashboardRequestTimer) clearTimeout(dashboardRequestTimer);
+        clearTimeout(timeoutId);
+        try { delete window[callbackName]; } catch(e) { window[callbackName] = undefined; }
+        if (script.parentNode) script.parentNode.removeChild(script);
+      }
+
+      window[callbackName] = function(rows) {
         try {
-          if (!payload || payload.ok !== true || !Array.isArray(payload.rows)) {
-            throw new Error((payload && payload.message) || 'Apps Script không trả về dữ liệu hợp lệ.');
-          }
-          parseData(payload.rows);
+          if (!Array.isArray(rows)) throw new Error('Dữ liệu Dashboard trả về không hợp lệ.');
+          parseData(rows);
           loading.style.display = 'none';
-          badge.innerText = `🔄 Cập nhật: ${new Date().toLocaleTimeString('vi-VN')} ${new Date().toLocaleDateString('vi-VN')} • ${Math.max(0, payload.rows.length - 1).toLocaleString('vi-VN')} dòng`;
+          badge.innerText = `🔄 Cập nhật: ${new Date().toLocaleTimeString('vi-VN')} ${new Date().toLocaleDateString('vi-VN')}`;
         } catch (err) {
           loading.style.display = 'none';
-          badge.innerText = '❌ Lỗi tải dữ liệu';
-          alert('Lỗi đọc dữ liệu Dashboard: ' + err.message);
+          badge.innerText = '❌ Không tải được dữ liệu';
+          alert('Lỗi xử lý dữ liệu Dashboard: ' + (err.message || err));
         } finally {
-          try { delete window[callbackName]; } catch(e) {}
-          if (dashboardScriptNode) { dashboardScriptNode.remove(); dashboardScriptNode = null; }
+          finish();
         }
       };
 
-      dashboardScriptNode = document.createElement('script');
-      dashboardScriptNode.src = DASHBOARD_API_URL + '?dashboard=1&callback=' + encodeURIComponent(callbackName) + '&_v=' + Date.now();
-      dashboardScriptNode.onerror = function() {
-        if (finished) return;
-        finished = true;
-        if (dashboardRequestTimer) clearTimeout(dashboardRequestTimer);
+      script.onerror = function() {
         loading.style.display = 'none';
-        badge.innerText = '❌ Không kết nối được máy chủ dữ liệu';
-        alert('Không thể kết nối Apps Script để lấy dữ liệu Dashboard. Hãy kiểm tra lại phiên bản Web App V4 đã triển khai chưa.');
-        try { delete window[callbackName]; } catch(e) {}
+        badge.innerText = '❌ Không kết nối được dữ liệu';
+        alert('Không kết nối được Web App VHIP. Hãy kiểm tra Apps Script đã triển khai phiên bản mới và quyền "Anyone" chưa.');
+        finish();
       };
-      document.head.appendChild(dashboardScriptNode);
 
-      dashboardRequestTimer = setTimeout(function() {
+      const timeoutId = setTimeout(function() {
         if (finished) return;
-        finished = true;
         loading.style.display = 'none';
-        badge.innerText = '⏱️ Hết thời gian tải dữ liệu';
-        alert('Đã chờ 20 giây nhưng Apps Script chưa trả dữ liệu Dashboard. Không để trang treo nữa.');
-        try { delete window[callbackName]; } catch(e) {}
-        if (dashboardScriptNode) { dashboardScriptNode.remove(); dashboardScriptNode = null; }
-      }, 20000);
+        badge.innerText = '⏱️ Quá thời gian tải dữ liệu';
+        alert('Web App VHIP không trả dữ liệu sau 30 giây. Hãy kiểm tra lại phiên bản Deploy.');
+        finish();
+      }, 30000);
+
+      script.src = DASHBOARD_API_URL + '?action=get_dashboard_data&callback=' + encodeURIComponent(callbackName) + '&_v=' + Date.now();
+      document.head.appendChild(script);
     }
 
     function clean_number(val) {
@@ -795,13 +786,8 @@
     function parseData(rows) {
       rawData = [];
       let lastDH = '';
-      // Tìm dòng dữ liệu đầu tiên: ưu tiên dòng có 'Số ĐH' ở cột B, sau đó đọc các dòng bên dưới.
-      let startRow = 4;
-      for (let i = 0; i < Math.min(rows.length, 20); i++) {
-        const marker = String((rows[i] || [])[1] || '').trim().toLowerCase();
-        if (marker === 'số đh' || marker === 'so dh' || marker === 'số đơn hàng') { startRow = i + 1; break; }
-      }
-      for (let r = startRow; r < rows.length; r++) {
+      // BẮT ĐẦU ĐỌC CHUẨN TỪ HÀNG THỨ 5 TRỞ ĐI (r = 4) TRONG FILE GOOGLE SHEETS
+      for (let r = 4; r < rows.length; r++) {
         const row = rows[r];
         if (!row || row.length < 2) continue;
 

@@ -465,9 +465,10 @@
   <div id="loading" style="display: none;">Đang kết nối dữ liệu từ Google Sheets, vui lòng đợi...</div>
 
   <script>
-    /* ================= LOGIC AUTH ================= */
+    /* ================= LOGIC AUTH V2 ================= */
     let currentAuthMode = 'login';
-    const ADMIN_ACCOUNTS = ["namvt@vinhhungjsc.com", "vhip"];
+
+    const AUTH_API_URL = "https://script.google.com/macros/s/AKfycbzZcpG88JppgUGqDPDATusX0yOwZXmWkWsm0Wt075DWEa4r4OlsiKqtuEiVY9udouz9/exec";
 
     function switchMode(mode) {
       currentAuthMode = mode;
@@ -475,7 +476,7 @@
       const btnReg = document.getElementById('btn-mode-reg');
       const submitText = document.getElementById('auth-btn-text');
       const alertBox = document.getElementById('auth-alert');
-      alertBox.style.display = 'none';
+      if (alertBox) alertBox.style.display = 'none';
 
       if (mode === 'login') {
         btnLogin.classList.add('active');
@@ -492,16 +493,29 @@
 
     function showAlert(msg) {
       const alertBox = document.getElementById('auth-alert');
+      if (!alertBox) return;
       alertBox.innerText = msg;
       alertBox.style.display = 'block';
     }
 
-    const AUTH_API_URL = "https://script.google.com/macros/s/AKfycbzZcpG88JppgUGqDPDATusX0yOwZXmWkWsm0Wt075DWEa4r4OlsiKqtuEiVY9udouz9/exec";
+    function setAuthButtonLoading(isLoading) {
+      const btn = document.getElementById('auth-submit-btn');
+      const text = document.getElementById('auth-btn-text');
+      if (!btn || !text) return;
+
+      if (isLoading) {
+        btn.disabled = true;
+        btn.dataset.oldText = text.innerText;
+        text.innerText = currentAuthMode === 'reg' ? 'ĐANG ĐĂNG KÝ...' : 'ĐANG ĐĂNG NHẬP...';
+      } else {
+        btn.disabled = false;
+        text.innerText = btn.dataset.oldText || (currentAuthMode === 'reg' ? 'Tạo tài khoản' : 'Đăng nhập');
+      }
+    }
 
     function handleAuthSubmit() {
       const emailInput = document.getElementById('auth-email');
       const passwordInput = document.getElementById('auth-password');
-
       const email = String(emailInput?.value || '').trim().toLowerCase();
       const password = String(passwordInput?.value || '');
 
@@ -510,28 +524,26 @@
         return;
       }
 
-      if (
-        currentAuthMode === 'reg' &&
-        !email.endsWith('@vinhhungjsc.com')
-      ) {
-        showAlert('Chỉ được đăng ký bằng email @vinhhungjsc.com.');
-        return;
+      if (currentAuthMode === 'reg') {
+        if (!email.endsWith('@vinhhungjsc.com')) {
+          showAlert('Chỉ được đăng ký bằng email @vinhhungjsc.com.');
+          return;
+        }
+        if (password.length < 6) {
+          showAlert('Mật khẩu phải có ít nhất 6 ký tự.');
+          return;
+        }
       }
 
-      const btn = document.querySelector('#auth-form button[type="submit"]');
-      if (btn) {
-        btn.disabled = true;
-        btn.dataset.oldText = btn.innerText;
-        btn.innerText =
-          currentAuthMode === 'reg'
-            ? 'ĐANG ĐĂNG KÝ...'
-            : 'ĐANG ĐĂNG NHẬP...';
-      }
+      setAuthButtonLoading(true);
 
+      // Dùng FORM POST thật, không dùng fetch() để tránh CORS.
+      // _top đảm bảo Apps Script mở ở toàn trang, tránh lỗi iframe.
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = AUTH_API_URL;
-      form.target = '_self';
+      form.target = '_top';
+      form.acceptCharset = 'UTF-8';
       form.style.display = 'none';
 
       const addField = (name, value) => {
@@ -542,12 +554,7 @@
         form.appendChild(input);
       };
 
-      addField(
-        'action',
-        currentAuthMode === 'reg'
-          ? 'register'
-          : 'login'
-      );
+      addField('action', currentAuthMode === 'reg' ? 'register' : 'login');
       addField('email', email);
       addField('password', password);
 
@@ -561,15 +568,12 @@
 
       const action = params.get('auth') || '';
       const success = params.get('success') === '1';
-      const status = params.get('status') || '';
       const email = params.get('email') || '';
       const message = params.get('message') || '';
 
-      window.history.replaceState(
-        {},
-        document.title,
-        window.location.pathname + window.location.hash
-      );
+      try {
+        window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+      } catch (e) {}
 
       if (action === 'login' && success) {
         sessionStorage.setItem('vhip_logged_in', 'true');
@@ -580,26 +584,25 @@
 
       if (action === 'register') {
         switchMode('login');
-        showAlert(
-          message ||
-          (success
-            ? 'Đăng ký thành công. Tài khoản đang chờ phê duyệt.'
-            : 'Đăng ký không thành công.')
-        );
+        showAlert(message || (success ? 'Đăng ký thành công. Tài khoản đang chờ phê duyệt.' : 'Đăng ký không thành công.'));
+        setAuthButtonLoading(false);
         return true;
       }
 
       if (action === 'login' && !success) {
         showAlert(message || 'Email hoặc mật khẩu không đúng.');
+        setAuthButtonLoading(false);
         return true;
       }
 
       showAlert(message || 'Không thể xử lý yêu cầu.');
+      setAuthButtonLoading(false);
       return true;
     }
 
     function handleLogout() {
       sessionStorage.removeItem('vhip_logged_in');
+      sessionStorage.removeItem('vhip_email');
       location.reload();
     }
 
@@ -612,11 +615,8 @@
     }
 
     const authCallbackHandled = handleAuthCallback();
-
-    if (!authCallbackHandled) {
-      if (sessionStorage.getItem('vhip_logged_in') === 'true') {
-        showApp();
-      }
+    if (!authCallbackHandled && sessionStorage.getItem('vhip_logged_in') === 'true') {
+      showApp();
     }
 
     /* ================= LOGIC DỮ LIỆU & DASHBOARD ================= */

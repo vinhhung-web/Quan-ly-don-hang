@@ -372,6 +372,24 @@
       <button type="button" id="forgot-link" class="auth-link" onclick="switchMode('forgot')">🔑 Quên mật khẩu?</button>
       <button type="button" id="forgot-back" class="auth-back" onclick="switchMode('login')" style="display:none;">← Quay lại đăng nhập</button>
 
+      <div style="margin-top:12px; text-align:center;">
+        <button type="button" onclick="openForgotPassword()" style="border:none;background:none;color:#0b459c;font-size:12px;font-weight:700;cursor:pointer;">🔑 Quên mật khẩu?</button>
+      </div>
+
+      <div id="forgot-panel" style="display:none;margin-top:14px;padding:14px;background:#f8fbff;border:1px solid #cfe0ff;border-radius:12px;text-align:left;">
+        <div style="font-weight:800;color:#173b6c;margin-bottom:8px;">🔐 Đặt lại mật khẩu</div>
+        <div id="forgot-step-1">
+          <input type="email" id="forgot-email" class="auth-input" placeholder="Email @vinhhungjsc.com">
+          <button type="button" class="auth-submit-btn" style="margin-top:8px;" onclick="sendResetCode()">📩 Gửi mã xác nhận</button>
+        </div>
+        <div id="forgot-step-2" style="display:none;">
+          <input type="text" id="reset-code" class="auth-input" placeholder="Mã xác nhận 6 số" maxlength="6" inputmode="numeric">
+          <input type="password" id="reset-password" class="auth-input" placeholder="Mật khẩu mới (ít nhất 6 ký tự)" style="margin-top:8px;">
+          <button type="button" class="auth-submit-btn" style="margin-top:8px;" onclick="resetPassword()">🔄 Đặt lại mật khẩu</button>
+        </div>
+        <button type="button" onclick="closeForgotPassword()" style="width:100%;margin-top:8px;border:none;background:transparent;color:#64748b;font-size:11px;cursor:pointer;">Đóng</button>
+      </div>
+
       <div class="auth-footer" id="auth-footer-text">
         Đăng nhập bằng Email + Mật khẩu.
       </div>
@@ -493,201 +511,85 @@
     /* ================= LOGIC AUTH V3 ================= */
     let currentAuthMode = 'login';
     const AUTH_API_URL = "https://script.google.com/macros/s/AKfycbzZcpG88JppgUGqDPDATusX0yOwZXmWkWsm0Wt075DWEa4r4OlsiKqtuEiVY9udouz9/exec";
+    let forgotEmail = '';
 
     function switchMode(mode) {
       currentAuthMode = mode;
-      const btnLogin = document.getElementById('btn-mode-login');
-      const btnReg = document.getElementById('btn-mode-reg');
-      const submitText = document.getElementById('auth-btn-text');
-      const email = document.getElementById('auth-email');
-      const password = document.getElementById('auth-password');
-      const code = document.getElementById('auth-code');
-      const newPassword = document.getElementById('auth-new-password');
-      const forgotLink = document.getElementById('forgot-link');
-      const forgotBack = document.getElementById('forgot-back');
-      const alertBox = document.getElementById('auth-alert');
-      if (alertBox) alertBox.style.display = 'none';
-
-      btnLogin.classList.toggle('active', mode === 'login' || mode === 'forgot');
-      btnReg.classList.toggle('active', mode === 'reg');
-      password.style.display = (mode === 'forgot' || mode === 'forgot_reset') ? 'none' : 'block';
-      code.style.display = mode === 'forgot_reset' ? 'block' : 'none';
-      newPassword.style.display = mode === 'forgot_reset' ? 'block' : 'none';
-      password.required = (mode === 'login' || mode === 'reg');
-      code.required = (mode === 'forgot_reset');
-      newPassword.required = (mode === 'forgot_reset');
-      forgotLink.style.display = (mode === 'login') ? 'inline-block' : 'none';
-      forgotBack.style.display = (mode === 'forgot' || mode === 'forgot_reset') ? 'inline-block' : 'none';
-
-      if (mode === 'login') {
-        submitText.innerText = 'Đăng nhập';
-        email.placeholder = 'Email công ty';
-        password.placeholder = 'Mật khẩu';
-        document.getElementById('auth-footer-text').innerText = 'Đăng nhập bằng Email + Mật khẩu.';
-      } else if (mode === 'reg') {
-        submitText.innerText = 'Tạo tài khoản';
-        email.placeholder = 'Email @vinhhungjsc.com';
-        password.placeholder = 'Mật khẩu (ít nhất 6 ký tự)';
-        document.getElementById('auth-footer-text').innerText = 'Hệ thống sẽ gửi yêu cầu phê duyệt tới Quản trị viên.';
-      } else if (mode === 'forgot') {
-        submitText.innerText = 'Gửi mã xác nhận';
-        email.placeholder = 'Nhập email cần đặt lại mật khẩu';
-        document.getElementById('auth-footer-text').innerText = 'Mã xác nhận sẽ được gửi vào Gmail của bạn.';
-      } else {
-        submitText.innerText = 'Đặt lại mật khẩu';
-        email.placeholder = 'Email công ty';
-        document.getElementById('auth-footer-text').innerText = 'Nhập mã 6 số đã nhận và mật khẩu mới.';
-      }
+      document.getElementById('btn-mode-login').classList.toggle('active', mode === 'login');
+      document.getElementById('btn-mode-reg').classList.toggle('active', mode === 'reg');
+      document.getElementById('auth-btn-text').innerText = mode === 'reg' ? 'Tạo tài khoản' : 'Đăng nhập';
+      document.getElementById('auth-footer-text').innerText = mode === 'reg' ? 'Hệ thống sẽ gửi yêu cầu phê duyệt tới Quản trị viên.' : 'Đăng nhập bằng Email + Mật khẩu.';
+      document.getElementById('auth-alert').style.display = 'none';
     }
 
     function showAlert(msg) {
-      const alertBox = document.getElementById('auth-alert');
-      if (!alertBox) return;
-      alertBox.innerText = msg;
-      alertBox.style.display = 'block';
+      const a=document.getElementById('auth-alert'); a.innerText=msg; a.style.display='block';
     }
 
-    function setAuthButtonLoading(isLoading) {
-      const btn = document.getElementById('auth-submit-btn');
-      const text = document.getElementById('auth-btn-text');
-      if (!btn || !text) return;
-      if (isLoading) {
-        btn.disabled = true;
-        btn.dataset.oldText = text.innerText;
-        text.innerText = currentAuthMode === 'reg' ? 'ĐANG ĐĂNG KÝ...' : currentAuthMode === 'forgot' ? 'ĐANG GỬI MÃ...' : currentAuthMode === 'forgot_reset' ? 'ĐANG ĐẶT LẠI...' : 'ĐANG ĐĂNG NHẬP...';
-      } else {
-        btn.disabled = false;
-        text.innerText = btn.dataset.oldText || 'Tiếp tục';
-      }
-    }
-
-    function submitAuthForm(action, fields) {
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = AUTH_API_URL;
-      form.target = '_top';
-      form.acceptCharset = 'UTF-8';
-      form.style.display = 'none';
-      Object.keys(fields).forEach(name => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = name;
-        input.value = fields[name];
-        form.appendChild(input);
-      });
-      const actionInput = document.createElement('input');
-      actionInput.type = 'hidden';
-      actionInput.name = 'action';
-      actionInput.value = action;
-      form.appendChild(actionInput);
-      document.body.appendChild(form);
-      form.submit();
+    function postAuth(action, fields) {
+      const form=document.createElement('form'); form.method='POST'; form.action=AUTH_API_URL; form.target='_top'; form.style.display='none';
+      const add=(n,v)=>{const i=document.createElement('input');i.type='hidden';i.name=n;i.value=v;form.appendChild(i);};
+      add('action',action); Object.keys(fields||{}).forEach(k=>add(k,fields[k]));
+      document.body.appendChild(form); form.submit();
     }
 
     function handleAuthSubmit() {
-      const email = String(document.getElementById('auth-email')?.value || '').trim().toLowerCase();
-      const password = String(document.getElementById('auth-password')?.value || '');
-      const code = String(document.getElementById('auth-code')?.value || '').trim();
-      const newPassword = String(document.getElementById('auth-new-password')?.value || '');
-
-      if (!email) { showAlert('Vui lòng nhập email.'); return; }
-
-      if ((currentAuthMode === 'login' || currentAuthMode === 'reg' || currentAuthMode === 'forgot' || currentAuthMode === 'forgot_reset') && !email.endsWith('@vinhhungjsc.com')) {
-        showAlert('Chỉ sử dụng email @vinhhungjsc.com.');
-        return;
+      const email=String(document.getElementById('auth-email').value||'').trim().toLowerCase();
+      const password=String(document.getElementById('auth-password').value||'');
+      if(!email||!password){showAlert('Vui lòng nhập đầy đủ email và mật khẩu.');return;}
+      if(currentAuthMode==='reg'){
+        if(!email.endsWith('@vinhhungjsc.com')){showAlert('Chỉ được đăng ký bằng email @vinhhungjsc.com.');return;}
+        if(password.length<6){showAlert('Mật khẩu phải có ít nhất 6 ký tự.');return;}
+        postAuth('register',{email:email,password:password}); return;
       }
-
-      if (currentAuthMode === 'login') {
-        if (!password) { showAlert('Vui lòng nhập mật khẩu.'); return; }
-        setAuthButtonLoading(true);
-        submitAuthForm('login', { email, password });
-        return;
-      }
-
-      if (currentAuthMode === 'reg') {
-        if (password.length < 6) { showAlert('Mật khẩu phải có ít nhất 6 ký tự.'); return; }
-        setAuthButtonLoading(true);
-        submitAuthForm('register', { email, password });
-        return;
-      }
-
-      if (currentAuthMode === 'forgot') {
-        setAuthButtonLoading(true);
-        submitAuthForm('forgot_request', { email });
-        return;
-      }
-
-      if (!/^\d{6}$/.test(code)) { showAlert('Mã xác nhận phải gồm đúng 6 số.'); return; }
-      if (newPassword.length < 6) { showAlert('Mật khẩu mới phải có ít nhất 6 ký tự.'); return; }
-      setAuthButtonLoading(true);
-      submitAuthForm('forgot_reset', { email, code, newPassword });
+      postAuth('login',{email:email,password:password});
     }
 
-    function handleAuthCallback() {
-      const params = new URLSearchParams(window.location.search);
-      if (!params.has('auth')) return false;
-      const action = params.get('auth') || '';
-      const success = params.get('success') === '1';
-      const email = params.get('email') || '';
-      const message = params.get('message') || '';
-      try { window.history.replaceState({}, document.title, window.location.pathname + window.location.hash); } catch (e) {}
-
-      if (action === 'login' && success) {
-        sessionStorage.setItem('vhip_logged_in', 'true');
-        sessionStorage.setItem('vhip_email', email);
-        showApp();
-        return true;
-      }
-      if (action === 'register') {
-        switchMode('login');
-        showAlert(message || (success ? 'Đăng ký thành công. Tài khoản đang chờ phê duyệt.' : 'Đăng ký không thành công.'));
-        setAuthButtonLoading(false);
-        return true;
-      }
-      if (action === 'forgot_request') {
-        if (success) {
-          switchMode('forgot_reset');
-          document.getElementById('auth-email').value = email;
-          showAlert(message || 'Đã gửi mã xác nhận vào Gmail của bạn.');
-        } else {
-          switchMode('forgot');
-          showAlert(message || 'Không thể gửi mã xác nhận.');
-        }
-        setAuthButtonLoading(false);
-        return true;
-      }
-      if (action === 'forgot_reset') {
-        switchMode('login');
-        showAlert(message || (success ? 'Đặt lại mật khẩu thành công. Bạn hãy đăng nhập bằng mật khẩu mới.' : 'Không thể đặt lại mật khẩu.'));
-        setAuthButtonLoading(false);
-        return true;
-      }
-      if (action === 'login' && !success) {
-        showAlert(message || 'Email hoặc mật khẩu không đúng.');
-        setAuthButtonLoading(false);
-        return true;
-      }
-      showAlert(message || 'Không thể xử lý yêu cầu.');
-      setAuthButtonLoading(false);
-      return true;
+    function openForgotPassword(){
+      document.getElementById('forgot-panel').style.display='block';
+      document.getElementById('forgot-step-1').style.display='block';
+      document.getElementById('forgot-step-2').style.display='none';
+      document.getElementById('auth-alert').style.display='none';
+      const e=document.getElementById('auth-email').value.trim().toLowerCase();
+      if(e.endsWith('@vinhhungjsc.com')) document.getElementById('forgot-email').value=e;
+    }
+    function closeForgotPassword(){document.getElementById('forgot-panel').style.display='none';}
+    function sendResetCode(){
+      const email=document.getElementById('forgot-email').value.trim().toLowerCase();
+      if(!email.endsWith('@vinhhungjsc.com')){showAlert('Vui lòng nhập email @vinhhungjsc.com.');return;}
+      forgotEmail=email; postAuth('forgot_request',{email:email});
+    }
+    function resetPassword(){
+      const email=document.getElementById('forgot-email').value.trim().toLowerCase();
+      const code=document.getElementById('reset-code').value.trim();
+      const pw=document.getElementById('reset-password').value;
+      if(!/^\d{6}$/.test(code)){showAlert('Mã xác nhận phải gồm đúng 6 số.');return;}
+      if(pw.length<6){showAlert('Mật khẩu mới phải có ít nhất 6 ký tự.');return;}
+      postAuth('forgot_reset',{email:email,code:code,newPassword:pw});
     }
 
-    function handleLogout() {
-      sessionStorage.removeItem('vhip_logged_in');
-      sessionStorage.removeItem('vhip_email');
-      location.reload();
+    function handleAuthCallback(){
+      const p=new URLSearchParams(location.search); if(!p.has('auth')) return false;
+      const action=p.get('auth')||'', success=p.get('success')==='1', email=p.get('email')||'', msg=p.get('message')||'';
+      try{history.replaceState({},document.title,location.pathname+location.hash);}catch(e){}
+      if(action==='login'&&success){sessionStorage.setItem('vhip_logged_in','true');sessionStorage.setItem('vhip_email',email);showApp();return true;}
+      if(action==='register'){switchMode('login');showAlert(msg||'Đăng ký thành công. Tài khoản đang chờ phê duyệt.');return true;}
+      if(action==='login'&&!success){showAlert(msg||'Email hoặc mật khẩu không đúng.');return true;}
+      if(action==='forgot_request'){
+        if(success){openForgotPassword();document.getElementById('forgot-email').value=email;document.getElementById('forgot-step-1').style.display='none';document.getElementById('forgot-step-2').style.display='block';showAlert(msg||'Đã gửi mã xác nhận vào Gmail.');}
+        else showAlert(msg||'Không thể gửi mã xác nhận.'); return true;
+      }
+      if(action==='forgot_reset'){
+        if(success){closeForgotPassword();document.getElementById('auth-email').value=email;document.getElementById('auth-password').value='';showAlert(msg||'Đặt lại mật khẩu thành công. Hãy đăng nhập bằng mật khẩu mới.');}
+        else showAlert(msg||'Không thể đặt lại mật khẩu.'); return true;
+      }
+      showAlert(msg||'Yêu cầu không hợp lệ.'); return true;
     }
 
-    function showApp() {
-      document.body.style.background = "linear-gradient(180deg, #eef4ff 0%, #f7faff 35%, #ffffff 100%)";
-      document.getElementById('login-wrapper').style.display = 'none';
-      document.getElementById('app').style.display = 'block';
-      buildTabs();
-      fetchData();
-    }
-
-    const authCallbackHandled = handleAuthCallback();
-    if (!authCallbackHandled && sessionStorage.getItem('vhip_logged_in') === 'true') { showApp(); }
+    function handleLogout(){sessionStorage.removeItem('vhip_logged_in');sessionStorage.removeItem('vhip_email');location.reload();}
+    function showApp(){document.body.style.background="linear-gradient(180deg,#eef4ff 0%,#f7faff 35%,#ffffff 100%)";document.getElementById('login-wrapper').style.display='none';document.getElementById('app').style.display='block';buildTabs();fetchData();}
+    const authCallbackHandled=handleAuthCallback();
+    if(!authCallbackHandled&&sessionStorage.getItem('vhip_logged_in')==='true') showApp();
 
     /* ================= LOGIC DỮ LIỆU & DASHBOARD ================= */
     const GGS_CSV_URL = "https://docs.google.com/spreadsheets/d/1Wewl_WwSYLR0ydq71vtHJC82ndk4EjqcNMqSVNvsByw/export?format=csv&gid=984933238";

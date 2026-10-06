@@ -10,10 +10,23 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Be Vietnam Pro', sans-serif !important; }
-    body { background: #164e63; color: #0f172a; min-height: 100vh; padding: 12px 18px; font-size: 13px; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Be Vietnam Pro', sans-serif !important;
+    }
+
+    body {
+      background: #164e63;
+      color: #0f172a;
+      min-height: 100vh;
+      padding: 12px 18px;
+      font-size: 13px;
+    }
 
     /* ================= GIAO DIỆN ĐĂNG NHẬP ================= */
+
     #login-wrapper {
       min-height: 90vh;
       display: flex;
@@ -21,6 +34,7 @@
       justify-content: center;
       padding: 20px;
     }
+
     .auth-card {
       background: #ffffff;
       width: 100%;
@@ -30,6 +44,7 @@
       padding: 32px 24px 24px;
       text-align: center;
     }
+
     .auth-logo-box {
       width: 165px;
       margin: 0 auto 16px;
@@ -42,6 +57,7 @@
       align-items: center;
       justify-content: center;
     }
+
     .auth-logo-img {
       width: 100%;
       height: auto;
@@ -49,17 +65,20 @@
       display: block;
       object-fit: contain;
     }
+
     .auth-title {
       font-size: 17px;
       font-weight: 800;
       color: #0f2d59;
       margin-bottom: 4px;
     }
+
     .auth-sub {
       color: #64748b;
       font-size: 12px;
       margin-bottom: 18px;
     }
+
     .auth-toggle {
       display: flex;
       background: #f1f5f9;
@@ -69,6 +88,7 @@
       font-size: 12px;
       font-weight: 700;
     }
+
     .auth-toggle button {
       flex: 1;
       padding: 8px 6px;
@@ -81,11 +101,13 @@
       font-size: 12px;
       font-weight: 700;
     }
+
     .auth-toggle button.active {
       background: #ffffff;
       color: #0b459c;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     }
+
     .auth-alert {
       background: #fdeee9;
       border: 1px solid #fbd3c8;
@@ -98,11 +120,13 @@
       margin-bottom: 14px;
       display: none;
     }
+
     .auth-form {
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
+
     .auth-input {
       width: 100%;
       padding: 10px 14px;
@@ -112,9 +136,11 @@
       outline: none;
       transition: border-color 0.2s;
     }
+
     .auth-input:focus {
       border-color: #0b459c;
     }
+
     .auth-submit-btn {
       width: 100%;
       padding: 11px;
@@ -133,15 +159,18 @@
       margin-top: 4px;
       transition: opacity 0.2s, transform 0.15s;
     }
+
     .auth-submit-btn:hover {
       opacity: 0.95;
       transform: translateY(-1px);
     }
+
     .auth-submit-btn:disabled {
       opacity: 0.6;
       cursor: wait;
       transform: none;
     }
+
     .auth-footer {
       margin-top: 18px;
       font-size: 11.5px;
@@ -149,165 +178,501 @@
     }
 
     /* ================= DASHBOARD TIẾN ĐỘ ================= */
-    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
     .update-badge {
-      display: inline-block; font-size: 12.5px; font-weight: 700; color: #ffffff;
-      background: linear-gradient(90deg, #1e88e5, #00acc1); padding: 4px 14px; border-radius: 20px; box-shadow: 0 3px 8px rgba(30,136,229,0.35);
+      display: inline-block;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #ffffff;
+      background: linear-gradient(90deg, #1e88e5, #00acc1);
+      padding: 4px 14px;
+      border-radius: 20px;
+      box-shadow: 0 3px 8px rgba(30,136,229,0.35);
     }
+
     .btn-action {
-      background: #ffffff; border: 1.5px solid #93b8f2; padding: 5px 13px; border-radius: 9px;
-      color: #0d47a1; font-weight: 700; cursor: pointer; font-size: 12.5px; transition: 0.2s; box-shadow: 0 1px 4px rgba(13,71,161,0.08);
+      background: #ffffff;
+      border: 1.5px solid #93b8f2;
+      padding: 5px 13px;
+      border-radius: 9px;
+      color: #0d47a1;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 12.5px;
+      transition: 0.2s;
+      box-shadow: 0 1px 4px rgba(13,71,161,0.08);
     }
-    .btn-action:hover { background: #eef5ff; transform: translateY(-1px); }
+
+    .btn-action:hover {
+      background: #eef5ff;
+      transform: translateY(-1px);
+    }
 
     .main-title {
       background: linear-gradient(90deg, #0d47a1 0%, #1565c0 45%, #00b4d8 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.6px;
-      margin-bottom: 10px; padding-bottom: 6px; border-bottom: 4px solid transparent;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 24px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 4px solid transparent;
       border-image: linear-gradient(90deg, #0d47a1, #00b4d8, #90e0ef) 1;
-      display: flex; align-items: center; gap: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
+
     .vh-header-icon {
-      height: 32px; width: auto; max-width: 120px; object-fit: contain;
-      vertical-align: middle; flex-shrink: 0;
+      height: 32px;
+      width: auto;
+      max-width: 120px;
+      object-fit: contain;
+      vertical-align: middle;
+      flex-shrink: 0;
     }
 
     .filter-box {
       background: linear-gradient(135deg, #ffffff 0%, #eef5ff 100%);
-      border: 1.5px solid #bcd6ff; border-radius: 14px; box-shadow: 0 4px 14px rgba(13,71,161,0.08);
-      padding: 8px 14px 12px 14px; margin-bottom: 12px;
+      border: 1.5px solid #bcd6ff;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(13,71,161,0.08);
+      padding: 8px 14px 12px 14px;
+      margin-bottom: 12px;
     }
-    .filter-title { color: #0d47a1; font-size: 16px; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-    .filter-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
-    @media (max-width: 1100px) { .filter-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 650px) { .filter-grid { grid-template-columns: repeat(2, 1fr); } }
-    .filter-chip-label {
-      display: inline-block; background: linear-gradient(90deg, #e7f0ff, #ffffff); border: 1px solid #b9d4ff; border-left: 4px solid #1565c0;
-      border-radius: 8px; padding: 3px 8px; margin-bottom: 4px; color: #0d47a1; font-weight: 800; font-size: 12px; box-shadow: 0 2px 6px rgba(13,71,161,0.06);
-    }
-    select.filter-select, input.filter-input {
-      width: 100%; padding: 6px 10px; border-radius: 10px; border: 1.5px solid #93b8f2;
-      background: #ffffff; font-size: 12.5px; font-weight: 700; color: #0d47a1; outline: none; cursor: pointer; box-shadow: 0 1px 4px rgba(13,71,161,0.08);
-    }
-    input.filter-input { cursor: text; }
 
-    .nav-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+    .filter-title {
+      color: #0d47a1;
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 1100px) {
+      .filter-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .filter-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .filter-chip-label {
+      display: inline-block;
+      background: linear-gradient(90deg, #e7f0ff, #ffffff);
+      border: 1px solid #b9d4ff;
+      border-left: 4px solid #1565c0;
+      border-radius: 8px;
+      padding: 3px 8px;
+      margin-bottom: 4px;
+      color: #0d47a1;
+      font-weight: 800;
+      font-size: 12px;
+      box-shadow: 0 2px 6px rgba(13,71,161,0.06);
+    }
+
+    select.filter-select,
+    input.filter-input {
+      width: 100%;
+      padding: 6px 10px;
+      border-radius: 10px;
+      border: 1.5px solid #93b8f2;
+      background: #ffffff;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #0d47a1;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(13,71,161,0.08);
+    }
+
+    input.filter-input {
+      cursor: text;
+    }
+
+    .nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
     .tab-btn {
-      background: linear-gradient(135deg, #ffffff, #f2f7ff); border: 2px solid #93b8f2;
-      border-radius: 12px; padding: 7px 14px; color: #0d47a1; font-weight: 800; font-size: 13px; cursor: pointer; transition: all 0.2s ease-in-out;
+      background: linear-gradient(135deg, #ffffff, #f2f7ff);
+      border: 2px solid #93b8f2;
+      border-radius: 12px;
+      padding: 7px 14px;
+      color: #0d47a1;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
       box-shadow: 0 3px 8px rgba(13,71,161,0.08);
     }
-    .tab-btn:hover { transform: translateY(-1px); }
+
+    .tab-btn:hover {
+      transform: translateY(-1px);
+    }
+
     .tab-btn.active {
-      background: linear-gradient(120deg, #0d47a1, #1565c0 55%, #00b4d8); color: #ffffff; border: 2px solid #0d47a1;
-      box-shadow: 0 6px 16px rgba(13,71,161,0.35); transform: translateY(-2px); font-weight: 900;
+      background: linear-gradient(120deg, #0d47a1, #1565c0 55%, #00b4d8);
+      color: #ffffff;
+      border: 2px solid #0d47a1;
+      box-shadow: 0 6px 16px rgba(13,71,161,0.35);
+      transform: translateY(-2px);
+      font-weight: 900;
     }
 
     .subproduct-bar {
-      display: none; flex-wrap: wrap; gap: 6px; padding: 6px 12px; background: #e8f1ff;
-      border-radius: 10px; border: 1.5px dashed #93b8f2; margin-bottom: 12px; align-items: center;
+      display: none;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 6px 12px;
+      background: #e8f1ff;
+      border-radius: 10px;
+      border: 1.5px dashed #93b8f2;
+      margin-bottom: 12px;
+      align-items: center;
     }
-    .subproduct-label { font-weight: 800; color: #0d47a1; font-size: 12px; margin-right: 4px; }
+
+    .subproduct-label {
+      font-weight: 800;
+      color: #0d47a1;
+      font-size: 12px;
+      margin-right: 4px;
+    }
+
     .subprod-chip {
-      background: #ffffff; border: 1.5px solid #93b8f2; padding: 4px 10px; border-radius: 8px;
-      font-size: 12px; font-weight: 700; color: #0d47a1; cursor: pointer; transition: 0.15s;
+      background: #ffffff;
+      border: 1.5px solid #93b8f2;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #0d47a1;
+      cursor: pointer;
+      transition: 0.15s;
     }
-    .subprod-chip:hover { background: #d0e4ff; }
+
+    .subprod-chip:hover {
+      background: #d0e4ff;
+    }
+
     .subprod-chip.active {
-      background: #0d47a1; color: #ffffff; border-color: #0d47a1; box-shadow: 0 2px 6px rgba(13,71,161,0.25);
+      background: #0d47a1;
+      color: #ffffff;
+      border-color: #0d47a1;
+      box-shadow: 0 2px 6px rgba(13,71,161,0.25);
     }
 
-    .metric-wrapper { margin-bottom: 14px; display: flex; flex-direction: column; gap: 12px; }
-    .metric-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    @media (max-width: 900px) { .metric-grid-3 { grid-template-columns: 1fr; } }
+    .metric-wrapper {
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .metric-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .metric-grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .metric-card-pro {
-      background: #f8fbff; border-radius: 18px; border-left: 6px solid #0066cc;
-      box-shadow: 0 4px 16px rgba(0, 102, 204, 0.08); padding: 12px 18px;
-      text-align: center; transition: all 0.2s ease-in-out;
+      background: #f8fbff;
+      border-radius: 18px;
+      border-left: 6px solid #0066cc;
+      box-shadow: 0 4px 16px rgba(0, 102, 204, 0.08);
+      padding: 12px 18px;
+      text-align: center;
+      transition: all 0.2s ease-in-out;
     }
-    .metric-card-pro:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0, 102, 204, 0.16); }
-    .metric-label-pro {
-      font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 4px;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-    }
-    .metric-value-pro { font-size: 26px; font-weight: 900; color: #0b3d91; letter-spacing: -0.5px; }
 
-    .divider { height: 1px; background: linear-gradient(90deg, transparent, #b9d4ff, transparent); margin: 10px 0 12px 0; border: none; }
-    .sub-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
-    .sub-tabs { display: flex; gap: 6px; }
-    .sub-tab-btn {
-      padding: 6px 14px; border-radius: 10px; border: 1.5px solid #93b8f2; background: #ffffff;
-      font-weight: 800; font-size: 12.5px; color: #0d47a1; cursor: pointer; transition: 0.15s;
+    .metric-card-pro:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 102, 204, 0.16);
     }
+
+    .metric-label-pro {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .metric-value-pro {
+      font-size: 26px;
+      font-weight: 900;
+      color: #0b3d91;
+      letter-spacing: -0.5px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #b9d4ff, transparent);
+      margin: 10px 0 12px 0;
+      border: none;
+    }
+
+    .sub-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .sub-tabs {
+      display: flex;
+      gap: 6px;
+    }
+
+    .sub-tab-btn {
+      padding: 6px 14px;
+      border-radius: 10px;
+      border: 1.5px solid #93b8f2;
+      background: #ffffff;
+      font-weight: 800;
+      font-size: 12.5px;
+      color: #0d47a1;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
     .sub-tab-btn.active {
-      background: linear-gradient(90deg, #0d47a1, #1565c0); color: #ffffff; border-color: #0d47a1;
+      background: linear-gradient(90deg, #0d47a1, #1565c0);
+      color: #ffffff;
+      border-color: #0d47a1;
       box-shadow: 0 3px 8px rgba(13,71,161,0.25);
     }
-    .actions-wrap { display: flex; gap: 8px; align-items: center; }
-    .search-box {
-      border: 1.5px solid #93b8f2; border-radius: 20px; padding: 5px 14px; font-size: 12.5px; width: 220px; outline: none;
-      background: #ffffff; box-shadow: 0 2px 6px rgba(13,71,161,0.06);
+
+    .actions-wrap {
+      display: flex;
+      gap: 8px;
+      align-items: center;
     }
-    .search-box:focus { border-color: #0d47a1; }
+
+    .search-box {
+      border: 1.5px solid #93b8f2;
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12.5px;
+      width: 220px;
+      outline: none;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(13,71,161,0.06);
+    }
+
+    .search-box:focus {
+      border-color: #0d47a1;
+    }
+
     .btn-export {
-      background: linear-gradient(90deg, #0d47a1, #00b4d8); color: #ffffff; font-weight: 800;
-      font-size: 12.5px; border: none; padding: 6px 16px; border-radius: 20px; cursor: pointer; transition: 0.2s;
+      background: linear-gradient(90deg, #0d47a1, #00b4d8);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 12.5px;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.2s;
       box-shadow: 0 4px 12px rgba(13,71,161,0.25);
     }
-    .btn-export:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,180,216,0.40); }
+
+    .btn-export:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,180,216,0.40);
+    }
 
     .table-container {
-      max-height: 480px; overflow: auto; border-radius: 12px; border: 1px solid #cfe0ff;
-      box-shadow: 0 4px 14px rgba(13,71,161,0.12); background: #ffffff;
+      max-height: 480px;
+      overflow: auto;
+      border-radius: 12px;
+      border: 1px solid #cfe0ff;
+      box-shadow: 0 4px 14px rgba(13,71,161,0.12);
+      background: #ffffff;
     }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
     thead th {
-      position: sticky; top: 0; background: linear-gradient(90deg, #0d47a1, #1565c0 55%, #0d47a1);
-      color: #ffffff; font-weight: 800; padding: 9px 12px; text-align: center; border-bottom: 2px solid #08306b; z-index: 2; font-size: 12.5px;
+      position: sticky;
+      top: 0;
+      background: linear-gradient(90deg, #0d47a1, #1565c0 55%, #0d47a1);
+      color: #ffffff;
+      font-weight: 800;
+      padding: 9px 12px;
+      text-align: center;
+      border-bottom: 2px solid #08306b;
+      z-index: 2;
+      font-size: 12.5px;
     }
-    tbody td { padding: 7px 12px; border-bottom: 1px solid #e6edf7; text-align: center; color: #0f172a; }
-    tbody tr:nth-child(even) td { background-color: #f4f8ff; }
-    tbody tr:hover td { background-color: #e3f0ff !important; transition: background-color 0.15s ease-in-out; }
+
+    tbody td {
+      padding: 7px 12px;
+      border-bottom: 1px solid #e6edf7;
+      text-align: center;
+      color: #0f172a;
+    }
+
+    tbody tr:nth-child(even) td {
+      background-color: #f4f8ff;
+    }
+
+    tbody tr:hover td {
+      background-color: #e3f0ff !important;
+      transition: background-color 0.15s ease-in-out;
+    }
 
     td.col-expand {
-      max-width: 180px; min-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; position: relative;
+      max-width: 180px;
+      min-width: 130px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+      position: relative;
     }
+
     td.col-expand:hover {
-      white-space: normal; overflow: visible; background-color: #fff9c4 !important; color: #0d47a1; font-weight: 600;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.25); border-radius: 6px; z-index: 99;
+      white-space: normal;
+      overflow: visible;
+      background-color: #fff9c4 !important;
+      color: #0d47a1;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+      border-radius: 6px;
+      z-index: 99;
     }
 
-    .cb-red { background-color: #ffc9c9 !important; color: #900C3F; font-weight: bold; }
-    .cb-orange { background-color: #ffe5b4 !important; color: #d35400; font-weight: bold; }
-    .cb-yellow { background-color: #fff9c4 !important; color: #856404; }
-    .cb-green { background-color: #d4edda !important; color: #155724; }
-    .cb-gray { background-color: #e9ecef !important; color: #6c757d; }
+    .cb-red {
+      background-color: #ffc9c9 !important;
+      color: #900C3F;
+      font-weight: bold;
+    }
 
-    #loading { text-align: center; padding: 35px; font-weight: 800; color: #0d47a1; font-size: 15px; }
+    .cb-orange {
+      background-color: #ffe5b4 !important;
+      color: #d35400;
+      font-weight: bold;
+    }
+
+    .cb-yellow {
+      background-color: #fff9c4 !important;
+      color: #856404;
+    }
+
+    .cb-green {
+      background-color: #d4edda !important;
+      color: #155724;
+    }
+
+    .cb-gray {
+      background-color: #e9ecef !important;
+      color: #6c757d;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 35px;
+      font-weight: 800;
+      color: #0d47a1;
+      font-size: 15px;
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- KHỐI ĐĂNG NHẬP -->
+  <!-- ================= KHỐI ĐĂNG NHẬP ================= -->
+
   <div id="login-wrapper">
+
     <div class="auth-card">
+
       <div class="auth-logo-box">
-        <img class="auth-logo-img" src="logo.png" alt="Logo Vĩnh Hưng">
+        <img
+          class="auth-logo-img"
+          src="logo.png"
+          alt="Logo Vĩnh Hưng"
+        >
       </div>
 
-      <div class="auth-title">VHIP – Quản lý Đơn hàng</div>
-      <div class="auth-sub">Đăng nhập để tiếp tục</div>
+      <div class="auth-title">
+        VHIP – Quản lý Đơn hàng
+      </div>
+
+      <div class="auth-sub">
+        Đăng nhập để tiếp tục
+      </div>
 
       <div class="auth-toggle">
-        <button id="btn-mode-login" class="active" onclick="switchMode('login')">Đăng nhập</button>
-        <button id="btn-mode-reg" onclick="switchMode('reg')">Đăng ký tài khoản</button>
+
+        <button
+          id="btn-mode-login"
+          class="active"
+          onclick="switchMode('login')"
+        >
+          Đăng nhập
+        </button>
+
+        <button
+          id="btn-mode-reg"
+          onclick="switchMode('reg')"
+        >
+          Đăng ký tài khoản
+        </button>
+
       </div>
 
-      <div id="auth-alert" class="auth-alert"></div>
+      <div
+        id="auth-alert"
+        class="auth-alert"
+      ></div>
 
-      <form class="auth-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
+      <form
+        id="auth-form"
+        class="auth-form"
+        onsubmit="event.preventDefault(); handleAuthSubmit();"
+      >
 
         <input
           type="email"
@@ -327,26 +692,55 @@
           required
         >
 
-        <button type="submit" id="auth-submit-btn" class="auth-submit-btn">
-          🔒 <span id="auth-btn-text">Đăng nhập</span>
+        <button
+          type="submit"
+          id="auth-submit-btn"
+          class="auth-submit-btn"
+        >
+          🔒
+          <span id="auth-btn-text">
+            Đăng nhập
+          </span>
         </button>
+
       </form>
 
-      <div class="auth-footer" id="auth-footer-text">
+      <div
+        class="auth-footer"
+        id="auth-footer-text"
+      >
         Đăng nhập bằng Email + Mật khẩu.
       </div>
+
     </div>
+
   </div>
 
 
-  <!-- DASHBOARD TIẾN ĐỘ -->
-  <div id="app" style="display: none;">
+  <!-- ================= DASHBOARD TIẾN ĐỘ ================= -->
+
+  <div
+    id="app"
+    style="display: none;"
+  >
 
     <div class="top-bar">
-      <div class="update-badge" id="update-badge">🔄 Đang tải dữ liệu...</div>
+
+      <div
+        class="update-badge"
+        id="update-badge"
+      >
+        🔄 Đang tải dữ liệu...
+      </div>
 
       <div>
-        <button class="btn-action" onclick="fetchData()">⚡ Làm Mới Ngay</button>
+
+        <button
+          class="btn-action"
+          onclick="fetchData()"
+        >
+          ⚡ Làm Mới Ngay
+        </button>
 
         <button
           class="btn-action"
@@ -355,13 +749,26 @@
         >
           🚪 Đăng Xuất
         </button>
+
       </div>
+
     </div>
 
+
     <div class="main-title">
-      <img class="vh-header-icon" src="logo.png" alt="Logo Vĩnh Hưng">
-      <span>VHIP - QUẢN LÝ TIẾN ĐỘ & SẢN LƯỢNG ĐƠN HÀNG</span>
+
+      <img
+        class="vh-header-icon"
+        src="logo.png"
+        alt="Logo Vĩnh Hưng"
+      >
+
+      <span>
+        VHIP - QUẢN LÝ TIẾN ĐỘ & SẢN LƯỢNG ĐƠN HÀNG
+      </span>
+
     </div>
+
 
     <div class="filter-box">
 
@@ -372,119 +779,258 @@
       <div class="filter-grid">
 
         <div>
-          <span class="filter-chip-label">📅 Chọn Năm</span>
-          <select id="f-year" class="filter-select" onchange="render()">
-            <option value="ALL">Tất cả các năm</option>
+
+          <span class="filter-chip-label">
+            📅 Chọn Năm
+          </span>
+
+          <select
+            id="f-year"
+            class="filter-select"
+            onchange="render()"
+          >
+            <option value="ALL">
+              Tất cả các năm
+            </option>
           </select>
+
         </div>
 
+
         <div>
-          <span class="filter-chip-label">⏱️ Kỳ Báo Cáo</span>
-          <select id="f-period" class="filter-select" onchange="onPeriodChange()">
-            <option value="YEAR">Cả Năm</option>
-            <option value="MONTH" selected>Theo Tháng</option>
-            <option value="QUARTER">Theo Quý</option>
+
+          <span class="filter-chip-label">
+            ⏱️ Kỳ Báo Cáo
+          </span>
+
+          <select
+            id="f-period"
+            class="filter-select"
+            onchange="onPeriodChange()"
+          >
+            <option value="YEAR">
+              Cả Năm
+            </option>
+
+            <option
+              value="MONTH"
+              selected
+            >
+              Theo Tháng
+            </option>
+
+            <option value="QUARTER">
+              Theo Quý
+            </option>
+
           </select>
+
         </div>
 
-        <div>
-          <span class="filter-chip-label">🗓️ Chi Tiết Kỳ</span>
-          <select id="f-subperiod" class="filter-select" onchange="render()"></select>
-        </div>
 
         <div>
-          <span class="filter-chip-label">🏭 Tình Trạng SX</span>
-          <select id="f-status" class="filter-select" onchange="render()">
-            <option value="ALL">Tất cả tình trạng</option>
+
+          <span class="filter-chip-label">
+            🗓️ Chi Tiết Kỳ
+          </span>
+
+          <select
+            id="f-subperiod"
+            class="filter-select"
+            onchange="render()"
+          ></select>
+
+        </div>
+
+
+        <div>
+
+          <span class="filter-chip-label">
+            🏭 Tình Trạng SX
+          </span>
+
+          <select
+            id="f-status"
+            class="filter-select"
+            onchange="render()"
+          >
+            <option value="ALL">
+              Tất cả tình trạng
+            </option>
           </select>
+
         </div>
 
+
         <div>
-          <span class="filter-chip-label">🏢 Bộ Phận KD</span>
-          <select id="f-dept" class="filter-select" onchange="onDeptChange()">
-            <option value="ALL">Tất cả bộ phận</option>
+
+          <span class="filter-chip-label">
+            🏢 Bộ Phận KD
+          </span>
+
+          <select
+            id="f-dept"
+            class="filter-select"
+            onchange="onDeptChange()"
+          >
+            <option value="ALL">
+              Tất cả bộ phận
+            </option>
           </select>
+
         </div>
 
+
         <div>
-          <span class="filter-chip-label">👤 Gõ / Chọn NVKD</span>
-          <input list="nvkd-list" id="f-emp" class="filter-input"
-                 placeholder="🔍 Gõ Biên, Trang..." oninput="render()">
+
+          <span class="filter-chip-label">
+            👤 Gõ / Chọn NVKD
+          </span>
+
+          <input
+            list="nvkd-list"
+            id="f-emp"
+            class="filter-input"
+            placeholder="🔍 Gõ Biên, Trang..."
+            oninput="render()"
+          >
+
           <datalist id="nvkd-list"></datalist>
+
         </div>
 
       </div>
+
     </div>
 
-    <div class="nav-tabs" id="product-tabs"></div>
 
-    <div class="subproduct-bar" id="subproduct-bar">
+    <div
+      class="nav-tabs"
+      id="product-tabs"
+    ></div>
 
-      <span class="subproduct-label">🔍 Chi tiết SP Khác:</span>
 
-      <button class="subprod-chip active" onclick="setSubProduct('ALL')">
+    <div
+      class="subproduct-bar"
+      id="subproduct-bar"
+    >
+
+      <span class="subproduct-label">
+        🔍 Chi tiết SP Khác:
+      </span>
+
+      <button
+        class="subprod-chip active"
+        onclick="setSubProduct('ALL')"
+      >
         Tất cả SP Khác
       </button>
 
-      <button class="subprod-chip" onclick="setSubProduct('SL_TamDeNeo')">
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_TamDeNeo')"
+      >
         Tấm Đế Neo
       </button>
 
-      <button class="subprod-chip" onclick="setSubProduct('SL_ThanhNeo')">
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_ThanhNeo')"
+      >
         Thanh Neo
       </button>
 
-      <button class="subprod-chip" onclick="setSubProduct('SL_StelPin')">
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_StelPin')"
+      >
         Stel Pin
       </button>
 
-      <button class="subprod-chip" onclick="setSubProduct('SL_LoXoNeo')">
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_LoXoNeo')"
+      >
         Lò Xo Neo
       </button>
 
-      <button class="subprod-chip" onclick="setSubProduct('SL_VanKhuon')">
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_VanKhuon')"
+      >
         Ván Khuôn
       </button>
 
-      <button class="subprod-chip" onclick="setSubProduct('SL_LanCan')">
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_LanCan')"
+      >
         Lan Can
       </button>
 
-      <button class="subprod-chip" onclick="setSubProduct('SL_KheRangLuocNhom')">
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_KheRangLuocNhom')"
+      >
         Khe Nhôm
       </button>
 
-      <button class="subprod-chip" onclick="setSubProduct('SL_SPKhac')">
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_SPKhac')"
+      >
         SP Khác
       </button>
 
     </div>
 
-    <div class="metric-wrapper" id="metrics-container"></div>
+
+    <div
+      class="metric-wrapper"
+      id="metrics-container"
+    ></div>
+
 
     <hr class="divider">
 
+
     <div class="sub-bar">
 
-      <div class="sub-tabs" id="sub-tabs-container">
+      <div
+        class="sub-tabs"
+        id="sub-tabs-container"
+      >
 
-        <button class="sub-tab-btn active" onclick="setSubTab('MOI')">
+        <button
+          class="sub-tab-btn active"
+          onclick="setSubTab('MOI')"
+        >
           📦 Đặt Mới
         </button>
 
-        <button class="sub-tab-btn" onclick="setSubTab('CAN_GIAO')">
+        <button
+          class="sub-tab-btn"
+          onclick="setSubTab('CAN_GIAO')"
+        >
           🔥 Đặt & Cần Giao
         </button>
 
-        <button class="sub-tab-btn" onclick="setSubTab('TON')">
+        <button
+          class="sub-tab-btn"
+          onclick="setSubTab('TON')"
+        >
           ⏳ Tồn Lũy Kế
         </button>
 
-        <button class="sub-tab-btn" onclick="setSubTab('DONE')">
+        <button
+          class="sub-tab-btn"
+          onclick="setSubTab('DONE')"
+        >
           ✅ Đã Nhập Kho
         </button>
 
       </div>
+
 
       <div class="actions-wrap">
 
@@ -508,26 +1054,45 @@
 
     </div>
 
+
     <div class="table-container">
 
       <table id="data-table">
 
         <thead>
+
           <tr>
+
             <th>Mã ĐH</th>
             <th>Bộ Phận</th>
             <th>NVKD</th>
             <th>Dự Án</th>
             <th>Quy Cách</th>
             <th>ĐVT</th>
-            <th id="th-soluong">Số Lượng</th>
-            <th>🚨 Cảnh Báo Tiến Độ</th>
-            <th>Trạng Thái</th>
-            <th>Duyệt Base SX</th>
-            <th>KD Cần Ngày Giao Hàng</th>
-            <th>Chốt Tiến Độ Giao Hàng VHIP-KD</th>
-            <th>Ngày Nhập Kho Thực Tế</th>
+            <th id="th-soluong">
+              Số Lượng
+            </th>
+            <th>
+              🚨 Cảnh Báo Tiến Độ
+            </th>
+            <th>
+              Trạng Thái
+            </th>
+            <th>
+              Duyệt Base SX
+            </th>
+            <th>
+              KD Cần Ngày Giao Hàng
+            </th>
+            <th>
+              Chốt Tiến Độ Giao Hàng VHIP-KD
+            </th>
+            <th>
+              Ngày Nhập Kho Thực Tế
+            </th>
+
           </tr>
+
         </thead>
 
         <tbody id="table-body"></tbody>
@@ -538,7 +1103,11 @@
 
   </div>
 
-  <div id="loading" style="display: none;">
+
+  <div
+    id="loading"
+    style="display: none;"
+  >
     Đang kết nối dữ liệu từ Google Sheets, vui lòng đợi...
   </div>
 
@@ -553,7 +1122,9 @@
       "https://script.google.com/macros/s/AKfycbzCRHaX8FsaB3GCVrWAB2VGFmgnhf8TiCrny1W8o_xxQZWG3pNw6fdeWu-T0yqFtRP3bQ/exec";
 
 
-    /* ================= LOGIC AUTH ================= */
+    /* =========================================================
+       LOGIC AUTH
+       ========================================================= */
 
     let currentAuthMode = 'login';
 
@@ -562,27 +1133,62 @@
 
       currentAuthMode = mode;
 
-      const btnLogin = document.getElementById('btn-mode-login');
-      const btnReg = document.getElementById('btn-mode-reg');
-      const submitText = document.getElementById('auth-btn-text');
-      const alertBox = document.getElementById('auth-alert');
-      const emailInput = document.getElementById('auth-email');
-      const passwordInput = document.getElementById('auth-password');
+      const btnLogin =
+        document.getElementById(
+          'btn-mode-login'
+        );
 
-      alertBox.style.display = 'none';
+      const btnReg =
+        document.getElementById(
+          'btn-mode-reg'
+        );
+
+      const submitText =
+        document.getElementById(
+          'auth-btn-text'
+        );
+
+      const alertBox =
+        document.getElementById(
+          'auth-alert'
+        );
+
+      const emailInput =
+        document.getElementById(
+          'auth-email'
+        );
+
+      const passwordInput =
+        document.getElementById(
+          'auth-password'
+        );
+
+
+      if (alertBox) {
+        alertBox.style.display = 'none';
+      }
+
 
       if (mode === 'login') {
 
         btnLogin.classList.add('active');
         btnReg.classList.remove('active');
 
-        submitText.innerText = 'Đăng nhập';
+        submitText.innerText =
+          'Đăng nhập';
 
-        emailInput.placeholder = 'Nhập Email công ty';
-        passwordInput.placeholder = 'Mật khẩu';
-        passwordInput.autocomplete = 'current-password';
+        emailInput.placeholder =
+          'Nhập Email công ty';
 
-        document.getElementById('auth-footer-text').innerText =
+        passwordInput.placeholder =
+          'Mật khẩu';
+
+        passwordInput.autocomplete =
+          'current-password';
+
+        document.getElementById(
+          'auth-footer-text'
+        ).innerText =
           'Chỉ tài khoản đã được Quản trị viên phê duyệt mới được đăng nhập.';
 
       } else {
@@ -590,13 +1196,21 @@
         btnReg.classList.add('active');
         btnLogin.classList.remove('active');
 
-        submitText.innerText = 'Tạo tài khoản';
+        submitText.innerText =
+          'Tạo tài khoản';
 
-        emailInput.placeholder = 'Nhập Email @vinhhungjsc.com';
-        passwordInput.placeholder = 'Tạo mật khẩu (tối thiểu 6 ký tự)';
-        passwordInput.autocomplete = 'new-password';
+        emailInput.placeholder =
+          'Nhập Email @vinhhungjsc.com';
 
-        document.getElementById('auth-footer-text').innerText =
+        passwordInput.placeholder =
+          'Tạo mật khẩu (tối thiểu 6 ký tự)';
+
+        passwordInput.autocomplete =
+          'new-password';
+
+        document.getElementById(
+          'auth-footer-text'
+        ).innerText =
           'Đăng ký xong, hệ thống sẽ gửi yêu cầu phê duyệt tới Quản trị viên.';
       }
     }
@@ -605,50 +1219,98 @@
     function showAlert(msg) {
 
       const alertBox =
-        document.getElementById('auth-alert');
+        document.getElementById(
+          'auth-alert'
+        );
 
-      alertBox.innerText = msg;
-      alertBox.style.display = 'block';
+      if (!alertBox) return;
+
+      alertBox.innerText =
+        msg || '';
+
+      alertBox.style.display =
+        'block';
     }
 
 
-    /*
-     * =========================================================
-     * AUTH KHÔNG DÙNG FETCH
-     *
-     * Dùng form POST trực tiếp tới Apps Script.
-     * Cách này tránh lỗi CORS của Google Apps Script Web App.
-     * Mật khẩu chỉ nằm trong POST body, không nằm trên URL.
-     * =========================================================
-     */
+    /* =========================================================
+       GỬI AUTH BẰNG FORM POST
+       
+       KHÔNG DÙNG FETCH
+       KHÔNG CORS
+       KHÔNG OPTIONS PREFLIGHT
+       MẬT KHẨU KHÔNG NẰM TRÊN URL
+       ========================================================= */
 
-    function submitAuthForm(action, email, password) {
+    function submitAuthForm(
+      action,
+      email,
+      password
+    ) {
 
       const form =
-        document.createElement('form');
+        document.createElement(
+          'form'
+        );
 
-      form.method = 'POST';
-      form.action = AUTH_API_URL;
-      form.target = '_self';
-      form.style.display = 'none';
+      form.method =
+        'POST';
 
-      function addField(name, value) {
+      form.action =
+        AUTH_API_URL;
+
+      form.target =
+        '_self';
+
+      form.style.display =
+        'none';
+
+
+      function addField(
+        name,
+        value
+      ) {
 
         const input =
-          document.createElement('input');
+          document.createElement(
+            'input'
+          );
 
-        input.type = 'hidden';
-        input.name = name;
-        input.value = value;
+        input.type =
+          'hidden';
 
-        form.appendChild(input);
+        input.name =
+          name;
+
+        input.value =
+          value;
+
+        form.appendChild(
+          input
+        );
       }
 
-      addField('action', action);
-      addField('email', email);
-      addField('password', password);
 
-      document.body.appendChild(form);
+      addField(
+        'action',
+        action
+      );
+
+      addField(
+        'email',
+        email
+      );
+
+      addField(
+        'password',
+        password
+      );
+
+
+      document.body.appendChild(
+        form
+      );
+
 
       form.submit();
     }
@@ -656,24 +1318,45 @@
 
     function handleAuthSubmit() {
 
+      const emailInput =
+        document.getElementById(
+          'auth-email'
+        );
+
+      const passwordInput =
+        document.getElementById(
+          'auth-password'
+        );
+
+      const btn =
+        document.getElementById(
+          'auth-submit-btn'
+        );
+
+      const submitText =
+        document.getElementById(
+          'auth-btn-text'
+        );
+
+
       const email =
-        document.getElementById('auth-email')
-          .value
+        String(
+          emailInput?.value || ''
+        )
           .trim()
           .toLowerCase();
 
+
       const password =
-        document.getElementById('auth-password')
-          .value;
-
-      const btn =
-        document.getElementById('auth-submit-btn');
-
-      const submitText =
-        document.getElementById('auth-btn-text');
+        String(
+          passwordInput?.value || ''
+        );
 
 
-      if (!email || !password) {
+      if (
+        !email ||
+        !password
+      ) {
 
         showAlert(
           'Vui lòng nhập đầy đủ Email và mật khẩu.'
@@ -683,11 +1366,13 @@
       }
 
 
-      /* Kiểm tra email khi đăng ký */
+      /* ================= KIỂM TRA EMAIL ĐĂNG KÝ ================= */
 
       if (
         currentAuthMode === 'reg' &&
-        !email.endsWith('@vinhhungjsc.com')
+        !email.endsWith(
+          '@vinhhungjsc.com'
+        )
       ) {
 
         showAlert(
@@ -698,7 +1383,7 @@
       }
 
 
-      /* Kiểm tra mật khẩu */
+      /* ================= KIỂM TRA MẬT KHẨU ================= */
 
       if (
         currentAuthMode === 'reg' &&
@@ -713,12 +1398,24 @@
       }
 
 
-      btn.disabled = true;
+      if (btn) {
 
-      submitText.innerText =
-        currentAuthMode === 'reg'
-          ? 'Đang đăng ký...'
-          : 'Đang kiểm tra...';
+        btn.disabled =
+          true;
+
+        btn.dataset.oldText =
+          submitText
+            ? submitText.innerText
+            : '';
+
+        if (submitText) {
+
+          submitText.innerText =
+            currentAuthMode === 'reg'
+              ? 'Đang đăng ký...'
+              : 'Đang kiểm tra...';
+        }
+      }
 
 
       const action =
@@ -726,14 +1423,6 @@
           ? 'register'
           : 'login';
 
-
-      /*
-       * Gửi POST trực tiếp.
-       *
-       * Không dùng fetch()
-       * Không có CORS
-       * Không có OPTIONS preflight
-       */
 
       submitAuthForm(
         action,
@@ -743,22 +1432,18 @@
     }
 
 
-    /*
-     * =========================================================
-     * NHẬN KẾT QUẢ TỪ APPS SCRIPT
-     *
-     * Apps Script sẽ xử lý xong rồi chuyển trình duyệt
-     * quay lại GitHub Pages với các thông tin:
-     *
-     * auth=login/register
-     * success=1/0
-     * status=...
-     * message=...
-     * email=...
-     *
-     * Tuyệt đối không đưa password vào URL.
-     * =========================================================
-     */
+    /* =========================================================
+       NHẬN KẾT QUẢ TỪ APPS SCRIPT
+       
+       Apps Script chuyển về:
+       auth=login/register
+       success=1/0
+       status=...
+       message=...
+       email=...
+       
+       TUYỆT ĐỐI KHÔNG CÓ PASSWORD.
+       ========================================================= */
 
     function handleAuthCallback() {
 
@@ -779,29 +1464,32 @@
       const action =
         params.get('auth') || '';
 
+
       const success =
         params.get('success') === '1';
+
 
       const status =
         params.get('status') || '';
 
-      const message =
-        params.get('message') || '';
 
       const email =
         params.get('email') || '';
 
 
-      /*
-       * Xóa thông tin callback khỏi thanh địa chỉ.
-       */
+      const message =
+        params.get('message') || '';
+
+
+      /* ================= XÓA CALLBACK KHỎI URL ================= */
 
       try {
 
         window.history.replaceState(
           {},
           document.title,
-          window.location.pathname
+          window.location.pathname +
+          window.location.hash
         );
 
       } catch (e) {
@@ -830,6 +1518,7 @@
             'vhip_email',
             email
           );
+
 
           showApp();
 
@@ -869,6 +1558,7 @@
           }
         }
 
+
         return true;
       }
 
@@ -879,7 +1569,34 @@
         action === 'register'
       ) {
 
-        switchMode('login');
+        switchMode(
+          'login'
+        );
+
+
+        const emailInput =
+          document.getElementById(
+            'auth-email'
+          );
+
+        const passwordInput =
+          document.getElementById(
+            'auth-password'
+          );
+
+
+        if (emailInput) {
+
+          emailInput.value =
+            email;
+        }
+
+
+        if (passwordInput) {
+
+          passwordInput.value =
+            '';
+        }
 
 
         if (success) {
@@ -889,14 +1606,6 @@
             'Đăng ký thành công! Yêu cầu đã được gửi tới Quản trị viên. Vui lòng chờ phê duyệt trước khi đăng nhập.'
           );
 
-          document.getElementById(
-            'auth-email'
-          ).value = email;
-
-          document.getElementById(
-            'auth-password'
-          ).value = '';
-
         } else {
 
           showAlert(
@@ -905,13 +1614,24 @@
           );
         }
 
+
         return true;
       }
+
+
+      showAlert(
+        message ||
+        'Không thể xử lý yêu cầu.'
+      );
 
 
       return true;
     }
 
+
+    /* =========================================================
+       ĐĂNG XUẤT
+       ========================================================= */
 
     function handleLogout() {
 
@@ -923,22 +1643,32 @@
         'vhip_email'
       );
 
+
       location.reload();
     }
 
+
+    /* =========================================================
+       HIỂN THỊ DASHBOARD
+       ========================================================= */
 
     function showApp() {
 
       document.body.style.background =
         "linear-gradient(180deg, #eef4ff 0%, #f7faff 35%, #ffffff 100%)";
 
+
       document.getElementById(
         'login-wrapper'
-      ).style.display = 'none';
+      ).style.display =
+        'none';
+
 
       document.getElementById(
         'app'
-      ).style.display = 'block';
+      ).style.display =
+        'block';
+
 
       buildTabs();
 
@@ -946,19 +1676,20 @@
     }
 
 
-    /*
-     * =========================================================
-     * KHỞI ĐỘNG XÁC THỰC
-     * =========================================================
-     */
+    /* =========================================================
+       KHỞI ĐỘNG XÁC THỰC
+       ========================================================= */
 
     const authCallbackHandled =
       handleAuthCallback();
 
 
     /*
-     * Nếu chưa có callback mà đã đăng nhập
-     * trong phiên hiện tại thì mở dashboard.
+     * Nếu Apps Script vừa trả callback
+     * thì không kiểm tra sessionStorage lần nữa.
+     *
+     * Nếu không có callback:
+     * kiểm tra phiên đăng nhập hiện tại.
      */
 
     if (
@@ -969,6 +1700,20 @@
     ) {
 
       showApp();
+
+    } else if (
+      !authCallbackHandled
+    ) {
+
+      document.getElementById(
+        'login-wrapper'
+      ).style.display =
+        'flex';
+
+      document.getElementById(
+        'app'
+      ).style.display =
+        'none';
     }
 
 
@@ -979,9 +1724,13 @@
     const GGS_CSV_URL =
       "https://docs.google.com/spreadsheets/d/1Wewl_WwSYLR0ydq71vtHJC82ndk4EjqcNMqSVNvsByw/export?format=csv&gid=984933238";
 
+
     let rawData = [];
+
     let currentTab = 0;
+
     let currentSubTab = 'MOI';
+
     let currentSubProduct = 'ALL';
 
 
@@ -1046,6 +1795,7 @@
           'product-tabs'
         );
 
+
       container.innerHTML =
         TABS.map(
           (t, idx) => `
@@ -1068,10 +1818,12 @@
 
       buildTabs();
 
+
       const subBar =
         document.getElementById(
           'subproduct-bar'
         );
+
 
       if (
         TABS[idx].name ===
@@ -1095,6 +1847,7 @@
         document.getElementById(
           'th-soluong'
         );
+
 
       const btnExportText =
         document.getElementById(
@@ -1132,6 +1885,7 @@
       currentSubProduct =
         colKey;
 
+
       document
         .querySelectorAll(
           '.subprod-chip'
@@ -1143,12 +1897,17 @@
             )
         );
 
-      if (event && event.target) {
+
+      if (
+        event &&
+        event.target
+      ) {
 
         event.target.classList.add(
           'active'
         );
       }
+
 
       render();
     }
@@ -1158,6 +1917,7 @@
 
       currentSubTab =
         sub;
+
 
       document
         .querySelectorAll(
@@ -1170,16 +1930,25 @@
             )
         );
 
-      if (event && event.target) {
+
+      if (
+        event &&
+        event.target
+      ) {
 
         event.target.classList.add(
           'active'
         );
       }
 
+
       renderTable();
     }
 
+
+    /* =========================================================
+       CSV
+       ========================================================= */
 
     function parseCSVText(text) {
 
@@ -1188,6 +1957,7 @@
       let r = [];
       let q = false;
       let row = [''];
+
 
       for (
         let i = 0;
@@ -1201,7 +1971,9 @@
           text[i + 1];
 
 
-        if (c === '"') {
+        if (
+          c === '"'
+        ) {
 
           if (
             q &&
@@ -1242,6 +2014,7 @@
             i++;
           }
 
+
           r.push(row);
 
           row = [''];
@@ -1267,6 +2040,10 @@
       return r;
     }
 
+
+    /* =========================================================
+       TẢI DỮ LIỆU GOOGLE SHEETS
+       ========================================================= */
 
     function fetchData() {
 
@@ -1295,17 +2072,26 @@
                 csvText
               );
 
-            parseData(rows);
+
+            parseData(
+              rows
+            );
+
 
             document.getElementById(
               'loading'
             ).style.display =
               'none';
 
+
+            const now =
+              new Date();
+
+
             document.getElementById(
               'update-badge'
             ).innerText =
-              `🔄 Cập nhật: ${new Date().toLocaleTimeString('vi-VN')} ${new Date().toLocaleDateString('vi-VN')}`;
+              `🔄 Cập nhật: ${now.toLocaleTimeString('vi-VN')} ${now.toLocaleDateString('vi-VN')}`;
           }
         )
 
@@ -1317,6 +2103,7 @@
               err
             );
 
+
             document.getElementById(
               'loading'
             ).style.display =
@@ -1325,6 +2112,10 @@
         );
     }
 
+
+    /* =========================================================
+       CHUẨN HÓA SỐ
+       ========================================================= */
 
     function clean_number(val) {
 
@@ -1388,6 +2179,7 @@
         let parts =
           val_str.split('.');
 
+
         if (
           parts.length > 1 &&
           parts[
@@ -1415,6 +2207,10 @@
         : res;
     }
 
+
+    /* =========================================================
+       CHUẨN HÓA TRẠNG THÁI
+       ========================================================= */
 
     function clean_status(val) {
 
@@ -1517,6 +2313,7 @@
       let s =
         String(ten).trim();
 
+
       return s.replace(
         /\s+/g,
         ' '
@@ -1524,12 +2321,18 @@
     }
 
 
+    /* =========================================================
+       NGÀY
+       ========================================================= */
+
     function parseDate(val) {
 
       if (!val) return null;
 
+
       let s =
         String(val).trim();
+
 
       let parts =
         s.split(/[\/\-]/);
@@ -1545,11 +2348,13 @@
             10
           );
 
+
         let m =
           parseInt(
             parts[1],
             10
           ) - 1;
+
 
         let y =
           parseInt(
@@ -1558,7 +2363,10 @@
           );
 
 
-        if (y < 100) {
+        if (
+          y < 100
+        ) {
+
           y += 2000;
         }
 
@@ -1575,6 +2383,10 @@
     }
 
 
+    /* =========================================================
+       PHÂN TÍCH DỮ LIỆU
+       ========================================================= */
+
     function parseData(rows) {
 
       rawData = [];
@@ -1590,6 +2402,7 @@
 
         const row =
           rows[r];
+
 
         if (
           !row ||
@@ -1693,60 +2506,72 @@
         let slTongRaw =
           row[13];
 
+
         let slGoi =
           clean_number(
             row[15]
           );
+
 
         let slKhe =
           clean_number(
             row[14]
           );
 
+
         let slVCO =
           clean_number(
             row[23]
           );
+
 
         let slCot =
           clean_number(
             row[24]
           );
 
+
         let slNhomNhom =
           clean_number(
             row[16]
           );
+
 
         let slLoXo =
           clean_number(
             row[17]
           );
 
+
         let slThanhNeo =
           clean_number(
             row[18]
           );
+
 
         let slSPKhac =
           clean_number(
             row[19]
           );
 
+
         let slTamDe =
           clean_number(
             row[20]
           );
+
 
         let slStelPin =
           clean_number(
             row[21]
           );
 
+
         let slVanKhuon =
           clean_number(
             row[22]
           );
+
 
         let slLanCan =
           clean_number(
@@ -1793,20 +2618,24 @@
             row[26]
           );
 
+
         let dAB =
           parseDate(
             row[27]
           );
+
 
         let dAC =
           parseDate(
             row[28]
           );
 
+
         let dAG =
           parseDate(
             row[32]
           );
+
 
         let dNK =
           parseDate(
@@ -1966,6 +2795,10 @@
     }
 
 
+    /* =========================================================
+       BỘ LỌC
+       ========================================================= */
+
     function populateFilterOptions() {
 
       let yearSet =
@@ -1984,6 +2817,7 @@
             );
           }
 
+
           if (
             d.Ngay_KD_Can_AC
           ) {
@@ -1993,6 +2827,7 @@
                 .getFullYear()
             );
           }
+
 
           if (
             d.Ngay_NhapKho_DT
@@ -2136,6 +2971,7 @@
 
 
     function onDeptChange() {
+
       render();
     }
 
@@ -2204,16 +3040,28 @@
     }
 
 
+    /* =========================================================
+       BIẾN DỮ LIỆU LỌC
+       ========================================================= */
+
     let filteredMoi = [];
+
     let filteredCanGiao = [];
+
     let filteredTon = [];
+
     let filteredDone = [];
+
     let filteredChuaChot = [];
 
+
     let currentStartDate = null;
+
     let currentEndDate = null;
 
-    let labelKyDatMoi = "Đặt Mới";
+
+    let labelKyDatMoi =
+      "Đặt Mới";
 
 
     function getActiveCol() {
@@ -2234,6 +3082,10 @@
       ].col;
     }
 
+
+    /* =========================================================
+       RENDER
+       ========================================================= */
 
     function render() {
 
@@ -2352,11 +3204,13 @@
         labelKyDatMoi =
           "Đặt Mới (Tất Cả)";
 
+
         filteredMoi =
           base;
 
         filteredCanGiao =
           base;
+
 
         filteredTon =
           base.filter(
@@ -2369,11 +3223,13 @@
                 )
           );
 
+
         filteredDone =
           base.filter(
             d =>
               d.Da_Nhap_Kho
           );
+
 
         filteredChuaChot =
           base.filter(
@@ -2386,6 +3242,7 @@
                   'tạm dừng'
                 )
           );
+
 
       } else {
 
@@ -2400,6 +3257,7 @@
           const m =
             parseInt(sub);
 
+
           currentStartDate =
             new Date(
               yearEff,
@@ -2409,6 +3267,7 @@
               0,
               0
             );
+
 
           currentEndDate =
             new Date(
@@ -2420,8 +3279,10 @@
               59
             );
 
+
           labelKyDatMoi =
             `Đặt Mới Tháng ${m}/${yearEff}`;
+
 
         } else if (
           p === 'QUARTER'
@@ -2429,6 +3290,7 @@
 
           const q =
             parseInt(sub);
+
 
           currentStartDate =
             new Date(
@@ -2440,6 +3302,7 @@
               0
             );
 
+
           currentEndDate =
             new Date(
               yearEff,
@@ -2450,8 +3313,10 @@
               59
             );
 
+
           labelKyDatMoi =
             `Đặt Mới Quý ${q}/${yearEff}`;
+
 
         } else {
 
@@ -2465,6 +3330,7 @@
               0
             );
 
+
           currentEndDate =
             new Date(
               yearEff,
@@ -2474,6 +3340,7 @@
               59,
               59
             );
+
 
           labelKyDatMoi =
             `Đặt Mới Năm ${yearEff}`;
@@ -2626,20 +3493,24 @@
             matchStatus
           );
 
+
         filteredCanGiao =
           filteredCanGiao.filter(
             matchStatus
           );
+
 
         filteredTon =
           filteredTon.filter(
             matchStatus
           );
 
+
         filteredDone =
           filteredDone.filter(
             matchStatus
           );
+
 
         filteredChuaChot =
           filteredChuaChot.filter(
@@ -2653,6 +3524,10 @@
       renderTable();
     }
 
+
+    /* =========================================================
+       ĐỊNH DẠNG SỐ
+       ========================================================= */
 
     function format_number_smart(val) {
 
@@ -2693,6 +3568,10 @@
       );
     }
 
+
+    /* =========================================================
+       METRICS
+       ========================================================= */
 
     function renderMetrics() {
 
@@ -2740,52 +3619,100 @@
           <div class="metric-grid-3">
 
             <div class="metric-card-pro">
-              <div class="metric-label-pro">📄 ĐH Chưa Chốt</div>
-              <div class="metric-value-pro">
-                ${format_number_smart(filteredChuaChot.length)}
+
+              <div class="metric-label-pro">
+                📄 ĐH Chưa Chốt
               </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  filteredChuaChot.length
+                )}
+              </div>
+
             </div>
 
-            <div class="metric-card-pro">
-              <div class="metric-label-pro">📦 Gối Chậu</div>
-              <div class="metric-value-pro">
-                ${format_number_smart(sum('SL_GoiChau'))}
-              </div>
-            </div>
 
             <div class="metric-card-pro">
-              <div class="metric-label-pro">⚙️ Khe Răng</div>
-              <div class="metric-value-pro">
-                ${format_number_smart(sum('SL_KheRangLuoc'))}
+
+              <div class="metric-label-pro">
+                📦 Gối Chậu
               </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  sum('SL_GoiChau')
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="metric-card-pro">
+
+              <div class="metric-label-pro">
+                ⚙️ Khe Răng
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  sum('SL_KheRangLuoc')
+                )}
+              </div>
+
             </div>
 
           </div>
+
 
           <div class="metric-grid-3">
 
             <div class="metric-card-pro">
-              <div class="metric-label-pro">🧱 Tấm VCO</div>
-              <div class="metric-value-pro">
-                ${format_number_smart(sum('SL_TamVCO'))}
+
+              <div class="metric-label-pro">
+                🧱 Tấm VCO
               </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  sum('SL_TamVCO')
+                )}
+              </div>
+
             </div>
 
-            <div class="metric-card-pro">
-              <div class="metric-label-pro">🏗️ Cột H</div>
-              <div class="metric-value-pro">
-                ${format_number_smart(sum('SL_HeCotPhuKien'))}
-              </div>
-            </div>
 
             <div class="metric-card-pro">
-              <div class="metric-label-pro">🎯 Tổng Số Lượng</div>
-              <div class="metric-value-pro">
-                ${format_number_smart(sum('So_Luong_Tong_DH'))}
+
+              <div class="metric-label-pro">
+                🏗️ Cột H
               </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  sum('SL_HeCotPhuKien')
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="metric-card-pro">
+
+              <div class="metric-label-pro">
+                🎯 Tổng Số Lượng
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  sum('So_Luong_Tong_DH')
+                )}
+              </div>
+
             </div>
 
           </div>
+
         `;
 
       } else {
@@ -2859,11 +3786,14 @@
         let tongDatMoi =
           sumCol(subM);
 
+
         let datVaCanGiao =
           sumCol(subCG);
 
+
         let tonLuyKe =
           sumCol(subT);
+
 
         let tongCanSX =
           sumCol(
@@ -2873,8 +3803,10 @@
           ) +
           tonLuyKe;
 
+
         let daNhapKho =
           sumCol(subD);
+
 
         let conPhaiSX =
           (
@@ -2891,94 +3823,149 @@
           <div class="metric-grid-3">
 
             <div class="metric-card-pro">
+
               <div class="metric-label-pro">
                 📦 ${labelKyDatMoi}
               </div>
+
               <div class="metric-value-pro">
-                ${format_number_smart(tongDatMoi)}
+                ${format_number_smart(
+                  tongDatMoi
+                )}
               </div>
+
             </div>
 
+
             <div class="metric-card-pro">
+
               <div class="metric-label-pro">
                 🔥 Đặt & Cần Giao
               </div>
+
               <div class="metric-value-pro">
-                ${format_number_smart(datVaCanGiao)}
+                ${format_number_smart(
+                  datVaCanGiao
+                )}
               </div>
+
             </div>
 
+
             <div class="metric-card-pro">
+
               <div class="metric-label-pro">
                 ⏳ Tồn Lũy Kế
               </div>
+
               <div class="metric-value-pro">
-                ${format_number_smart(tonLuyKe)}
+                ${format_number_smart(
+                  tonLuyKe
+                )}
               </div>
+
             </div>
 
           </div>
+
 
           <div class="metric-grid-3">
 
             <div class="metric-card-pro">
+
               <div class="metric-label-pro">
                 🎯 Tổng Cần SX
               </div>
+
               <div class="metric-value-pro">
-                ${format_number_smart(tongCanSX)}
+                ${format_number_smart(
+                  tongCanSX
+                )}
               </div>
+
             </div>
 
+
             <div class="metric-card-pro">
+
               <div class="metric-label-pro">
                 ✅ Đã Nhập Kho
               </div>
+
               <div class="metric-value-pro">
-                ${format_number_smart(daNhapKho)}
+                ${format_number_smart(
+                  daNhapKho
+                )}
               </div>
+
             </div>
 
+
             <div class="metric-card-pro">
+
               <div class="metric-label-pro">
                 ⚠️ Còn Phải SX
               </div>
+
               <div class="metric-value-pro">
-                ${format_number_smart(conPhaiSX)}
+                ${format_number_smart(
+                  conPhaiSX
+                )}
               </div>
+
             </div>
 
           </div>
+
         `;
       }
     }
 
 
+    /* =========================================================
+       CẢNH BÁO TIẾN ĐỘ
+       ========================================================= */
+
     function calcCanhBao(d) {
 
-      if (d.Da_Nhap_Kho) {
+      if (
+        d.Da_Nhap_Kho
+      ) {
 
         return {
-          text: "✅ Đã Hoàn Thành",
-          cls: "cb-green"
+          text:
+            "✅ Đã Hoàn Thành",
+
+          cls:
+            "cb-green"
         };
       }
 
 
-      if (!d.Ngay_Duyet_AB) {
+      if (
+        !d.Ngay_Duyet_AB
+      ) {
 
         return {
-          text: "⚪ Chưa Duyệt SX (AB trống)",
-          cls: "cb-gray"
+          text:
+            "⚪ Chưa Duyệt SX (AB trống)",
+
+          cls:
+            "cb-gray"
         };
       }
 
 
-      if (!d.Ngay_Chot_AG) {
+      if (
+        !d.Ngay_Chot_AG
+      ) {
 
         return {
-          text: "⚠️ Thiếu Ngày Chốt AG",
-          cls: "cb-yellow"
+          text:
+            "⚠️ Thiếu Ngày Chốt AG",
+
+          cls:
+            "cb-yellow"
         };
       }
 
@@ -2998,52 +3985,80 @@
         );
 
 
-      if (diffDays <= 5) {
+      if (
+        diffDays <= 5
+      ) {
 
         return {
-          text: "🔴 Rất Nguy Hiểm (≤ 5 Ngày)",
-          cls: "cb-red"
+          text:
+            "🔴 Rất Nguy Hiểm (≤ 5 Ngày)",
+
+          cls:
+            "cb-red"
         };
       }
 
 
-      if (diffDays <= 7) {
+      if (
+        diffDays <= 7
+      ) {
 
         return {
-          text: "🟠 Cấp Bách (6-7 Ngày)",
-          cls: "cb-orange"
+          text:
+            "🟠 Cấp Bách (6-7 Ngày)",
+
+          cls:
+            "cb-orange"
         };
       }
 
 
-      if (diffDays <= 15) {
+      if (
+        diffDays <= 15
+      ) {
 
         return {
-          text: "🟡 Tiến Độ Bình Thường (8-15 Ngày)",
-          cls: "cb-yellow"
+          text:
+            "🟡 Tiến Độ Bình Thường (8-15 Ngày)",
+
+          cls:
+            "cb-yellow"
         };
       }
 
 
-      if (diffDays <= 30) {
+      if (
+        diffDays <= 30
+      ) {
 
         return {
-          text: "🟢 An Toàn (16-30 Ngày)",
-          cls: "cb-green"
+          text:
+            "🟢 An Toàn (16-30 Ngày)",
+
+          cls:
+            "cb-green"
         };
       }
 
 
       return {
-        text: "🔵 Rất An Toàn (> 30 Ngày)",
-        cls: ""
+        text:
+          "🔵 Rất An Toàn (> 30 Ngày)",
+
+        cls:
+          ""
       };
     }
 
 
+    /* =========================================================
+       ĐỊNH DẠNG NGÀY
+       ========================================================= */
+
     function fmtDate(d) {
 
       if (!d) return '';
+
 
       return `${String(
         d.getDate()
@@ -3059,10 +4074,15 @@
     }
 
 
+    /* =========================================================
+       DỮ LIỆU BẢNG
+       ========================================================= */
+
     function getTableData() {
 
       const qCol =
         getActiveCol();
+
 
       let data = [];
 
@@ -3150,13 +4170,19 @@
     }
 
 
+    /* =========================================================
+       RENDER BẢNG
+       ========================================================= */
+
     function renderTable() {
 
       const list =
         getTableData();
 
+
       const qCol =
         getActiveCol();
+
 
       const tbody =
         document.getElementById(
@@ -3186,6 +4212,7 @@
           </tr>
 
         `;
+
 
         return;
       }
@@ -3289,13 +4316,19 @@
     }
 
 
+    /* =========================================================
+       XUẤT EXCEL
+       ========================================================= */
+
     function exportExcel() {
 
       const list =
         getTableData();
 
+
       const qCol =
         getActiveCol();
+
 
       const currentTabObj =
         TABS[currentTab];

@@ -14,321 +14,85 @@
     body { background: #164e63; color: #0f172a; min-height: 100vh; padding: 12px 18px; font-size: 13px; }
 
     /* ================= GIAO DIỆN ĐĂNG NHẬP ================= */
-    #login-wrapper {
-      min-height: 90vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .auth-card {
-      background: #ffffff;
-      width: 100%;
-      max-width: 360px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-      padding: 32px 24px 24px;
-      text-align: center;
-    }
-    .auth-logo-box {
-      width: 165px;
-      margin: 0 auto 16px;
-      background: #ffffff;
-      border: 1px solid #f1f5f9;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-      border-radius: 16px;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .auth-logo-img {
-      width: 100%;
-      height: auto;
-      max-height: 55px;
-      display: block;
-      object-fit: contain;
-    }
-    .auth-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: #0f2d59;
-      margin-bottom: 4px;
-    }
-    .auth-sub {
-      color: #64748b;
-      font-size: 12px;
-      margin-bottom: 18px;
-    }
-    .auth-toggle {
-      display: flex;
-      background: #f1f5f9;
-      padding: 4px;
-      border-radius: 12px;
-      margin-bottom: 16px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .auth-toggle button {
-      flex: 1;
-      padding: 8px 6px;
-      border: none;
-      border-radius: 9px;
-      cursor: pointer;
-      background: transparent;
-      color: #64748b;
-      transition: 0.2s;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .auth-toggle button.active {
-      background: #ffffff;
-      color: #0b459c;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    }
-    .auth-alert {
-      background: #fdeee9;
-      border: 1px solid #fbd3c8;
-      color: #b83232;
-      font-size: 11.5px;
-      line-height: 1.5;
-      padding: 8px 12px;
-      border-radius: 10px;
-      text-align: left;
-      margin-bottom: 14px;
-      display: none;
-    }
-    .auth-form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .auth-input {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 12px;
-      font-size: 12.5px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .auth-input:focus {
-      border-color: #0b459c;
-    }
-    .auth-submit-btn {
-      width: 100%;
-      padding: 11px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(90deg, #173b6c 0%, #1f946b 100%);
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 13.5px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      box-shadow: 0 4px 14px rgba(23, 59, 108, 0.25);
-      margin-top: 4px;
-      transition: opacity 0.2s, transform 0.15s;
-    }
-    .auth-submit-btn:hover {
-      opacity: 0.95;
-      transform: translateY(-1px);
-    }
-    .auth-footer {
-      margin-top: 18px;
-      font-size: 11.5px;
-      color: #94a3b8;
-    }
-    .auth-link {
-      margin-top: 10px;
-      border: none;
-      background: transparent;
-      color: #0b459c;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-    .auth-link:hover { color: #1f946b; }
-    .auth-back {
-      margin-top: 8px;
-      border: none;
-      background: transparent;
-      color: #64748b;
-      font-size: 11.5px;
-      cursor: pointer;
-    }
-    .auth-back:hover { color: #0b459c; }
+    #login-wrapper { min-height: 90vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .auth-card { background: #ffffff; width: 100%; max-width: 360px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); padding: 32px 24px 24px; text-align: center; }
+    .auth-logo-box { width: 165px; margin: 0 auto 16px; background: #ffffff; border: 1px solid #f1f5f9; box-shadow: 0 4px 14px rgba(0,0,0,0.06); border-radius: 16px; padding: 12px 16px; display: flex; align-items: center; justify-content: center; }
+    .auth-logo-img { width: 100%; height: auto; max-height: 55px; display: block; object-fit: contain; }
+    .auth-title { font-size: 17px; font-weight: 800; color: #0f2d59; margin-bottom: 4px; }
+    .auth-sub { color: #64748b; font-size: 12px; margin-bottom: 18px; }
+    .auth-toggle { display: flex; background: #f1f5f9; padding: 4px; border-radius: 12px; margin-bottom: 16px; font-size: 12px; font-weight: 700; }
+    .auth-toggle button { flex: 1; padding: 8px 6px; border: none; border-radius: 9px; cursor: pointer; background: transparent; color: #64748b; transition: 0.2s; font-size: 12px; font-weight: 700; }
+    .auth-toggle button.active { background: #ffffff; color: #0b459c; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    .auth-alert { background: #fdeee9; border: 1px solid #fbd3c8; color: #b83232; font-size: 11.5px; line-height: 1.5; padding: 8px 12px; border-radius: 10px; text-align: left; margin-bottom: 14px; display: none; }
+    .auth-alert.ok { background: #e8f7ee; border-color: #b7e4c7; color: #166534; }
+    .auth-form { display: flex; flex-direction: column; gap: 12px; }
+    .auth-input { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 12.5px; outline: none; transition: border-color 0.2s; }
+    .auth-input:focus { border-color: #0b459c; }
+    .auth-submit-btn { width: 100%; padding: 11px; border: none; border-radius: 12px; background: linear-gradient(90deg, #173b6c 0%, #1f946b 100%); color: #ffffff; font-weight: 700; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 14px rgba(23,59,108,0.25); margin-top: 4px; transition: opacity 0.2s, transform 0.15s; }
+    .auth-submit-btn:hover { opacity: 0.95; transform: translateY(-1px); }
+    .auth-submit-btn:disabled { opacity: 0.6; cursor: wait; transform: none; }
+    .auth-footer { margin-top: 18px; font-size: 11.5px; color: #94a3b8; }
+    .auth-link { margin-top: 12px; border: none; background: transparent; color: #0b459c; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .auth-link:hover { color: #1f946b; text-decoration: underline; }
 
     /* ================= DASHBOARD TIẾN ĐỘ ================= */
-    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .update-badge {
-      display: inline-block; font-size: 12.5px; font-weight: 700; color: #ffffff;
-      background: linear-gradient(90deg, #1e88e5, #00acc1); padding: 4px 14px; border-radius: 20px; box-shadow: 0 3px 8px rgba(30,136,229,0.35);
-    }
-    .btn-action {
-      background: #ffffff; border: 1.5px solid #93b8f2; padding: 5px 13px; border-radius: 9px;
-      color: #0d47a1; font-weight: 700; cursor: pointer; font-size: 12.5px; transition: 0.2s; box-shadow: 0 1px 4px rgba(13,71,161,0.08);
-    }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; flex-wrap: wrap; }
+    .update-badge { display: inline-block; font-size: 12.5px; font-weight: 700; color: #ffffff; background: linear-gradient(90deg, #1e88e5, #00acc1); padding: 4px 14px; border-radius: 20px; box-shadow: 0 3px 8px rgba(30,136,229,0.35); }
+    .user-chip { font-size: 12px; font-weight: 700; color: #0d47a1; margin-right: 6px; }
+    .btn-action { background: #ffffff; border: 1.5px solid #93b8f2; padding: 5px 13px; border-radius: 9px; color: #0d47a1; font-weight: 700; cursor: pointer; font-size: 12.5px; transition: 0.2s; box-shadow: 0 1px 4px rgba(13,71,161,0.08); }
     .btn-action:hover { background: #eef5ff; transform: translateY(-1px); }
 
-    .main-title {
-      background: linear-gradient(90deg, #0d47a1 0%, #1565c0 45%, #00b4d8 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.6px;
-      margin-bottom: 10px; padding-bottom: 6px; border-bottom: 4px solid transparent;
-      border-image: linear-gradient(90deg, #0d47a1, #00b4d8, #90e0ef) 1;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .vh-header-icon {
-      height: 32px;
-      width: auto;
-      max-width: 120px;
-      object-fit: contain;
-      vertical-align: middle;
-      flex-shrink: 0;
-    }
+    .main-title { background: linear-gradient(90deg, #0d47a1 0%, #1565c0 45%, #00b4d8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 4px solid transparent; border-image: linear-gradient(90deg, #0d47a1, #00b4d8, #90e0ef) 1; display: flex; align-items: center; gap: 12px; }
+    .vh-header-icon { height: 32px; width: auto; max-width: 120px; object-fit: contain; vertical-align: middle; flex-shrink: 0; }
 
-    .filter-box {
-      background: linear-gradient(135deg, #ffffff 0%, #eef5ff 100%);
-      border: 1.5px solid #bcd6ff; border-radius: 14px; box-shadow: 0 4px 14px rgba(13,71,161,0.08);
-      padding: 8px 14px 12px 14px; margin-bottom: 12px;
-    }
+    .filter-box { background: linear-gradient(135deg, #ffffff 0%, #eef5ff 100%); border: 1.5px solid #bcd6ff; border-radius: 14px; box-shadow: 0 4px 14px rgba(13,71,161,0.08); padding: 8px 14px 12px 14px; margin-bottom: 12px; }
     .filter-title { color: #0d47a1; font-size: 16px; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
     .filter-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
     @media (max-width: 1100px) { .filter-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 650px) { .filter-grid { grid-template-columns: repeat(2, 1fr); } }
-    .filter-chip-label {
-      display: inline-block; background: linear-gradient(90deg, #e7f0ff, #ffffff); border: 1px solid #b9d4ff; border-left: 4px solid #1565c0;
-      border-radius: 8px; padding: 3px 8px; margin-bottom: 4px; color: #0d47a1; font-weight: 800; font-size: 12px; box-shadow: 0 2px 6px rgba(13,71,161,0.06);
-    }
-    select.filter-select, input.filter-input {
-      width: 100%; padding: 6px 10px; border-radius: 10px; border: 1.5px solid #93b8f2;
-      background: #ffffff; font-size: 12.5px; font-weight: 700; color: #0d47a1; outline: none; cursor: pointer; box-shadow: 0 1px 4px rgba(13,71,161,0.08);
-    }
+    .filter-chip-label { display: inline-block; background: linear-gradient(90deg, #e7f0ff, #ffffff); border: 1px solid #b9d4ff; border-left: 4px solid #1565c0; border-radius: 8px; padding: 3px 8px; margin-bottom: 4px; color: #0d47a1; font-weight: 800; font-size: 12px; box-shadow: 0 2px 6px rgba(13,71,161,0.06); }
+    select.filter-select, input.filter-input { width: 100%; padding: 6px 10px; border-radius: 10px; border: 1.5px solid #93b8f2; background: #ffffff; font-size: 12.5px; font-weight: 700; color: #0d47a1; outline: none; cursor: pointer; box-shadow: 0 1px 4px rgba(13,71,161,0.08); }
     input.filter-input { cursor: text; }
 
     .nav-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
-    .tab-btn {
-      background: linear-gradient(135deg, #ffffff, #f2f7ff); border: 2px solid #93b8f2;
-      border-radius: 12px; padding: 7px 14px; color: #0d47a1; font-weight: 800; font-size: 13px; cursor: pointer; transition: all 0.2s ease-in-out;
-      box-shadow: 0 3px 8px rgba(13,71,161,0.08);
-    }
+    .tab-btn { background: linear-gradient(135deg, #ffffff, #f2f7ff); border: 2px solid #93b8f2; border-radius: 12px; padding: 7px 14px; color: #0d47a1; font-weight: 800; font-size: 13px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 3px 8px rgba(13,71,161,0.08); }
     .tab-btn:hover { transform: translateY(-1px); }
-    .tab-btn.active {
-      background: linear-gradient(120deg, #0d47a1, #1565c0 55%, #00b4d8); color: #ffffff; border: 2px solid #0d47a1;
-      box-shadow: 0 6px 16px rgba(13,71,161,0.35); transform: translateY(-2px); font-weight: 900;
-    }
+    .tab-btn.active { background: linear-gradient(120deg, #0d47a1, #1565c0 55%, #00b4d8); color: #ffffff; border: 2px solid #0d47a1; box-shadow: 0 6px 16px rgba(13,71,161,0.35); transform: translateY(-2px); font-weight: 900; }
 
-    .subproduct-bar {
-      display: none; flex-wrap: wrap; gap: 6px; padding: 6px 12px; background: #e8f1ff;
-      border-radius: 10px; border: 1.5px dashed #93b8f2; margin-bottom: 12px; align-items: center;
-    }
+    .subproduct-bar { display: none; flex-wrap: wrap; gap: 6px; padding: 6px 12px; background: #e8f1ff; border-radius: 10px; border: 1.5px dashed #93b8f2; margin-bottom: 12px; align-items: center; }
     .subproduct-label { font-weight: 800; color: #0d47a1; font-size: 12px; margin-right: 4px; }
-    .subprod-chip {
-      background: #ffffff; border: 1.5px solid #93b8f2; padding: 4px 10px; border-radius: 8px;
-      font-size: 12px; font-weight: 700; color: #0d47a1; cursor: pointer; transition: 0.15s;
-    }
+    .subprod-chip { background: #ffffff; border: 1.5px solid #93b8f2; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; color: #0d47a1; cursor: pointer; transition: 0.15s; }
     .subprod-chip:hover { background: #d0e4ff; }
-    .subprod-chip.active {
-      background: #0d47a1; color: #ffffff; border-color: #0d47a1; box-shadow: 0 2px 6px rgba(13,71,161,0.25);
-    }
+    .subprod-chip.active { background: #0d47a1; color: #ffffff; border-color: #0d47a1; box-shadow: 0 2px 6px rgba(13,71,161,0.25); }
 
-    /* BỘ 6 THẺ CHỈ SỐ */
-    .metric-wrapper {
-      margin-bottom: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .metric-grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    @media (max-width: 900px) {
-      .metric-grid-3 { grid-template-columns: 1fr; }
-    }
-    .metric-card-pro {
-      background: #f8fbff;
-      border-radius: 18px;
-      border-left: 6px solid #0066cc;
-      box-shadow: 0 4px 16px rgba(0, 102, 204, 0.08);
-      padding: 12px 18px;
-      text-align: center;
-      transition: all 0.2s ease-in-out;
-    }
-    .metric-card-pro:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 22px rgba(0, 102, 204, 0.16);
-    }
-    .metric-label-pro {
-      font-size: 13px;
-      font-weight: 700;
-      color: #334155;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .metric-value-pro {
-      font-size: 26px;
-      font-weight: 900;
-      color: #0b3d91;
-      letter-spacing: -0.5px;
-    }
+    .metric-wrapper { margin-bottom: 14px; display: flex; flex-direction: column; gap: 12px; }
+    .metric-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 900px) { .metric-grid-3 { grid-template-columns: 1fr; } }
+    .metric-card-pro { background: #f8fbff; border-radius: 18px; border-left: 6px solid #0066cc; box-shadow: 0 4px 16px rgba(0,102,204,0.08); padding: 12px 18px; text-align: center; transition: all 0.2s ease-in-out; }
+    .metric-card-pro:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,102,204,0.16); }
+    .metric-label-pro { font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .metric-value-pro { font-size: 26px; font-weight: 900; color: #0b3d91; letter-spacing: -0.5px; }
 
     .divider { height: 1px; background: linear-gradient(90deg, transparent, #b9d4ff, transparent); margin: 10px 0 12px 0; border: none; }
 
     .sub-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
-    .sub-tabs { display: flex; gap: 6px; }
-    .sub-tab-btn {
-      padding: 6px 14px; border-radius: 10px; border: 1.5px solid #93b8f2; background: #ffffff;
-      font-weight: 800; font-size: 12.5px; color: #0d47a1; cursor: pointer; transition: 0.15s;
-    }
-    .sub-tab-btn.active {
-      background: linear-gradient(90deg, #0d47a1, #1565c0); color: #ffffff; border-color: #0d47a1;
-      box-shadow: 0 3px 8px rgba(13,71,161,0.25);
-    }
-    .actions-wrap { display: flex; gap: 8px; align-items: center; }
-    .search-box {
-      border: 1.5px solid #93b8f2; border-radius: 20px; padding: 5px 14px; font-size: 12.5px; width: 220px; outline: none;
-      background: #ffffff; box-shadow: 0 2px 6px rgba(13,71,161,0.06);
-    }
+    .sub-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .sub-tab-btn { padding: 6px 14px; border-radius: 10px; border: 1.5px solid #93b8f2; background: #ffffff; font-weight: 800; font-size: 12.5px; color: #0d47a1; cursor: pointer; transition: 0.15s; }
+    .sub-tab-btn.active { background: linear-gradient(90deg, #0d47a1, #1565c0); color: #ffffff; border-color: #0d47a1; box-shadow: 0 3px 8px rgba(13,71,161,0.25); }
+    .actions-wrap { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .search-box { border: 1.5px solid #93b8f2; border-radius: 20px; padding: 5px 14px; font-size: 12.5px; width: 220px; outline: none; background: #ffffff; box-shadow: 0 2px 6px rgba(13,71,161,0.06); }
     .search-box:focus { border-color: #0d47a1; }
-    .btn-export {
-      background: linear-gradient(90deg, #0d47a1, #00b4d8); color: #ffffff; font-weight: 800;
-      font-size: 12.5px; border: none; padding: 6px 16px; border-radius: 20px; cursor: pointer; transition: 0.2s;
-      box-shadow: 0 4px 12px rgba(13,71,161,0.25);
-    }
+    .btn-export { background: linear-gradient(90deg, #0d47a1, #00b4d8); color: #ffffff; font-weight: 800; font-size: 12.5px; border: none; padding: 6px 16px; border-radius: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(13,71,161,0.25); }
     .btn-export:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,180,216,0.40); }
 
-    .table-container {
-      max-height: 480px; overflow: auto; border-radius: 12px; border: 1px solid #cfe0ff;
-      box-shadow: 0 4px 14px rgba(13,71,161,0.12); background: #ffffff;
-    }
+    .table-container { max-height: 480px; overflow: auto; border-radius: 12px; border: 1px solid #cfe0ff; box-shadow: 0 4px 14px rgba(13,71,161,0.12); background: #ffffff; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
-    thead th {
-      position: sticky; top: 0; background: linear-gradient(90deg, #0d47a1, #1565c0 55%, #0d47a1);
-      color: #ffffff; font-weight: 800; padding: 9px 12px; text-align: center; border-bottom: 2px solid #08306b; z-index: 2; font-size: 12.5px;
-    }
+    thead th { position: sticky; top: 0; background: linear-gradient(90deg, #0d47a1, #1565c0 55%, #0d47a1); color: #ffffff; font-weight: 800; padding: 9px 12px; text-align: center; border-bottom: 2px solid #08306b; z-index: 2; font-size: 12.5px; }
     tbody td { padding: 7px 12px; border-bottom: 1px solid #e6edf7; text-align: center; color: #0f172a; }
     tbody tr:nth-child(even) td { background-color: #f4f8ff; }
     tbody tr:hover td { background-color: #e3f0ff !important; transition: background-color 0.15s ease-in-out; }
-    
-    td.col-expand {
-      max-width: 180px; min-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; position: relative;
-    }
-    td.col-expand:hover {
-      white-space: normal; overflow: visible; background-color: #fff9c4 !important; color: #0d47a1; font-weight: 600;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.25); border-radius: 6px; z-index: 99;
-    }
+    td.col-expand { max-width: 180px; min-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; position: relative; }
+    td.col-expand:hover { white-space: normal; overflow: visible; background-color: #fff9c4 !important; color: #0d47a1; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.25); border-radius: 6px; z-index: 99; }
 
     .cb-red { background-color: #ffc9c9 !important; color: #900C3F; font-weight: bold; }
     .cb-orange { background-color: #ffe5b4 !important; color: #d35400; font-weight: bold; }
@@ -344,37 +108,24 @@
   <!-- KHỐI ĐĂNG NHẬP -->
   <div id="login-wrapper">
     <div class="auth-card">
-      <div class="auth-logo-box">
-        <img class="auth-logo-img" src="logo.png" alt="Logo Vĩnh Hưng">
-      </div>
-
+      <div class="auth-logo-box"><img class="auth-logo-img" src="logo.png" alt="Logo Vĩnh Hưng"></div>
       <div class="auth-title">VHIP – Quản lý Đơn hàng</div>
       <div class="auth-sub">Đăng nhập để tiếp tục</div>
 
       <div class="auth-toggle">
-        <button id="btn-mode-login" class="active" onclick="switchMode('login')">Đăng nhập</button>
-        <button id="btn-mode-reg" onclick="switchMode('reg')">Đăng ký tài khoản</button>
+        <button type="button" id="btn-mode-login" class="active" onclick="switchMode('login')">Đăng nhập</button>
+        <button type="button" id="btn-mode-reg" onclick="switchMode('reg')">Đăng ký tài khoản</button>
       </div>
 
       <div id="auth-alert" class="auth-alert"></div>
 
       <form id="auth-form" class="auth-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
-        <input type="text" id="auth-email" class="auth-input" placeholder="Email hoặc Tên đăng nhập" value="namvt@vinhhungjsc.com" required>
-        <input type="password" id="auth-password" class="auth-input" placeholder="Mật khẩu" required>
-        <input type="text" id="auth-code" class="auth-input" placeholder="Mã xác nhận 6 số" inputmode="numeric" maxlength="6" style="display:none;">
-        <input type="password" id="auth-new-password" class="auth-input" placeholder="Mật khẩu mới (ít nhất 6 ký tự)" minlength="6" style="display:none;">
-        
-        <button type="submit" id="auth-submit-btn" class="auth-submit-btn">
-          🔒 <span id="auth-btn-text">Đăng nhập</span>
-        </button>
+        <input type="email" id="auth-email" class="auth-input" placeholder="Email @vinhhungjsc.com" autocomplete="username" required>
+        <input type="password" id="auth-password" class="auth-input" placeholder="Mật khẩu" autocomplete="current-password" required>
+        <button type="submit" id="auth-submit-btn" class="auth-submit-btn">🔒 <span id="auth-btn-text">Đăng nhập</span></button>
       </form>
 
-      <button type="button" id="forgot-link" class="auth-link" onclick="switchMode('forgot')">🔑 Quên mật khẩu?</button>
-      <button type="button" id="forgot-back" class="auth-back" onclick="switchMode('login')" style="display:none;">← Quay lại đăng nhập</button>
-
-      <div style="margin-top:12px; text-align:center;">
-        <button type="button" onclick="openForgotPassword()" style="border:none;background:none;color:#0b459c;font-size:12px;font-weight:700;cursor:pointer;">🔑 Quên mật khẩu?</button>
-      </div>
+      <button type="button" class="auth-link" onclick="openForgotPassword()">🔑 Quên mật khẩu?</button>
 
       <div id="forgot-panel" style="display:none;margin-top:14px;padding:14px;background:#f8fbff;border:1px solid #cfe0ff;border-radius:12px;text-align:left;">
         <div style="font-weight:800;color:#173b6c;margin-bottom:8px;">🔐 Đặt lại mật khẩu</div>
@@ -383,16 +134,15 @@
           <button type="button" class="auth-submit-btn" style="margin-top:8px;" onclick="sendResetCode()">📩 Gửi mã xác nhận</button>
         </div>
         <div id="forgot-step-2" style="display:none;">
-          <input type="text" id="reset-code" class="auth-input" placeholder="Mã xác nhận 6 số" maxlength="6" inputmode="numeric">
-          <input type="password" id="reset-password" class="auth-input" placeholder="Mật khẩu mới (ít nhất 6 ký tự)" style="margin-top:8px;">
+          <input type="text" id="reset-code" class="auth-input" placeholder="Mã xác nhận 6 số" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+          <input type="password" id="reset-password" class="auth-input" placeholder="Mật khẩu mới (ít nhất 6 ký tự)" autocomplete="new-password" style="margin-top:8px;">
           <button type="button" class="auth-submit-btn" style="margin-top:8px;" onclick="resetPassword()">🔄 Đặt lại mật khẩu</button>
+          <button type="button" class="auth-link" style="width:100%;margin-top:6px;" onclick="showForgotStep(1)">↩ Gửi lại mã</button>
         </div>
         <button type="button" onclick="closeForgotPassword()" style="width:100%;margin-top:8px;border:none;background:transparent;color:#64748b;font-size:11px;cursor:pointer;">Đóng</button>
       </div>
 
-      <div class="auth-footer" id="auth-footer-text">
-        Đăng nhập bằng Email + Mật khẩu.
-      </div>
+      <div class="auth-footer" id="auth-footer-text">Đăng nhập bằng Email + Mật khẩu.</div>
     </div>
   </div>
 
@@ -401,6 +151,7 @@
     <div class="top-bar">
       <div class="update-badge" id="update-badge">🔄 Đang tải dữ liệu...</div>
       <div>
+        <span class="user-chip" id="user-chip"></span>
         <button class="btn-action" onclick="fetchData()">⚡ Làm Mới Ngay</button>
         <button class="btn-action" onclick="handleLogout()" style="margin-left: 4px;">🚪 Đăng Xuất</button>
       </div>
@@ -436,7 +187,7 @@
         </div>
         <div>
           <span class="filter-chip-label">🏢 Bộ Phận KD</span>
-          <select id="f-dept" class="filter-select" onchange="onDeptChange()"><option value="ALL">Tất cả bộ phận</option></select>
+          <select id="f-dept" class="filter-select" onchange="render()"><option value="ALL">Tất cả bộ phận</option></select>
         </div>
         <div>
           <span class="filter-chip-label">👤 Gõ / Chọn NVKD</span>
@@ -446,34 +197,31 @@
       </div>
     </div>
 
-    <!-- TABS SẢN PHẨM -->
     <div class="nav-tabs" id="product-tabs"></div>
 
-    <!-- SUBPRODUCT BAR KHI CHỌN SẢN PHẨM KHÁC -->
     <div class="subproduct-bar" id="subproduct-bar">
       <span class="subproduct-label">🔍 Chi tiết SP Khác:</span>
-      <button class="subprod-chip active" onclick="setSubProduct('ALL')">Tất cả SP Khác</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_TamDeNeo')">Tấm Đế Neo</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_ThanhNeo')">Thanh Neo</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_StelPin')">Stel Pin</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_LoXoNeo')">Lò Xo Neo</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_VanKhuon')">Ván Khuôn</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_LanCan')">Lan Can</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_KheRangLuocNhom')">Khe Nhôm</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_SPKhac')">SP Khác</button>
+      <button class="subprod-chip active" onclick="setSubProduct('ALL', this)">Tất cả SP Khác</button>
+      <button class="subprod-chip" onclick="setSubProduct('SL_TamDeNeo', this)">Tấm Đế Neo</button>
+      <button class="subprod-chip" onclick="setSubProduct('SL_ThanhNeo', this)">Thanh Neo</button>
+      <button class="subprod-chip" onclick="setSubProduct('SL_StelPin', this)">Stel Pin</button>
+      <button class="subprod-chip" onclick="setSubProduct('SL_LoXoNeo', this)">Lò Xo Neo</button>
+      <button class="subprod-chip" onclick="setSubProduct('SL_VanKhuon', this)">Ván Khuôn</button>
+      <button class="subprod-chip" onclick="setSubProduct('SL_LanCan', this)">Lan Can</button>
+      <button class="subprod-chip" onclick="setSubProduct('SL_KheRangLuocNhom', this)">Khe Nhôm</button>
+      <button class="subprod-chip" onclick="setSubProduct('SL_SPKhac', this)">SP Khác</button>
     </div>
 
-    <!-- BỘ 6 THẺ CHỈ SỐ -->
     <div class="metric-wrapper" id="metrics-container"></div>
 
     <hr class="divider">
 
     <div class="sub-bar">
       <div class="sub-tabs" id="sub-tabs-container">
-        <button class="sub-tab-btn active" onclick="setSubTab('MOI')">📦 Đặt Mới</button>
-        <button class="sub-tab-btn" onclick="setSubTab('CAN_GIAO')">🔥 Đặt & Cần Giao</button>
-        <button class="sub-tab-btn" onclick="setSubTab('TON')">⏳ Tồn Lũy Kế</button>
-        <button class="sub-tab-btn" onclick="setSubTab('DONE')">✅ Đã Nhập Kho</button>
+        <button class="sub-tab-btn active" onclick="setSubTab('MOI', this)">📦 Đặt Mới</button>
+        <button class="sub-tab-btn" onclick="setSubTab('CAN_GIAO', this)">🔥 Đặt & Cần Giao</button>
+        <button class="sub-tab-btn" onclick="setSubTab('TON', this)">⏳ Tồn Lũy Kế</button>
+        <button class="sub-tab-btn" onclick="setSubTab('DONE', this)">✅ Đã Nhập Kho</button>
       </div>
       <div class="actions-wrap">
         <input type="text" id="search-kw" class="search-box" placeholder="🔍 Nhập Mã ĐH, Dự án..." oninput="renderTable()">
@@ -485,368 +233,399 @@
       <table id="data-table">
         <thead>
           <tr>
-            <th>Mã ĐH</th>
-            <th>Bộ Phận</th>
-            <th>NVKD</th>
-            <th>Dự Án</th>
-            <th>Quy Cách</th>
-            <th>ĐVT</th>
-            <th id="th-soluong">Số Lượng</th>
-            <th>🚨 Cảnh Báo Tiến Độ</th>
-            <th>Trạng Thái</th>
-            <th>Duyệt Base SX</th>
-            <th>KD Cần Ngày Giao Hàng</th>
-            <th>Chốt Tiến Độ Giao Hàng VHIP-KD</th>
-            <th>Ngày Nhập Kho Thực Tế</th>
+            <th>Mã ĐH</th><th>Bộ Phận</th><th>NVKD</th><th>Dự Án</th><th>Quy Cách</th><th>ĐVT</th>
+            <th id="th-soluong">Tổng Số Lượng</th><th>🚨 Cảnh Báo Tiến Độ</th><th>Trạng Thái</th>
+            <th>Duyệt Base SX</th><th>KD Cần Ngày Giao Hàng</th><th>Chốt Tiến Độ Giao Hàng VHIP-KD</th><th>Ngày Nhập Kho Thực Tế</th>
           </tr>
         </thead>
         <tbody id="table-body"></tbody>
       </table>
     </div>
+
+    <div id="loading" style="display: none;">Đang kết nối dữ liệu từ Google Sheets, vui lòng đợi...</div>
   </div>
 
-  <div id="loading" style="display: none;">Đang kết nối dữ liệu từ Google Sheets, vui lòng đợi...</div>
-
   <script>
-    /* ================= LOGIC AUTH V3 ================= */
-    let currentAuthMode = 'login';
-    const AUTH_API_URL = "https://script.google.com/macros/s/AKfycbzZcpG88JppgUGqDPDATusX0yOwZXmWkWsm0Wt075DWEa4r4OlsiKqtuEiVY9udouz9/exec";
-    let forgotEmail = '';
+    /* ================= CẤU HÌNH ================= */
+    const API_URL = "https://script.google.com/macros/s/AKfycbzZcpG88JppgUGqDPDATusX0yOwZXmWkWsm0Wt075DWEa4r4OlsiKqtuEiVY9udouz9/exec";
+    const SS_SESSION = 'vhip_session';
+    const SS_EMAIL = 'vhip_email';
 
-    function switchMode(mode) {
-      currentAuthMode = mode;
-      document.getElementById('btn-mode-login').classList.toggle('active', mode === 'login');
-      document.getElementById('btn-mode-reg').classList.toggle('active', mode === 'reg');
-      document.getElementById('auth-btn-text').innerText = mode === 'reg' ? 'Tạo tài khoản' : 'Đăng nhập';
-      document.getElementById('auth-footer-text').innerText = mode === 'reg' ? 'Hệ thống sẽ gửi yêu cầu phê duyệt tới Quản trị viên.' : 'Đăng nhập bằng Email + Mật khẩu.';
-      document.getElementById('auth-alert').style.display = 'none';
-    }
+    const TABS = [
+      { name: "📊 Dashboard Tổng", col: "So_Luong_Tong_DH", label: "Tổng ĐH" },
+      { name: "🚨 Chưa Chốt Tiến Độ Giao Hàng", col: "So_Luong_Tong_DH", label: "Tổng ĐH" },
+      { name: "📦 Gối Chậu", col: "SL_GoiChau", label: "Gối Chậu" },
+      { name: "⚙️ Khe Răng Lược", col: "SL_KheRangLuoc", label: "Khe Răng Lược" },
+      { name: "🧱 Tấm VCO", col: "SL_TamVCO", label: "Tấm VCO" },
+      { name: "🏗️ Cột H (Phụ Kiện)", col: "SL_HeCotPhuKien", label: "Cột H" },
+      { name: "📋 Sản Phẩm Khác", col: "SL_NhomKhac", label: "SP Khác" }
+    ];
+    const TAB_TONG = 0, TAB_CHUA_CHOT = 1, TAB_SP_KHAC = 6;
 
-    function showAlert(msg) {
-      const a=document.getElementById('auth-alert'); a.innerText=msg; a.style.display='block';
-    }
-
-    function postAuth(action, fields) {
-      const form=document.createElement('form'); form.method='POST'; form.action=AUTH_API_URL; form.target='_top'; form.style.display='none';
-      const add=(n,v)=>{const i=document.createElement('input');i.type='hidden';i.name=n;i.value=v;form.appendChild(i);};
-      add('action',action); Object.keys(fields||{}).forEach(k=>add(k,fields[k]));
-      document.body.appendChild(form); form.submit();
-    }
-
-    function handleAuthSubmit() {
-      const email=String(document.getElementById('auth-email').value||'').trim().toLowerCase();
-      const password=String(document.getElementById('auth-password').value||'');
-      if(!email||!password){showAlert('Vui lòng nhập đầy đủ email và mật khẩu.');return;}
-      if(currentAuthMode==='reg'){
-        if(!email.endsWith('@vinhhungjsc.com')){showAlert('Chỉ được đăng ký bằng email @vinhhungjsc.com.');return;}
-        if(password.length<6){showAlert('Mật khẩu phải có ít nhất 6 ký tự.');return;}
-        postAuth('register',{email:email,password:password}); return;
-      }
-      postAuth('login',{email:email,password:password});
-    }
-
-    function openForgotPassword(){
-      document.getElementById('forgot-panel').style.display='block';
-      document.getElementById('forgot-step-1').style.display='block';
-      document.getElementById('forgot-step-2').style.display='none';
-      document.getElementById('auth-alert').style.display='none';
-      const e=document.getElementById('auth-email').value.trim().toLowerCase();
-      if(e.endsWith('@vinhhungjsc.com')) document.getElementById('forgot-email').value=e;
-    }
-    function closeForgotPassword(){document.getElementById('forgot-panel').style.display='none';}
-    function sendResetCode(){
-      const email=document.getElementById('forgot-email').value.trim().toLowerCase();
-      if(!email.endsWith('@vinhhungjsc.com')){showAlert('Vui lòng nhập email @vinhhungjsc.com.');return;}
-      forgotEmail=email; postAuth('forgot_request',{email:email});
-    }
-    function resetPassword(){
-      const email=document.getElementById('forgot-email').value.trim().toLowerCase();
-      const code=document.getElementById('reset-code').value.trim();
-      const pw=document.getElementById('reset-password').value;
-      if(!/^\d{6}$/.test(code)){showAlert('Mã xác nhận phải gồm đúng 6 số.');return;}
-      if(pw.length<6){showAlert('Mật khẩu mới phải có ít nhất 6 ký tự.');return;}
-      postAuth('forgot_verify',{email:email,code:code,newPassword:pw});
-    }
-
-    function handleAuthCallback(){
-      const p=new URLSearchParams(location.search); if(!p.has('auth')) return false;
-      const action=p.get('auth')||'', success=p.get('success')==='1', email=p.get('email')||'', msg=p.get('message')||'';
-      try{history.replaceState({},document.title,location.pathname+location.hash);}catch(e){}
-      if(action==='login'&&success){sessionStorage.setItem('vhip_logged_in','true');sessionStorage.setItem('vhip_email',email);showApp();return true;}
-      if(action==='register'){switchMode('login');showAlert(msg||'Đăng ký thành công. Tài khoản đang chờ phê duyệt.');return true;}
-      if(action==='login'&&!success){showAlert(msg||'Email hoặc mật khẩu không đúng.');return true;}
-      if(action==='forgot_request'){
-        if(success){openForgotPassword();document.getElementById('forgot-email').value=email;document.getElementById('forgot-step-1').style.display='none';document.getElementById('forgot-step-2').style.display='block';showAlert(msg||'Đã gửi mã xác nhận vào Gmail.');}
-        else showAlert(msg||'Không thể gửi mã xác nhận.'); return true;
-      }
-      if(action==='forgot_verify'){
-        if(success){closeForgotPassword();document.getElementById('auth-email').value=email;document.getElementById('auth-password').value='';showAlert(msg||'Đặt lại mật khẩu thành công. Hãy đăng nhập bằng mật khẩu mới.');}
-        else showAlert(msg||'Không thể đặt lại mật khẩu.'); return true;
-      }
-      showAlert(msg||'Yêu cầu không hợp lệ.'); return true;
-    }
-
-    function handleLogout(){sessionStorage.removeItem('vhip_logged_in');sessionStorage.removeItem('vhip_email');location.reload();}
-    function showApp(){document.body.style.background="linear-gradient(180deg,#eef4ff 0%,#f7faff 35%,#ffffff 100%)";document.getElementById('login-wrapper').style.display='none';document.getElementById('app').style.display='block';buildTabs();fetchData();}
-    const authCallbackHandled=handleAuthCallback();
-    if(!authCallbackHandled&&sessionStorage.getItem('vhip_logged_in')==='true') showApp();
-
-    /* ================= LOGIC DỮ LIỆU & DASHBOARD ================= */
-    const DASHBOARD_API_URL = "https://script.google.com/macros/s/AKfycbzZcpG88JppgUGqDPDATusX0yOwZXmWkWsm0Wt075DWEa4r4OlsiKqtuEiVY9udouz9/exec";
     let rawData = [];
     let currentTab = 0;
     let currentSubTab = 'MOI';
     let currentSubProduct = 'ALL';
+    let dataLoading = false;
 
-    const TABS = [
-      { name: "📊 Dashboard Tổng", col: "So_Luong_Tong_DH", label: "Tổng ĐH", isDecimal: false },
-      { name: "🚨 Chưa Chốt Tiến Độ Giao Hàng", col: "So_Luong_Tong_DH", label: "Tổng ĐH", isDecimal: false },
-      { name: "📦 Gối Chậu", col: "SL_GoiChau", label: "Gối Chậu", isDecimal: false },
-      { name: "⚙️ Khe Răng Lược", col: "SL_KheRangLuoc", label: "Khe Răng Lược", isDecimal: true },
-      { name: "🧱 Tấm VCO", col: "SL_TamVCO", label: "Tấm VCO", isDecimal: false },
-      { name: "🏗️ Cột H (Phụ Kiện)", col: "SL_HeCotPhuKien", label: "Cột H", isDecimal: false },
-      { name: "📋 Sản Phẩm Khác", col: "SL_NhomKhac", label: "SP Khác", isDecimal: false }
-    ];
+    /* ================= TIỆN ÍCH ================= */
+    function esc(v) {
+      return String(v == null ? '' : v)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function ssGet(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }
+    function ssSet(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} }
+    function ssDel(k) { try { sessionStorage.removeItem(k); } catch (e) {} }
 
+    /* ================= ĐĂNG NHẬP / ĐĂNG KÝ ================= */
+    let currentAuthMode = 'login';
+
+    function switchMode(mode) {
+      currentAuthMode = mode === 'reg' ? 'reg' : 'login';
+      document.getElementById('btn-mode-login').classList.toggle('active', currentAuthMode === 'login');
+      document.getElementById('btn-mode-reg').classList.toggle('active', currentAuthMode === 'reg');
+      document.getElementById('auth-btn-text').textContent = currentAuthMode === 'reg' ? 'Tạo tài khoản' : 'Đăng nhập';
+      document.getElementById('auth-password').autocomplete = currentAuthMode === 'reg' ? 'new-password' : 'current-password';
+      document.getElementById('auth-footer-text').textContent = currentAuthMode === 'reg'
+        ? 'Hệ thống sẽ gửi yêu cầu phê duyệt tới Quản trị viên.'
+        : 'Đăng nhập bằng Email + Mật khẩu.';
+      hideAlert();
+    }
+
+    function showAlert(msg, ok) {
+      const a = document.getElementById('auth-alert');
+      a.textContent = msg;
+      a.classList.toggle('ok', !!ok);
+      a.style.display = 'block';
+    }
+    function hideAlert() { document.getElementById('auth-alert').style.display = 'none'; }
+
+    function isCompanyEmail(email) { return /^[^\s@]+@vinhhungjsc\.com$/i.test(email); }
+
+    function postAuth(action, fields) {
+      document.querySelectorAll('.auth-submit-btn').forEach(b => b.disabled = true);
+      const form = document.createElement('form');
+      form.method = 'POST'; form.action = API_URL; form.target = '_top'; form.style.display = 'none';
+      const add = (n, v) => { const i = document.createElement('input'); i.type = 'hidden'; i.name = n; i.value = v; form.appendChild(i); };
+      add('action', action);
+      Object.keys(fields || {}).forEach(k => add(k, fields[k]));
+      document.body.appendChild(form);
+      form.submit();
+    }
+
+    function handleAuthSubmit() {
+      const email = String(document.getElementById('auth-email').value || '').trim().toLowerCase();
+      const password = String(document.getElementById('auth-password').value || '');
+      if (!email || !password) { showAlert('Vui lòng nhập đầy đủ email và mật khẩu.'); return; }
+      if (!isCompanyEmail(email)) { showAlert('Chỉ được dùng email @vinhhungjsc.com.'); return; }
+      if (password.length < 6) { showAlert('Mật khẩu phải có ít nhất 6 ký tự.'); return; }
+      postAuth(currentAuthMode === 'reg' ? 'register' : 'login', { email, password });
+    }
+
+    function showForgotStep(n) {
+      document.getElementById('forgot-step-1').style.display = n === 1 ? 'block' : 'none';
+      document.getElementById('forgot-step-2').style.display = n === 2 ? 'block' : 'none';
+    }
+    function openForgotPassword() {
+      document.getElementById('forgot-panel').style.display = 'block';
+      showForgotStep(1);
+      hideAlert();
+      const e = document.getElementById('auth-email').value.trim().toLowerCase();
+      if (isCompanyEmail(e)) document.getElementById('forgot-email').value = e;
+    }
+    function closeForgotPassword() { document.getElementById('forgot-panel').style.display = 'none'; }
+
+    function sendResetCode() {
+      const email = document.getElementById('forgot-email').value.trim().toLowerCase();
+      if (!isCompanyEmail(email)) { showAlert('Vui lòng nhập email @vinhhungjsc.com.'); return; }
+      postAuth('forgot_request', { email });
+    }
+    function resetPassword() {
+      const email = document.getElementById('forgot-email').value.trim().toLowerCase();
+      const code = document.getElementById('reset-code').value.trim();
+      const pw = document.getElementById('reset-password').value;
+      if (!isCompanyEmail(email)) { showAlert('Thiếu email. Vui lòng gửi lại mã.'); showForgotStep(1); return; }
+      if (!/^\d{6}$/.test(code)) { showAlert('Mã xác nhận phải gồm đúng 6 số.'); return; }
+      if (pw.length < 6) { showAlert('Mật khẩu mới phải có ít nhất 6 ký tự.'); return; }
+      postAuth('forgot_verify', { email, code, newPassword: pw });
+    }
+
+    /** Xử lý kết quả Apps Script trả về qua URL. Trả về true nếu đã xử lý. */
+    function handleAuthCallback() {
+      const p = new URLSearchParams(location.search);
+      if (!p.has('auth')) return false;
+
+      const action = p.get('auth') || '';
+      const success = p.get('success') === '1';
+      const email = p.get('email') || '';
+      const msg = p.get('message') || '';
+      const session = p.get('session') || '';
+      // Xóa tham số (kể cả session) khỏi thanh địa chỉ & lịch sử
+      try { history.replaceState({}, document.title, location.pathname + location.hash); } catch (e) {}
+
+      if (email) document.getElementById('auth-email').value = email;
+
+      if (action === 'login') {
+        if (success && session) {
+          ssSet(SS_SESSION, session);
+          ssSet(SS_EMAIL, email);
+          showApp();
+        } else {
+          showAlert(msg || 'Email hoặc mật khẩu không đúng.');
+        }
+        return true;
+      }
+      if (action === 'register') {
+        switchMode(success ? 'login' : 'reg');
+        showAlert(msg || (success ? 'Đăng ký thành công. Tài khoản đang chờ phê duyệt.' : 'Không thể đăng ký.'), success);
+        return true;
+      }
+      if (action === 'forgot_request') {
+        openForgotPassword();
+        document.getElementById('forgot-email').value = email;
+        if (success) showForgotStep(2);
+        showAlert(msg || (success ? 'Đã gửi mã xác nhận vào email.' : 'Không thể gửi mã xác nhận.'), success);
+        return true;
+      }
+      if (action === 'forgot_verify') {
+        if (success) {
+          closeForgotPassword();
+          document.getElementById('auth-password').value = '';
+        } else {
+          openForgotPassword();
+          document.getElementById('forgot-email').value = email;
+          showForgotStep(2);
+        }
+        showAlert(msg || (success ? 'Đặt lại mật khẩu thành công.' : 'Không thể đặt lại mật khẩu.'), success);
+        return true;
+      }
+      showAlert(msg || 'Yêu cầu không hợp lệ.');
+      return true;
+    }
+
+    function handleLogout(message) {
+      ssDel(SS_SESSION);
+      ssDel(SS_EMAIL);
+      rawData = [];
+      document.body.style.background = '';
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('login-wrapper').style.display = 'flex';
+      document.getElementById('auth-password').value = '';
+      switchMode('login');
+      if (typeof message === 'string' && message) showAlert(message);
+    }
+
+    function showApp() {
+      document.body.style.background = "linear-gradient(180deg,#eef4ff 0%,#f7faff 35%,#ffffff 100%)";
+      document.getElementById('login-wrapper').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      document.getElementById('user-chip').textContent = '👤 ' + (ssGet(SS_EMAIL) || '');
+      buildTabs();
+      fetchData();
+    }
+
+    /* ================= TẢI DỮ LIỆU (JSONP) ================= */
+    function fetchData() {
+      const session = ssGet(SS_SESSION);
+      if (!session) { handleLogout('Vui lòng đăng nhập.'); return; }
+      if (dataLoading) return;
+      dataLoading = true;
+
+      const loading = document.getElementById('loading');
+      const badge = document.getElementById('update-badge');
+      loading.style.display = 'block';
+      badge.textContent = '🔄 Đang tải dữ liệu...';
+
+      const callbackName = 'vhipCb_' + Date.now();
+      const script = document.createElement('script');
+      let finished = false;
+      let timeoutId = null;
+
+      function cleanup() {
+        dataLoading = false;
+        if (timeoutId) clearTimeout(timeoutId);
+        try { delete window[callbackName]; } catch (e) { window[callbackName] = undefined; }
+        if (script.parentNode) script.parentNode.removeChild(script);
+        loading.style.display = 'none';
+      }
+      function fail(message) {
+        if (finished) return;
+        finished = true;
+        cleanup();
+        badge.textContent = '❌ Không tải được dữ liệu';
+        alert(message);
+      }
+
+      window[callbackName] = function (res) {
+        if (finished) return;
+        finished = true;
+        cleanup();
+        if (res && res.error === 'unauthorized') {
+          handleLogout(res.message || 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+          return;
+        }
+        if (res && res.error) {
+          badge.textContent = '❌ Lỗi máy chủ';
+          alert('Lỗi Apps Script: ' + (res.message || res.error));
+          return;
+        }
+        try {
+          const rows = res && res.rows;
+          if (!Array.isArray(rows) || !rows.length) throw new Error('Apps Script không trả về dữ liệu.');
+          parseData(rows);
+          const now = new Date();
+          badge.textContent = `🔄 Cập nhật: ${now.toLocaleTimeString('vi-VN')} ${now.toLocaleDateString('vi-VN')}`;
+        } catch (err) {
+          badge.textContent = '❌ Lỗi xử lý dữ liệu';
+          alert('Lỗi xử lý dữ liệu Dashboard: ' + (err.message || err));
+        }
+      };
+
+      script.onerror = () => fail('Không kết nối được Apps Script. Hãy kiểm tra Web App đã Deploy phiên bản mới nhất với quyền "Anyone".');
+      timeoutId = setTimeout(() => fail('Apps Script không phản hồi sau 30 giây. Vui lòng bấm "Làm Mới Ngay".'), 30000);
+      script.src = API_URL + '?action=get_dashboard_data'
+        + '&callback=' + encodeURIComponent(callbackName)
+        + '&session=' + encodeURIComponent(session)
+        + '&_v=' + Date.now();
+      document.body.appendChild(script);
+    }
+
+    /* ================= TABS ================= */
     function buildTabs() {
-      const container = document.getElementById('product-tabs');
-      container.innerHTML = TABS.map((t, idx) => `
-        <button class="tab-btn ${idx === currentTab ? 'active' : ''}" onclick="setTab(${idx})">${t.name}</button>
-      `).join('');
+      document.getElementById('product-tabs').innerHTML = TABS.map((t, idx) =>
+        `<button class="tab-btn ${idx === currentTab ? 'active' : ''}" onclick="setTab(${idx})">${esc(t.name)}</button>`
+      ).join('');
     }
 
     function setTab(idx) {
       currentTab = idx;
       buildTabs();
       const subBar = document.getElementById('subproduct-bar');
-      if (TABS[idx].name === "📋 Sản Phẩm Khác") {
+      if (idx === TAB_SP_KHAC) {
         subBar.style.display = 'flex';
       } else {
         subBar.style.display = 'none';
         currentSubProduct = 'ALL';
+        subBar.querySelectorAll('.subprod-chip').forEach((b, i) => b.classList.toggle('active', i === 0));
       }
-
-      const thSL = document.getElementById('th-soluong');
-      const btnExportText = document.getElementById('btn-export-excel');
-      
-      if (currentTab === 0 || currentTab === 1) {
-        thSL.innerText = "Tổng Số Lượng";
-        btnExportText.innerText = "📥 Xuất Excel Tổng";
-      } else {
-        thSL.innerText = `SL ${TABS[currentTab].label}`;
-        btnExportText.innerText = `📥 Xuất Excel ${TABS[currentTab].label}`;
-      }
-
+      const tong = currentTab === TAB_TONG || currentTab === TAB_CHUA_CHOT;
+      document.getElementById('th-soluong').textContent = tong ? 'Tổng Số Lượng' : `SL ${TABS[currentTab].label}`;
+      document.getElementById('btn-export-excel').textContent = tong ? '📥 Xuất Excel Tổng' : `📥 Xuất Excel ${TABS[currentTab].label}`;
       render();
     }
 
-    function setSubProduct(colKey) {
+    function setSubProduct(colKey, btn) {
       currentSubProduct = colKey;
-      document.querySelectorAll('.subprod-chip').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+      document.querySelectorAll('.subprod-chip').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
       render();
     }
 
-    function setSubTab(sub) {
+    function setSubTab(sub, btn) {
       currentSubTab = sub;
-      document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+      document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
       renderTable();
     }
 
-    function parseCSVText(text) {
-      let p = '', c = '', r = [];
-      let q = false;
-      let row = [''];
-      for (let i = 0; i < text.length; i++) {
-        c = text[i];
-        let next = text[i+1];
-        if (c === '"') {
-          if (q && next === '"') { row[row.length - 1] += '"'; i++; }
-          else { q = !q; }
-        } else if (c === ',' && !q) {
-          row.push('');
-        } else if ((c === '\r' || c === '\n') && !q) {
-          if (c === '\r' && next === '\n') { i++; }
-          r.push(row);
-          row = [''];
-        } else {
-          row[row.length - 1] += c;
-        }
-      }
-      if (row.length > 1 || row[0] !== '') { r.push(row); }
-      return r;
-    }
-
-    function fetchData() {
-      document.getElementById('loading').style.display = 'block';
-      document.getElementById('update-badge').innerText = '🔄 Đang tải dữ liệu...';
-
-      const callbackName = 'vhipDashboardCallback_' + Date.now();
-      const script = document.createElement('script');
-      let finished = false;
-      let timeoutId = null;
-
-      function cleanup() {
-        if (timeoutId) clearTimeout(timeoutId);
-        try { delete window[callbackName]; } catch (e) { window[callbackName] = undefined; }
-        if (script.parentNode) script.parentNode.removeChild(script);
-      }
-
-      function fail(message) {
-        if (finished) return;
-        finished = true;
-        cleanup();
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('update-badge').innerText = '❌ Không tải được dữ liệu';
-        alert(message);
-      }
-
-      window[callbackName] = function(rows) {
-        if (finished) return;
-        finished = true;
-        try {
-          if (!Array.isArray(rows) || !rows.length) throw new Error('Apps Script không trả về dữ liệu.');
-          parseData(rows);
-          document.getElementById('loading').style.display = 'none';
-          document.getElementById('update-badge').innerText = `🔄 Cập nhật: ${new Date().toLocaleTimeString('vi-VN')} ${new Date().toLocaleDateString('vi-VN')}`;
-        } catch (err) {
-          document.getElementById('loading').style.display = 'none';
-          document.getElementById('update-badge').innerText = '❌ Lỗi xử lý dữ liệu';
-          alert('Lỗi xử lý dữ liệu Dashboard: ' + (err.message || err));
-        } finally {
-          cleanup();
-        }
-      };
-
-      script.onerror = () => fail('Không kết nối được Apps Script Dashboard. Bạn hãy kiểm tra Web App đã Deploy lại phiên bản mới nhất và quyền "Anyone" chưa.');
-      timeoutId = setTimeout(() => fail('Apps Script không trả dữ liệu Dashboard sau 20 giây. Hãy kiểm tra phiên bản Deploy của Web App.'), 20000);
-      script.src = DASHBOARD_API_URL + '?action=get_dashboard_data&callback=' + encodeURIComponent(callbackName) + '&_v=' + Date.now();
-      document.body.appendChild(script);
-    }
-
+    /* ================= CHUẨN HÓA DỮ LIỆU ================= */
     function clean_number(val) {
-      if (val === null || val === undefined) return 0.0;
-      let val_str = String(val).trim().replace(/\xa0/g, '').replace(/ /g, '');
-      if (!val_str || ['nan', 'none', 'null', '-', ''].includes(val_str.toLowerCase())) return 0.0;
-
-      if (val_str.includes('.') && val_str.includes(',')) {
-        val_str = val_str.replace(/\./g, '').replace(',', '.');
-      } else if (val_str.includes(',')) {
-        val_str = val_str.replace(',', '.');
-      } else if (val_str.includes('.')) {
-        let parts = val_str.split('.');
-        if (parts.length > 1 && parts[parts.length - 1].length === 3) {
-          val_str = val_str.replace(/\./g, '');
-        }
+      if (val === null || val === undefined) return 0;
+      let s = String(val).trim().replace(/\xa0/g, '').replace(/ /g, '');
+      if (!s || ['nan', 'none', 'null', '-'].includes(s.toLowerCase())) return 0;
+      if (s.includes('.') && s.includes(',')) {
+        s = s.replace(/\./g, '').replace(',', '.');
+      } else if (s.includes(',')) {
+        s = s.replace(',', '.');
+      } else if (s.includes('.')) {
+        const parts = s.split('.');
+        if (parts.length > 1 && parts[parts.length - 1].length === 3) s = s.replace(/\./g, '');
       }
-
-      let res = parseFloat(val_str);
-      return isNaN(res) ? 0.0 : res;
+      const n = parseFloat(s);
+      return isNaN(n) ? 0 : n;
     }
 
     function clean_status(val) {
       if (val === null || val === undefined) return 'Chưa SX';
-      let val_str = String(val).trim().replace(/\s+/g, ' ');
-      if (!val_str || ['nan', 'none', 'null', ''].includes(val_str.toLowerCase())) return 'Chưa SX';
-      const ban_do = {
+      const s = String(val).trim().replace(/\s+/g, ' ');
+      if (!s || ['nan', 'none', 'null'].includes(s.toLowerCase())) return 'Chưa SX';
+      const map = {
         'chua sx': 'Chưa SX', 'chưa sx': 'Chưa SX', 'chua sản xuất': 'Chưa SX', 'chưa sản xuất': 'Chưa SX',
         'dang sx': 'Đang SX', 'đang sx': 'Đang SX', 'dang sản xuất': 'Đang SX', 'đang sản xuất': 'Đang SX',
         'tam dung sx': 'Tạm Dừng SX', 'tạm dừng sx': 'Tạm Dừng SX', 'tam dung': 'Tạm Dừng SX', 'tạm dừng': 'Tạm Dừng SX',
         'done': 'Done', 'hoan thanh': 'Done', 'hoàn thành': 'Done'
       };
-      return ban_do[val_str.toLowerCase()] || val_str;
+      return map[s.toLowerCase()] || s;
     }
 
-    function chuan_hoa_ten_nv(ten) {
-      if (!ten) return '';
-      let s = String(ten).trim();
-      return s.replace(/\s+/g, ' ');
-    }
+    function chuan_hoa_ten_nv(ten) { return ten ? String(ten).trim().replace(/\s+/g, ' ') : ''; }
 
     function parseDate(val) {
       if (!val) return null;
-      let s = String(val).trim();
-      let parts = s.split(/[\/\-]/);
-      if (parts.length >= 3) {
-        let d = parseInt(parts[0], 10);
-        let m = parseInt(parts[1], 10) - 1;
-        let y = parseInt(parts[2], 10);
-        if (y < 100) y += 2000;
-        return new Date(y, m, d);
-      }
-      return null;
+      const parts = String(val).trim().split(/[\/\-]/);
+      if (parts.length < 3) return null;
+      const d = parseInt(parts[0], 10), m = parseInt(parts[1], 10) - 1;
+      let y = parseInt(parts[2], 10);
+      if (isNaN(d) || isNaN(m) || isNaN(y)) return null;
+      if (y < 100) y += 2000;
+      const dt = new Date(y, m, d);
+      return isNaN(dt.getTime()) ? null : dt;
     }
+
+    const isTamDung = d => d.Trang_Thai_SX.toLowerCase().includes('tạm dừng');
 
     function parseData(rows) {
       rawData = [];
       let lastDH = '';
-      // BẮT ĐẦU ĐỌC CHUẨN TỪ HÀNG THỨ 5 TRỞ ĐI (r = 4) TRONG FILE GOOGLE SHEETS
+      // Dữ liệu bắt đầu từ hàng thứ 5 (index 4) của Google Sheets
       for (let r = 4; r < rows.length; r++) {
         const row = rows[r];
         if (!row || row.length < 2) continue;
 
-        let dh = String(row[1] || '').trim(); // Cột B: Số ĐH
+        let dh = String(row[1] || '').trim();                 // B: Số ĐH
         if (dh) lastDH = dh; else dh = lastDH;
         if (!dh || /Tổng|Tong|STT|Số ĐH/i.test(dh)) continue;
 
-        let status = clean_status(row[2]);    // Cột C: Tình trạng sản xuất
-        let namCotD = String(row[3] || '').trim(); // Cột D: Năm
+        const status = clean_status(row[2]);                  // C: Tình trạng SX
+        const namCotD = String(row[3] || '').trim();          // D: Năm
+        const dept = String(row[4] || '').trim() || 'Bộ phận KD'; // E: Bộ phận KD
 
-        // CỘT E: Bộ phận KD[cite: 1]
-        let dept = String(row[4] || '').trim();
-        if (!dept) dept = 'Bộ phận KD';
+        let emp = chuan_hoa_ten_nv(row[6]);                   // G: NVKD
+        if (!emp || ['PKD', 'VTTB'].includes(emp.toUpperCase())) emp = 'Chung';
 
-        // CỘT G: Nhân viên KD (Giữ nguyên văn tuyệt đối tên từ Cột G, lọc bỏ từ khóa rác như PKD nếu có)[cite: 1]
-        let empRaw = String(row[6] || '').trim();
-        let emp = chuan_hoa_ten_nv(empRaw);
-        if (!emp || emp.toUpperCase() === 'PKD' || emp.toUpperCase() === 'VTTB') emp = 'Chung';
+        const project = String(row[7] || '').trim();
+        const spec = String(row[9] || '').trim();
+        const unit = String(row[10] || 'cái').trim();
 
-        let project = String(row[7] || '').trim();
-        let spec = String(row[9] || '').trim();
-        let unit = String(row[10] || 'cái').trim();
+        const slKhe = clean_number(row[14]);
+        const slGoi = clean_number(row[15]);
+        const slNhomNhom = clean_number(row[16]);
+        const slLoXo = clean_number(row[17]);
+        const slThanhNeo = clean_number(row[18]);
+        const slSPKhac = clean_number(row[19]);
+        const slTamDe = clean_number(row[20]);
+        const slStelPin = clean_number(row[21]);
+        const slVanKhuon = clean_number(row[22]);
+        const slVCO = clean_number(row[23]);
+        const slCot = clean_number(row[24]);
+        const slLanCan = clean_number(row[25]);
 
-        let slTongRaw = row[13];
-        let slGoi = clean_number(row[15]);
-        let slKhe = clean_number(row[14]);
-        let slVCO = clean_number(row[23]);
-        let slCot = clean_number(row[24]);
+        const slKhac = slNhomNhom + slLoXo + slThanhNeo + slSPKhac + slTamDe + slStelPin + slVanKhuon + slLanCan;
+        let slTong = clean_number(row[13]);
+        if (slTong <= 0) slTong = slKhe + slGoi + slVCO + slCot + slKhac;
 
-        let slNhomNhom = clean_number(row[16]);
-        let slLoXo = clean_number(row[17]);
-        let slThanhNeo = clean_number(row[18]);
-        let slSPKhac = clean_number(row[19]);
-        let slTamDe = clean_number(row[20]);
-        let slStelPin = clean_number(row[21]);
-        let slVanKhuon = clean_number(row[22]);
-        let slLanCan = clean_number(row[25]);
+        const dGui = parseDate(row[26]);
+        const dAB = parseDate(row[27]);
+        const dAC = parseDate(row[28]);
+        const dAG = parseDate(row[32]);
+        const dNK = parseDate(row[33]);
 
-        let slKhac = slNhomNhom + slLoXo + slThanhNeo + slSPKhac + slTamDe + slStelPin + slVanKhuon + slLanCan;
-        let slCalculated = slKhe + slGoi + slVCO + slCot + slKhac;
-
-        let slTong = clean_number(slTongRaw);
-        if (slTong <= 0) slTong = slCalculated;
-
-        let dGui = parseDate(row[26]);
-        let dAB = parseDate(row[27]);
-        let dAC = parseDate(row[28]);
-        let dAG = parseDate(row[32]);
-        let dNK = parseDate(row[33]);
-
-        let parsedNamCotD = parseInt(namCotD);
-        let namDat;
-        if (dGui) {
-          namDat = dGui.getFullYear();
-        } else if (dAB) {
-          namDat = dAB.getFullYear();
-        } else if (!isNaN(parsedNamCotD) && parsedNamCotD > 2000) {
-          namDat = parsedNamCotD;
-        } else {
-          namDat = 2026;
-        }
-
-        let dDat = dGui || dAB || new Date(namDat, 0, 1);
-        let daNhapKho = (status.toLowerCase() === 'done') || (dNK !== null);
+        const namD = parseInt(namCotD, 10);
+        const namDat = dGui ? dGui.getFullYear()
+          : dAB ? dAB.getFullYear()
+          : (!isNaN(namD) && namD > 2000) ? namD
+          : new Date().getFullYear();
 
         rawData.push({
           So_DH: dh, Trang_Thai_SX: status, Nam_DatHang: namDat,
@@ -856,71 +635,85 @@
           SL_TamDeNeo: slTamDe, SL_ThanhNeo: slThanhNeo, SL_StelPin: slStelPin,
           SL_LoXoNeo: slLoXo, SL_VanKhuon: slVanKhuon, SL_LanCan: slLanCan,
           SL_KheRangLuocNhom: slNhomNhom, SL_SPKhac: slSPKhac,
-          Ngay_DatHang: dDat, Ngay_Duyet_AB: dAB, Ngay_KD_Can_AC: dAC, Ngay_Chot_AG: dAG, Ngay_NhapKho_DT: dNK,
-          Da_Nhap_Kho: daNhapKho
+          Ngay_DatHang: dGui || dAB || new Date(namDat, 0, 1),
+          Ngay_Duyet_AB: dAB, Ngay_KD_Can_AC: dAC, Ngay_Chot_AG: dAG, Ngay_NhapKho_DT: dNK,
+          Da_Nhap_Kho: status.toLowerCase() === 'done' || dNK !== null
         });
       }
       populateFilterOptions();
       onPeriodChange();
     }
 
+    /* ================= BỘ LỌC ================= */
+    function keepValue(select, html) {
+      const old = select.value;
+      select.innerHTML = html;
+      if (old && [...select.options].some(o => o.value === old)) select.value = old;
+    }
+
+    let filtersInitialized = false;
+
     function populateFilterOptions() {
-      let yearSet = new Set();
+      const yearSet = new Set();
       rawData.forEach(d => {
         if (d.Nam_DatHang) yearSet.add(d.Nam_DatHang);
         if (d.Ngay_KD_Can_AC) yearSet.add(d.Ngay_KD_Can_AC.getFullYear());
         if (d.Ngay_NhapKho_DT) yearSet.add(d.Ngay_NhapKho_DT.getFullYear());
       });
-      const years = [...yearSet].sort((a,b) => b - a);
+      const years = [...yearSet].sort((a, b) => b - a);
+      const thisYear = new Date().getFullYear();
 
       const sYear = document.getElementById('f-year');
-      let yearOpts = `<option value="ALL">Tất cả các năm</option>`;
-      years.forEach(y => {
-        yearOpts += `<option value="${y}" ${y === 2026 ? 'selected' : ''}>Năm ${y}</option>`;
-      });
-      sYear.innerHTML = yearOpts;
+      const yearHtml = `<option value="ALL">Tất cả các năm</option>` +
+        years.map(y => `<option value="${y}">Năm ${y}</option>`).join('');
+      if (filtersInitialized) {
+        keepValue(sYear, yearHtml);
+      } else {
+        sYear.innerHTML = yearHtml;
+        sYear.value = years.includes(thisYear) ? String(thisYear) : 'ALL';
+      }
 
       const depts = [...new Set(rawData.map(d => d.Bo_Phan_KD).filter(Boolean))].sort();
-      const sDept = document.getElementById('f-dept');
-      sDept.innerHTML = `<option value="ALL">Tất cả bộ phận</option>` + depts.map(d => `<option value="${d}">${d}</option>`).join('');
+      keepValue(document.getElementById('f-dept'),
+        `<option value="ALL">Tất cả bộ phận</option>` + depts.map(d => `<option value="${esc(d)}">${esc(d)}</option>`).join(''));
 
       const emps = [...new Set(rawData.map(d => d.NV_KD).filter(e => e && e !== 'Chung'))].sort();
-      const datalistEmp = document.getElementById('nvkd-list');
-      datalistEmp.innerHTML = emps.map(e => `<option value="${e}"></option>`).join('');
+      document.getElementById('nvkd-list').innerHTML = emps.map(e => `<option value="${esc(e)}"></option>`).join('');
 
       const statuses = [...new Set(rawData.map(d => d.Trang_Thai_SX).filter(s => s && s.toLowerCase() !== 'vhip'))].sort();
-      const sStatus = document.getElementById('f-status');
-      sStatus.innerHTML = `<option value="ALL">Tất cả tình trạng</option>` + statuses.map(s => `<option value="${s}">${s}</option>`).join('');
-    }
-
-    function onDeptChange() {
-      render();
+      keepValue(document.getElementById('f-status'),
+        `<option value="ALL">Tất cả tình trạng</option>` + statuses.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join(''));
     }
 
     function onPeriodChange() {
       const p = document.getElementById('f-period').value;
       const sub = document.getElementById('f-subperiod');
+      const old = sub.value;
+      const now = new Date();
+      const curMonth = now.getMonth() + 1;
+      const curQuarter = Math.ceil(curMonth / 3);
+
       if (p === 'MONTH') {
         sub.disabled = false;
-        sub.innerHTML = Array.from({length: 12}, (_, i) => `<option value="${i+1}" ${i+1 === 9 ? 'selected' : ''}>Tháng ${i+1}</option>`).join('');
+        sub.innerHTML = Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}">Tháng ${i + 1}</option>`).join('');
+        sub.value = (filtersInitialized && old >= 1 && old <= 12) ? old : String(curMonth);
       } else if (p === 'QUARTER') {
         sub.disabled = false;
-        sub.innerHTML = [1,2,3,4].map(q => `<option value="${q}" ${q === 3 ? 'selected' : ''}>Quý ${q}</option>`).join('');
+        sub.innerHTML = [1, 2, 3, 4].map(q => `<option value="${q}">Quý ${q}</option>`).join('');
+        sub.value = String(curQuarter);
       } else {
         sub.disabled = true;
         sub.innerHTML = `<option value="ALL">Tất cả (Cả năm)</option>`;
       }
+      filtersInitialized = true;
       render();
     }
 
     let filteredMoi = [], filteredCanGiao = [], filteredTon = [], filteredDone = [], filteredChuaChot = [];
-    let currentStartDate = null, currentEndDate = null;
     let labelKyDatMoi = "Đặt Mới";
 
     function getActiveCol() {
-      if (TABS[currentTab].name === "📋 Sản Phẩm Khác" && currentSubProduct !== 'ALL') {
-        return currentSubProduct;
-      }
+      if (currentTab === TAB_SP_KHAC && currentSubProduct !== 'ALL') return currentSubProduct;
       return TABS[currentTab].col;
     }
 
@@ -930,78 +723,72 @@
       const sub = document.getElementById('f-subperiod').value;
       const st = document.getElementById('f-status').value;
       const dept = document.getElementById('f-dept').value;
-      
       const empInput = document.getElementById('f-emp').value.trim();
-      const empInputClean = empInput.toLowerCase().replace(/[\.\s]/g, '');
+      const empClean = empInput.toLowerCase().replace(/[\.\s]/g, '');
 
-      let base = rawData.filter(d => {
+      const base = rawData.filter(d => {
         if (dept !== 'ALL' && d.Bo_Phan_KD !== dept) return false;
         if (empInput) {
-          let dbVal = String(d.NV_KD || '').trim();
-          let dbValClean = dbVal.toLowerCase().replace(/[\.\s]/g, '');
-          
-          let isMatchExact = dbVal.toLowerCase() === empInput.toLowerCase();
-          let isMatchFuzzy = dbValClean.includes(empInputClean);
-
-          if (!isMatchExact && !isMatchFuzzy) return false;
+          const dbVal = String(d.NV_KD || '').trim();
+          const exact = dbVal.toLowerCase() === empInput.toLowerCase();
+          const fuzzy = dbVal.toLowerCase().replace(/[\.\s]/g, '').includes(empClean);
+          if (!exact && !fuzzy) return false;
         }
         return true;
       });
 
       if (y === 'ALL') {
-        currentStartDate = null;
-        currentEndDate = null;
         labelKyDatMoi = "Đặt Mới (Tất Cả)";
         filteredMoi = base;
         filteredCanGiao = base;
-        filteredTon = base.filter(d => !d.Da_Nhap_Kho && !d.Trang_Thai_SX.toLowerCase().includes('tạm dừng'));
+        filteredTon = base.filter(d => !d.Da_Nhap_Kho && !isTamDung(d));
         filteredDone = base.filter(d => d.Da_Nhap_Kho);
-        filteredChuaChot = base.filter(d => !d.Ngay_Chot_AG && !d.Da_Nhap_Kho && !d.Trang_Thai_SX.toLowerCase().includes('tạm dừng'));
+        filteredChuaChot = base.filter(d => !d.Ngay_Chot_AG && !d.Da_Nhap_Kho && !isTamDung(d));
       } else {
-        let yearEff = parseInt(y);
-
+        const yearEff = parseInt(y, 10);
+        let start, end;
         if (p === 'MONTH') {
-          const m = parseInt(sub);
-          currentStartDate = new Date(yearEff, m - 1, 1, 0, 0, 0);
-          currentEndDate = new Date(yearEff, m, 0, 23, 59, 59);
+          const m = parseInt(sub, 10);
+          start = new Date(yearEff, m - 1, 1, 0, 0, 0);
+          end = new Date(yearEff, m, 0, 23, 59, 59);
           labelKyDatMoi = `Đặt Mới Tháng ${m}/${yearEff}`;
         } else if (p === 'QUARTER') {
-          const q = parseInt(sub);
-          currentStartDate = new Date(yearEff, (q - 1) * 3, 1, 0, 0, 0);
-          currentEndDate = new Date(yearEff, q * 3, 0, 23, 59, 59);
+          const q = parseInt(sub, 10);
+          start = new Date(yearEff, (q - 1) * 3, 1, 0, 0, 0);
+          end = new Date(yearEff, q * 3, 0, 23, 59, 59);
           labelKyDatMoi = `Đặt Mới Quý ${q}/${yearEff}`;
         } else {
-          currentStartDate = new Date(yearEff, 0, 1, 0, 0, 0);
-          currentEndDate = new Date(yearEff, 11, 31, 23, 59, 59);
+          start = new Date(yearEff, 0, 1, 0, 0, 0);
+          end = new Date(yearEff, 11, 31, 23, 59, 59);
           labelKyDatMoi = `Đặt Mới Năm ${yearEff}`;
         }
+        const inRange = dt => dt && dt >= start && dt <= end;
 
-        filteredMoi = base.filter(d => d.Ngay_DatHang && d.Ngay_DatHang >= currentStartDate && d.Ngay_DatHang <= currentEndDate);
+        filteredMoi = base.filter(d => inRange(d.Ngay_DatHang));
 
         filteredCanGiao = filteredMoi.filter(d => {
-          let dYeuCau = d.Ngay_KD_Can_AC || d.Ngay_Chot_AG;
-          if (!dYeuCau) return true;
-          return (dYeuCau >= currentStartDate && dYeuCau <= currentEndDate);
+          const dYeuCau = d.Ngay_KD_Can_AC || d.Ngay_Chot_AG;
+          return !dYeuCau || inRange(dYeuCau);
         });
 
         filteredTon = base.filter(d => {
-          let datTruocKy = d.Ngay_DatHang && d.Ngay_DatHang < currentStartDate;
-          let chuaXongDauKy = !d.Da_Nhap_Kho || (d.Ngay_NhapKho_DT && d.Ngay_NhapKho_DT >= currentStartDate);
-          if (!datTruocKy || !chuaXongDauKy) return false;
-          if (d.Trang_Thai_SX.toLowerCase().includes('tạm dừng')) return false;
-
-          let dYeuCau = d.Ngay_KD_Can_AC || d.Ngay_Chot_AG;
-          if (!dYeuCau) return false;
-          return (dYeuCau >= currentStartDate && dYeuCau <= currentEndDate);
+          const datTruocKy = d.Ngay_DatHang && d.Ngay_DatHang < start;
+          const chuaXongDauKy = !d.Da_Nhap_Kho || (d.Ngay_NhapKho_DT && d.Ngay_NhapKho_DT >= start);
+          if (!datTruocKy || !chuaXongDauKy || isTamDung(d)) return false;
+          return inRange(d.Ngay_KD_Can_AC || d.Ngay_Chot_AG);
         });
 
-        filteredDone = base.filter(d => d.Ngay_NhapKho_DT && d.Ngay_NhapKho_DT >= currentStartDate && d.Ngay_NhapKho_DT <= currentEndDate);
+        filteredDone = base.filter(d => inRange(d.Ngay_NhapKho_DT));
 
-        filteredChuaChot = [...filteredMoi, ...filteredTon].filter(d => !d.Ngay_Chot_AG && !d.Da_Nhap_Kho && !d.Trang_Thai_SX.toLowerCase().includes('tạm dừng'));
+        filteredChuaChot = [...new Set([...filteredMoi, ...filteredTon])]
+          .filter(d => !d.Ngay_Chot_AG && !d.Da_Nhap_Kho && !isTamDung(d));
       }
 
       if (st !== 'ALL') {
-        const matchStatus = d => st.toLowerCase() === 'đang sx' ? ['đang sx', 'done'].includes(d.Trang_Thai_SX.toLowerCase()) : d.Trang_Thai_SX.toLowerCase() === st.toLowerCase();
+        const stLow = st.toLowerCase();
+        const matchStatus = d => stLow === 'đang sx'
+          ? ['đang sx', 'done'].includes(d.Trang_Thai_SX.toLowerCase())
+          : d.Trang_Thai_SX.toLowerCase() === stLow;
         filteredMoi = filteredMoi.filter(matchStatus);
         filteredCanGiao = filteredCanGiao.filter(matchStatus);
         filteredTon = filteredTon.filter(matchStatus);
@@ -1013,94 +800,55 @@
       renderTable();
     }
 
+    /* ================= HIỂN THỊ ================= */
     function format_number_smart(val) {
-      if (val === null || val === undefined || isNaN(val)) return "0";
-      let f_val = parseFloat(val);
-      if (Number.isInteger(f_val)) {
-        return Math.round(f_val).toLocaleString('vi-VN');
-      }
-      return f_val.toLocaleString('vi-VN', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+      const f = parseFloat(val);
+      if (isNaN(f)) return "0";
+      if (Number.isInteger(f)) return f.toLocaleString('vi-VN');
+      return f.toLocaleString('vi-VN', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+    }
+
+    function card(label, value) {
+      return `<div class="metric-card-pro"><div class="metric-label-pro">${esc(label)}</div><div class="metric-value-pro">${format_number_smart(value)}</div></div>`;
     }
 
     function renderMetrics() {
       const container = document.getElementById('metrics-container');
       const subTabs = document.getElementById('sub-tabs-container');
-      const currentTabObj = TABS[currentTab];
       const qCol = getActiveCol();
 
-      if (currentTabObj.name === "🚨 Chưa Chốt Tiến Độ Giao Hàng") {
+      if (currentTab === TAB_CHUA_CHOT) {
         subTabs.style.display = 'none';
         const sum = col => filteredChuaChot.reduce((a, b) => a + (b[col] || 0), 0);
-        container.innerHTML = `
-          <div class="metric-grid-3">
-            <div class="metric-card-pro"><div class="metric-label-pro">📄 ĐH Chưa Chốt</div><div class="metric-value-pro">${format_number_smart(filteredChuaChot.length)}</div></div>
-            <div class="metric-card-pro"><div class="metric-label-pro">📦 Gối Chậu</div><div class="metric-value-pro">${format_number_smart(sum('SL_GoiChau'))}</div></div>
-            <div class="metric-card-pro"><div class="metric-label-pro">⚙️ Khe Răng</div><div class="metric-value-pro">${format_number_smart(sum('SL_KheRangLuoc'))}</div></div>
-          </div>
-          <div class="metric-grid-3">
-            <div class="metric-card-pro"><div class="metric-label-pro">🧱 Tấm VCO</div><div class="metric-value-pro">${format_number_smart(sum('SL_TamVCO'))}</div></div>
-            <div class="metric-card-pro"><div class="metric-label-pro">🏗️ Cột H</div><div class="metric-value-pro">${format_number_smart(sum('SL_HeCotPhuKien'))}</div></div>
-            <div class="metric-card-pro"><div class="metric-label-pro">🎯 Tổng Số Lượng</div><div class="metric-value-pro">${format_number_smart(sum('So_Luong_Tong_DH'))}</div></div>
-          </div>
-        `;
-      } else {
-        subTabs.style.display = 'flex';
-        let subM = currentTab === 0 ? filteredMoi : filteredMoi.filter(d => (d[qCol] || 0) > 0);
-        let subCG = currentTab === 0 ? filteredCanGiao : filteredCanGiao.filter(d => (d[qCol] || 0) > 0);
-        let subT = currentTab === 0 ? filteredTon : filteredTon.filter(d => (d[qCol] || 0) > 0);
-        let subD = currentTab === 0 ? filteredDone : filteredDone.filter(d => (d[qCol] || 0) > 0);
-
-        const sumCol = arr => arr.reduce((a, b) => a + (b[qCol] || 0), 0);
-        const khongTamDung = arr => arr.filter(d => !d.Trang_Thai_SX.toLowerCase().includes('tạm dừng'));
-
-        let tongDatMoi = sumCol(subM);
-        let datVaCanGiao = sumCol(subCG);
-        let tonLuyKe = sumCol(subT);
-
-        let tongCanSX = sumCol(khongTamDung(subCG)) + tonLuyKe;
-        let daNhapKho = sumCol(subD);
-        let conPhaiSX = (tongCanSX > daNhapKho) ? (tongCanSX - daNhapKho) : 0;
-
-        container.innerHTML = `
-          <div class="metric-grid-3">
-            <div class="metric-card-pro">
-              <div class="metric-label-pro">📦 ${labelKyDatMoi}</div>
-              <div class="metric-value-pro">${format_number_smart(tongDatMoi)}</div>
-            </div>
-            <div class="metric-card-pro">
-              <div class="metric-label-pro">🔥 Đặt & Cần Giao</div>
-              <div class="metric-value-pro">${format_number_smart(datVaCanGiao)}</div>
-            </div>
-            <div class="metric-card-pro">
-              <div class="metric-label-pro">⏳ Tồn Lũy Kế</div>
-              <div class="metric-value-pro">${format_number_smart(tonLuyKe)}</div>
-            </div>
-          </div>
-
-          <div class="metric-grid-3">
-            <div class="metric-card-pro">
-              <div class="metric-label-pro">🎯 Tổng Cần SX</div>
-              <div class="metric-value-pro">${format_number_smart(tongCanSX)}</div>
-            </div>
-            <div class="metric-card-pro">
-              <div class="metric-label-pro">✅ Đã Nhập Kho</div>
-              <div class="metric-value-pro">${format_number_smart(daNhapKho)}</div>
-            </div>
-            <div class="metric-card-pro">
-              <div class="metric-label-pro">⚠️ Còn Phải SX</div>
-              <div class="metric-value-pro">${format_number_smart(conPhaiSX)}</div>
-            </div>
-          </div>
-        `;
+        container.innerHTML =
+          `<div class="metric-grid-3">${card('📄 ĐH Chưa Chốt', filteredChuaChot.length)}${card('📦 Gối Chậu', sum('SL_GoiChau'))}${card('⚙️ Khe Răng', sum('SL_KheRangLuoc'))}</div>` +
+          `<div class="metric-grid-3">${card('🧱 Tấm VCO', sum('SL_TamVCO'))}${card('🏗️ Cột H', sum('SL_HeCotPhuKien'))}${card('🎯 Tổng Số Lượng', sum('So_Luong_Tong_DH'))}</div>`;
+        return;
       }
+
+      subTabs.style.display = 'flex';
+      const pick = arr => currentTab === TAB_TONG ? arr : arr.filter(d => (d[qCol] || 0) > 0);
+      const sumCol = arr => arr.reduce((a, b) => a + (b[qCol] || 0), 0);
+
+      const subCG = pick(filteredCanGiao);
+      const tongDatMoi = sumCol(pick(filteredMoi));
+      const datVaCanGiao = sumCol(subCG);
+      const tonLuyKe = sumCol(pick(filteredTon));
+      const tongCanSX = sumCol(subCG.filter(d => !isTamDung(d))) + tonLuyKe;
+      const daNhapKho = sumCol(pick(filteredDone));
+      const conPhaiSX = Math.max(tongCanSX - daNhapKho, 0);
+
+      container.innerHTML =
+        `<div class="metric-grid-3">${card('📦 ' + labelKyDatMoi, tongDatMoi)}${card('🔥 Đặt & Cần Giao', datVaCanGiao)}${card('⏳ Tồn Lũy Kế', tonLuyKe)}</div>` +
+        `<div class="metric-grid-3">${card('🎯 Tổng Cần SX', tongCanSX)}${card('✅ Đã Nhập Kho', daNhapKho)}${card('⚠️ Còn Phải SX', conPhaiSX)}</div>`;
     }
 
     function calcCanhBao(d) {
       if (d.Da_Nhap_Kho) return { text: "✅ Đã Hoàn Thành", cls: "cb-green" };
       if (!d.Ngay_Duyet_AB) return { text: "⚪ Chưa Duyệt SX (AB trống)", cls: "cb-gray" };
       if (!d.Ngay_Chot_AG) return { text: "⚠️ Thiếu Ngày Chốt AG", cls: "cb-yellow" };
-
-      const diffDays = Math.ceil((d.Ngay_Chot_AG - new Date()) / (1000 * 60 * 60 * 24));
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const diffDays = Math.round((d.Ngay_Chot_AG - today) / 86400000);
       if (diffDays <= 5) return { text: "🔴 Rất Nguy Hiểm (≤ 5 Ngày)", cls: "cb-red" };
       if (diffDays <= 7) return { text: "🟠 Cấp Bách (6-7 Ngày)", cls: "cb-orange" };
       if (diffDays <= 15) return { text: "🟡 Tiến Độ Bình Thường (8-15 Ngày)", cls: "cb-yellow" };
@@ -1115,21 +863,18 @@
 
     function getTableData() {
       const qCol = getActiveCol();
-      let data = [];
-      if (TABS[currentTab].name === "🚨 Chưa Chốt Tiến Độ Giao Hàng") {
+      let data;
+      if (currentTab === TAB_CHUA_CHOT) {
         data = filteredChuaChot;
       } else {
-        if (currentSubTab === 'MOI') data = filteredMoi;
-        else if (currentSubTab === 'CAN_GIAO') data = filteredCanGiao;
-        else if (currentSubTab === 'TON') data = filteredTon;
-        else data = filteredDone;
-
-        if (currentTab !== 0) data = data.filter(d => (d[qCol] || 0) > 0);
+        data = currentSubTab === 'MOI' ? filteredMoi
+          : currentSubTab === 'CAN_GIAO' ? filteredCanGiao
+          : currentSubTab === 'TON' ? filteredTon
+          : filteredDone;
+        if (currentTab !== TAB_TONG) data = data.filter(d => (d[qCol] || 0) > 0);
       }
       const kw = document.getElementById('search-kw').value.trim().toLowerCase();
-      if (kw) {
-        data = data.filter(d => d.So_DH.toLowerCase().includes(kw) || d.Du_An.toLowerCase().includes(kw));
-      }
+      if (kw) data = data.filter(d => d.So_DH.toLowerCase().includes(kw) || d.Du_An.toLowerCase().includes(kw));
       return data;
     }
 
@@ -1138,38 +883,37 @@
       const qCol = getActiveCol();
       const tbody = document.getElementById('table-body');
 
-      if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="13" style="padding: 20px; color: #64748b; font-weight: 600;">Không có dữ liệu phù hợp.</td></tr>`;
+      if (!list.length) {
+        tbody.innerHTML = `<tr><td colspan="13" style="padding: 20px; color: #64748b; font-weight: 600;">${rawData.length ? 'Không có dữ liệu phù hợp.' : 'Chưa có dữ liệu.'}</td></tr>`;
         return;
       }
 
       tbody.innerHTML = list.map(d => {
         const cb = calcCanhBao(d);
-        return `
-          <tr>
-            <td style="font-weight:700; color:#0d47a1;">${d.So_DH}</td>
-            <td>${d.Bo_Phan_KD}</td>
-            <td>${d.NV_KD}</td>
-            <td class="col-expand" title="${d.Du_An}">${d.Du_An}</td>
-            <td class="col-expand" title="${d.Quy_Cach}">${d.Quy_Cach}</td>
-            <td>${d.DVT}</td>
-            <td style="font-weight:800; color:#0b3d91;">${format_number_smart(d[qCol] || 0)}</td>
-            <td class="${cb.cls}">${cb.text}</td>
-            <td>${d.Trang_Thai_SX}</td>
-            <td>${fmtDate(d.Ngay_Duyet_AB)}</td>
-            <td>${fmtDate(d.Ngay_KD_Can_AC)}</td>
-            <td>${fmtDate(d.Ngay_Chot_AG)}</td>
-            <td>${fmtDate(d.Ngay_NhapKho_DT)}</td>
-          </tr>
-        `;
+        return `<tr>
+          <td style="font-weight:700; color:#0d47a1;">${esc(d.So_DH)}</td>
+          <td>${esc(d.Bo_Phan_KD)}</td>
+          <td>${esc(d.NV_KD)}</td>
+          <td class="col-expand" title="${esc(d.Du_An)}">${esc(d.Du_An)}</td>
+          <td class="col-expand" title="${esc(d.Quy_Cach)}">${esc(d.Quy_Cach)}</td>
+          <td>${esc(d.DVT)}</td>
+          <td style="font-weight:800; color:#0b3d91;">${format_number_smart(d[qCol] || 0)}</td>
+          <td class="${cb.cls}">${cb.text}</td>
+          <td>${esc(d.Trang_Thai_SX)}</td>
+          <td>${fmtDate(d.Ngay_Duyet_AB)}</td>
+          <td>${fmtDate(d.Ngay_KD_Can_AC)}</td>
+          <td>${fmtDate(d.Ngay_Chot_AG)}</td>
+          <td>${fmtDate(d.Ngay_NhapKho_DT)}</td>
+        </tr>`;
       }).join('');
     }
 
     function exportExcel() {
+      if (typeof XLSX === 'undefined') { alert('Thư viện Excel chưa tải xong, vui lòng thử lại.'); return; }
       const list = getTableData();
       const qCol = getActiveCol();
-      const currentTabObj = TABS[currentTab];
-      const tenColSL = (currentTab === 0 || currentTab === 1) ? "Số Lượng Tổng" : `SL ${currentTabObj.label}`;
+      const tabObj = TABS[currentTab];
+      const tenColSL = (currentTab === TAB_TONG || currentTab === TAB_CHUA_CHOT) ? "Số Lượng Tổng" : `SL ${tabObj.label}`;
 
       const exportRows = list.map(d => ({
         "Mã ĐH": d.So_DH,
@@ -1190,10 +934,17 @@
       const ws = XLSX.utils.json_to_sheet(exportRows);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Bao_Cao");
-      
-      let safeName = currentTabObj.name.replace(/[^a-zA-Z0-9_\u00C0-\u024F\u1E00-\u1EFF]/g, '_');
+      const safeName = tabObj.name.replace(/[^a-zA-Z0-9_À-ɏḀ-ỿ]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
       XLSX.writeFile(wb, `Bao_Cao_${safeName}.xlsx`);
     }
+
+    /* ================= KHỞI ĐỘNG =================
+       Đặt ở CUỐI script để mọi hằng số (TABS...) đã được khai báo.
+       (Bản cũ gọi showApp() trước khi khai báo TABS → lỗi, trang treo ở "Đang tải dữ liệu...") */
+    (function init() {
+      const handled = handleAuthCallback();
+      if (!handled && ssGet(SS_SESSION)) showApp();
+    })();
   </script>
 </body>
 </html>

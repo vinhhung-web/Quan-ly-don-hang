@@ -189,11 +189,11 @@
       <div class="filter-grid">
         <div>
           <span class="filter-chip-label">📅 Chọn Năm</span>
-          <select id="f-year" class="filter-select" onchange="render()"><option value="ALL">Tất cả các năm</option></select>
+          <select id="f-year" class="filter-select" autocomplete="off" onchange="render()"><option value="ALL">Tất cả các năm</option></select>
         </div>
         <div>
           <span class="filter-chip-label">⏱️ Kỳ Báo Cáo</span>
-          <select id="f-period" class="filter-select" onchange="onPeriodChange()">
+          <select id="f-period" class="filter-select" autocomplete="off" onchange="onPeriodChange()">
             <option value="YEAR" selected>Cả Năm</option>
             <option value="MONTH">Theo Tháng</option>
             <option value="QUARTER">Theo Quý</option>
@@ -201,19 +201,19 @@
         </div>
         <div>
           <span class="filter-chip-label">🗓️ Chi Tiết Kỳ</span>
-          <select id="f-subperiod" class="filter-select" onchange="render()"></select>
+          <select id="f-subperiod" class="filter-select" autocomplete="off" onchange="render()"></select>
         </div>
         <div>
           <span class="filter-chip-label">🏭 Tình Trạng SX</span>
-          <select id="f-status" class="filter-select" onchange="render()"><option value="ALL">Tất cả tình trạng</option></select>
+          <select id="f-status" class="filter-select" autocomplete="off" onchange="render()"><option value="ALL">Tất cả tình trạng</option></select>
         </div>
         <div>
           <span class="filter-chip-label">🏢 Bộ Phận KD</span>
-          <select id="f-dept" class="filter-select" onchange="render()"><option value="ALL">Tất cả bộ phận</option></select>
+          <select id="f-dept" class="filter-select" autocomplete="off" onchange="render()"><option value="ALL">Tất cả bộ phận</option></select>
         </div>
         <div>
           <span class="filter-chip-label">👤 Gõ / Chọn NVKD</span>
-          <input list="nvkd-list" id="f-emp" class="filter-input" placeholder="🔍 Gõ Biên, Trang..." oninput="render()">
+          <input list="nvkd-list" id="f-emp" class="filter-input" autocomplete="off" placeholder="🔍 Gõ Biên, Trang..." oninput="render()">
           <datalist id="nvkd-list"></datalist>
         </div>
       </div>
@@ -776,6 +776,12 @@
       } else {
         sYear.innerHTML = yearHtml;
         sYear.value = years.includes(thisYear) ? String(thisYear) : 'ALL';
+        // Mặc định khi mở trang: Cả năm, tất cả tình trạng, tất cả bộ phận
+        // (đặt bằng JS vì trình duyệt hay tự khôi phục lựa chọn cũ khi tải lại trang)
+        document.getElementById('f-period').value = 'YEAR';
+        document.getElementById('f-status').value = 'ALL';
+        document.getElementById('f-dept').value = 'ALL';
+        document.getElementById('f-emp').value = '';
       }
 
       const depts = [...new Set(rawData.map(d => d.Bo_Phan_KD).filter(Boolean))].sort();

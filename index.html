@@ -565,7 +565,7 @@
       const pw=document.getElementById('reset-password').value;
       if(!/^\d{6}$/.test(code)){showAlert('Mã xác nhận phải gồm đúng 6 số.');return;}
       if(pw.length<6){showAlert('Mật khẩu mới phải có ít nhất 6 ký tự.');return;}
-      postAuth('forgot_reset',{email:email,code:code,newPassword:pw});
+      postAuth('forgot_verify',{email:email,code:code,newPassword:pw});
     }
 
     function handleAuthCallback(){
@@ -579,7 +579,7 @@
         if(success){openForgotPassword();document.getElementById('forgot-email').value=email;document.getElementById('forgot-step-1').style.display='none';document.getElementById('forgot-step-2').style.display='block';showAlert(msg||'Đã gửi mã xác nhận vào Gmail.');}
         else showAlert(msg||'Không thể gửi mã xác nhận.'); return true;
       }
-      if(action==='forgot_reset'){
+      if(action==='forgot_verify'){
         if(success){closeForgotPassword();document.getElementById('auth-email').value=email;document.getElementById('auth-password').value='';showAlert(msg||'Đặt lại mật khẩu thành công. Hãy đăng nhập bằng mật khẩu mới.');}
         else showAlert(msg||'Không thể đặt lại mật khẩu.'); return true;
       }
@@ -679,55 +679,47 @@
     }
 
     function fetchData() {
-      const loading = document.getElementById('loading');
-      const badge = document.getElementById('update-badge');
-      loading.style.display = 'block';
-      badge.innerText = '🔄 Đang tải dữ liệu...';
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('update-badge').innerText = '🔄 Đang tải dữ liệu...';
 
       const callbackName = 'vhipDashboardCallback_' + Date.now();
       const script = document.createElement('script');
       let finished = false;
 
-      function finish() {
+      const cleanup = () => {
+        try { delete window[callbackName]; } catch (e) { window[callbackName] = undefined; }
+        if (script.parentNode) script.parentNode.removeChild(script);
+      };
+
+      const fail = (message) => {
         if (finished) return;
         finished = true;
-        clearTimeout(timeoutId);
-        try { delete window[callbackName]; } catch(e) { window[callbackName] = undefined; }
-        if (script.parentNode) script.parentNode.removeChild(script);
-      }
+        cleanup();
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('update-badge').innerText = '❌ Không tải được dữ liệu';
+        alert(message);
+      };
 
       window[callbackName] = function(rows) {
+        if (finished) return;
+        finished = true;
         try {
-          if (!Array.isArray(rows)) throw new Error('Dữ liệu Dashboard trả về không hợp lệ.');
+          if (!Array.isArray(rows) || !rows.length) throw new Error('Apps Script không trả về dữ liệu.');
           parseData(rows);
-          loading.style.display = 'none';
-          badge.innerText = `🔄 Cập nhật: ${new Date().toLocaleTimeString('vi-VN')} ${new Date().toLocaleDateString('vi-VN')}`;
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('update-badge').innerText = `🔄 Cập nhật: ${new Date().toLocaleTimeString('vi-VN')} ${new Date().toLocaleDateString('vi-VN')}`;
         } catch (err) {
-          loading.style.display = 'none';
-          badge.innerText = '❌ Không tải được dữ liệu';
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('update-badge').innerText = '❌ Lỗi xử lý dữ liệu';
           alert('Lỗi xử lý dữ liệu Dashboard: ' + (err.message || err));
         } finally {
-          finish();
+          cleanup();
         }
       };
 
-      script.onerror = function() {
-        loading.style.display = 'none';
-        badge.innerText = '❌ Không kết nối được dữ liệu';
-        alert('Không kết nối được Web App VHIP. Hãy kiểm tra Apps Script đã triển khai phiên bản mới và quyền "Anyone" chưa.');
-        finish();
-      };
-
-      const timeoutId = setTimeout(function() {
-        if (finished) return;
-        loading.style.display = 'none';
-        badge.innerText = '⏱️ Quá thời gian tải dữ liệu';
-        alert('Web App VHIP không trả dữ liệu sau 30 giây. Hãy kiểm tra lại phiên bản Deploy.');
-        finish();
-      }, 30000);
-
+      script.onerror = () => fail('Không kết nối được Apps Script Dashboard. Bạn hãy kiểm tra Web App đã Deploy lại phiên bản mới nhất và quyền "Anyone" chưa.');
       script.src = DASHBOARD_API_URL + '?action=get_dashboard_data&callback=' + encodeURIComponent(callbackName) + '&_v=' + Date.now();
-      document.head.appendChild(script);
+      document.body.appendChild(script);
     }
 
     function clean_number(val) {

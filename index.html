@@ -137,6 +137,11 @@
       opacity: 0.95;
       transform: translateY(-1px);
     }
+    .auth-submit-btn:disabled {
+      opacity: 0.6;
+      cursor: wait;
+      transform: none;
+    }
     .auth-footer {
       margin-top: 18px;
       font-size: 11.5px;
@@ -219,7 +224,6 @@
       background: #0d47a1; color: #ffffff; border-color: #0d47a1; box-shadow: 0 2px 6px rgba(13,71,161,0.25);
     }
 
-    /* BỘ 6 THẺ CHỈ SỐ */
     .metric-wrapper {
       margin-bottom: 14px;
       display: flex;
@@ -301,7 +305,7 @@
     tbody td { padding: 7px 12px; border-bottom: 1px solid #e6edf7; text-align: center; color: #0f172a; }
     tbody tr:nth-child(even) td { background-color: #f4f8ff; }
     tbody tr:hover td { background-color: #e3f0ff !important; transition: background-color 0.15s ease-in-out; }
-    
+
     td.col-expand {
       max-width: 180px; min-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; position: relative;
     }
@@ -319,6 +323,7 @@
     #loading { text-align: center; padding: 35px; font-weight: 800; color: #0d47a1; font-size: 15px; }
   </style>
 </head>
+
 <body>
 
   <!-- KHỐI ĐĂNG NHẬP -->
@@ -339,9 +344,25 @@
       <div id="auth-alert" class="auth-alert"></div>
 
       <form class="auth-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
-        <input type="text" id="auth-email" class="auth-input" placeholder="Email hoặc Tên đăng nhập" value="namvt@vinhhungjsc.com" required>
-        <input type="password" id="auth-password" class="auth-input" placeholder="Mật khẩu" required>
-        
+
+        <input
+          type="email"
+          id="auth-email"
+          class="auth-input"
+          placeholder="Nhập Email công ty"
+          autocomplete="username"
+          required
+        >
+
+        <input
+          type="password"
+          id="auth-password"
+          class="auth-input"
+          placeholder="Mật khẩu"
+          autocomplete="current-password"
+          required
+        >
+
         <button type="submit" id="auth-submit-btn" class="auth-submit-btn">
           🔒 <span id="auth-btn-text">Đăng nhập</span>
         </button>
@@ -353,13 +374,23 @@
     </div>
   </div>
 
+
   <!-- DASHBOARD TIẾN ĐỘ -->
   <div id="app" style="display: none;">
+
     <div class="top-bar">
       <div class="update-badge" id="update-badge">🔄 Đang tải dữ liệu...</div>
+
       <div>
         <button class="btn-action" onclick="fetchData()">⚡ Làm Mới Ngay</button>
-        <button class="btn-action" onclick="handleLogout()" style="margin-left: 4px;">🚪 Đăng Xuất</button>
+
+        <button
+          class="btn-action"
+          onclick="handleLogout()"
+          style="margin-left: 4px;"
+        >
+          🚪 Đăng Xuất
+        </button>
       </div>
     </div>
 
@@ -369,77 +400,242 @@
     </div>
 
     <div class="filter-box">
-      <div class="filter-title">🎯 Bộ Lọc Tiến Độ Sản Xuất & Sản Lượng</div>
+
+      <div class="filter-title">
+        🎯 Bộ Lọc Tiến Độ Sản Xuất & Sản Lượng
+      </div>
+
       <div class="filter-grid">
+
         <div>
           <span class="filter-chip-label">📅 Chọn Năm</span>
-          <select id="f-year" class="filter-select" onchange="render()"><option value="ALL">Tất cả các năm</option></select>
+
+          <select
+            id="f-year"
+            class="filter-select"
+            onchange="render()"
+          >
+            <option value="ALL">Tất cả các năm</option>
+          </select>
         </div>
+
         <div>
           <span class="filter-chip-label">⏱️ Kỳ Báo Cáo</span>
-          <select id="f-period" class="filter-select" onchange="onPeriodChange()">
+
+          <select
+            id="f-period"
+            class="filter-select"
+            onchange="onPeriodChange()"
+          >
             <option value="YEAR">Cả Năm</option>
             <option value="MONTH" selected>Theo Tháng</option>
             <option value="QUARTER">Theo Quý</option>
           </select>
         </div>
+
         <div>
           <span class="filter-chip-label">🗓️ Chi Tiết Kỳ</span>
-          <select id="f-subperiod" class="filter-select" onchange="render()"></select>
+
+          <select
+            id="f-subperiod"
+            class="filter-select"
+            onchange="render()"
+          ></select>
         </div>
+
         <div>
           <span class="filter-chip-label">🏭 Tình Trạng SX</span>
-          <select id="f-status" class="filter-select" onchange="render()"><option value="ALL">Tất cả tình trạng</option></select>
+
+          <select
+            id="f-status"
+            class="filter-select"
+            onchange="render()"
+          >
+            <option value="ALL">Tất cả tình trạng</option>
+          </select>
         </div>
+
         <div>
           <span class="filter-chip-label">🏢 Bộ Phận KD</span>
-          <select id="f-dept" class="filter-select" onchange="onDeptChange()"><option value="ALL">Tất cả bộ phận</option></select>
+
+          <select
+            id="f-dept"
+            class="filter-select"
+            onchange="onDeptChange()"
+          >
+            <option value="ALL">Tất cả bộ phận</option>
+          </select>
         </div>
+
         <div>
           <span class="filter-chip-label">👤 Gõ / Chọn NVKD</span>
-          <input list="nvkd-list" id="f-emp" class="filter-input" placeholder="🔍 Gõ Biên, Trang..." oninput="render()">
+
+          <input
+            list="nvkd-list"
+            id="f-emp"
+            class="filter-input"
+            placeholder="🔍 Gõ Biên, Trang..."
+            oninput="render()"
+          >
+
           <datalist id="nvkd-list"></datalist>
         </div>
+
       </div>
     </div>
+
 
     <!-- TABS SẢN PHẨM -->
     <div class="nav-tabs" id="product-tabs"></div>
 
+
     <!-- SUBPRODUCT BAR KHI CHỌN SẢN PHẨM KHÁC -->
     <div class="subproduct-bar" id="subproduct-bar">
-      <span class="subproduct-label">🔍 Chi tiết SP Khác:</span>
-      <button class="subprod-chip active" onclick="setSubProduct('ALL')">Tất cả SP Khác</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_TamDeNeo')">Tấm Đế Neo</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_ThanhNeo')">Thanh Neo</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_StelPin')">Stel Pin</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_LoXoNeo')">Lò Xo Neo</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_VanKhuon')">Ván Khuôn</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_LanCan')">Lan Can</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_KheRangLuocNhom')">Khe Nhôm</button>
-      <button class="subprod-chip" onclick="setSubProduct('SL_SPKhac')">SP Khác</button>
+
+      <span class="subproduct-label">
+        🔍 Chi tiết SP Khác:
+      </span>
+
+      <button
+        class="subprod-chip active"
+        onclick="setSubProduct('ALL')"
+      >
+        Tất cả SP Khác
+      </button>
+
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_TamDeNeo')"
+      >
+        Tấm Đế Neo
+      </button>
+
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_ThanhNeo')"
+      >
+        Thanh Neo
+      </button>
+
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_StelPin')"
+      >
+        Stel Pin
+      </button>
+
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_LoXoNeo')"
+      >
+        Lò Xo Neo
+      </button>
+
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_VanKhuon')"
+      >
+        Ván Khuôn
+      </button>
+
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_LanCan')"
+      >
+        Lan Can
+      </button>
+
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_KheRangLuocNhom')"
+      >
+        Khe Nhôm
+      </button>
+
+      <button
+        class="subprod-chip"
+        onclick="setSubProduct('SL_SPKhac')"
+      >
+        SP Khác
+      </button>
+
     </div>
 
+
     <!-- BỘ 6 THẺ CHỈ SỐ -->
-    <div class="metric-wrapper" id="metrics-container"></div>
+    <div
+      class="metric-wrapper"
+      id="metrics-container"
+    ></div>
 
     <hr class="divider">
 
+
     <div class="sub-bar">
-      <div class="sub-tabs" id="sub-tabs-container">
-        <button class="sub-tab-btn active" onclick="setSubTab('MOI')">📦 Đặt Mới</button>
-        <button class="sub-tab-btn" onclick="setSubTab('CAN_GIAO')">🔥 Đặt & Cần Giao</button>
-        <button class="sub-tab-btn" onclick="setSubTab('TON')">⏳ Tồn Lũy Kế</button>
-        <button class="sub-tab-btn" onclick="setSubTab('DONE')">✅ Đã Nhập Kho</button>
+
+      <div
+        class="sub-tabs"
+        id="sub-tabs-container"
+      >
+
+        <button
+          class="sub-tab-btn active"
+          onclick="setSubTab('MOI')"
+        >
+          📦 Đặt Mới
+        </button>
+
+        <button
+          class="sub-tab-btn"
+          onclick="setSubTab('CAN_GIAO')"
+        >
+          🔥 Đặt & Cần Giao
+        </button>
+
+        <button
+          class="sub-tab-btn"
+          onclick="setSubTab('TON')"
+        >
+          ⏳ Tồn Lũy Kế
+        </button>
+
+        <button
+          class="sub-tab-btn"
+          onclick="setSubTab('DONE')"
+        >
+          ✅ Đã Nhập Kho
+        </button>
+
       </div>
+
+
       <div class="actions-wrap">
-        <input type="text" id="search-kw" class="search-box" placeholder="🔍 Nhập Mã ĐH, Dự án..." oninput="renderTable()">
-        <button class="btn-export" id="btn-export-excel" onclick="exportExcel()">📥 Xuất Excel Tổng</button>
+
+        <input
+          type="text"
+          id="search-kw"
+          class="search-box"
+          placeholder="🔍 Nhập Mã ĐH, Dự án..."
+          oninput="renderTable()"
+        >
+
+        <button
+          class="btn-export"
+          id="btn-export-excel"
+          onclick="exportExcel()"
+        >
+          📥 Xuất Excel Tổng
+        </button>
+
       </div>
+
     </div>
 
+
     <div class="table-container">
+
       <table id="data-table">
+
         <thead>
           <tr>
             <th>Mã ĐH</th>
@@ -457,660 +653,3002 @@
             <th>Ngày Nhập Kho Thực Tế</th>
           </tr>
         </thead>
+
         <tbody id="table-body"></tbody>
+
       </table>
+
     </div>
+
   </div>
 
-  <div id="loading" style="display: none;">Đang kết nối dữ liệu từ Google Sheets, vui lòng đợi...</div>
+
+  <div
+    id="loading"
+    style="display: none;"
+  >
+    Đang kết nối dữ liệu từ Google Sheets, vui lòng đợi...
+  </div>
+
 
   <script>
+
+    /* =========================================================
+       CẤU HÌNH XÁC THỰC
+       ========================================================= */
+
+    const AUTH_API_URL =
+      "https://script.google.com/macros/s/AKfycbzCRHaX8FsaB3GCVrWAB2VGFmgnhf8TiCrny1W8o_xxQZWG3pNw6fdeWu-T0yqFtRP3bQ/exec";
+
+
     /* ================= LOGIC AUTH ================= */
+
     let currentAuthMode = 'login';
-    const ADMIN_ACCOUNTS = ["namvt@vinhhungjsc.com", "vhip"];
+
 
     function switchMode(mode) {
+
       currentAuthMode = mode;
-      const btnLogin = document.getElementById('btn-mode-login');
-      const btnReg = document.getElementById('btn-mode-reg');
-      const submitText = document.getElementById('auth-btn-text');
-      const alertBox = document.getElementById('auth-alert');
+
+      const btnLogin =
+        document.getElementById('btn-mode-login');
+
+      const btnReg =
+        document.getElementById('btn-mode-reg');
+
+      const submitText =
+        document.getElementById('auth-btn-text');
+
+      const alertBox =
+        document.getElementById('auth-alert');
+
+      const emailInput =
+        document.getElementById('auth-email');
+
+      const passwordInput =
+        document.getElementById('auth-password');
+
       alertBox.style.display = 'none';
 
       if (mode === 'login') {
+
         btnLogin.classList.add('active');
         btnReg.classList.remove('active');
+
         submitText.innerText = 'Đăng nhập';
-        document.getElementById('auth-footer-text').innerText = 'Đăng nhập bằng Email + Mật khẩu.';
+
+        emailInput.placeholder =
+          'Nhập Email công ty';
+
+        passwordInput.placeholder =
+          'Mật khẩu';
+
+        passwordInput.autocomplete =
+          'current-password';
+
+        document.getElementById('auth-footer-text').innerText =
+          'Chỉ tài khoản đã được Quản trị viên phê duyệt mới được đăng nhập.';
+
       } else {
+
         btnReg.classList.add('active');
         btnLogin.classList.remove('active');
-        submitText.innerText = 'Tạo tài khoản';
-        document.getElementById('auth-footer-text').innerText = 'Hệ thống sẽ gửi yêu cầu phê duyệt tới Quản trị viên.';
+
+        submitText.innerText =
+          'Tạo tài khoản';
+
+        emailInput.placeholder =
+          'Nhập Email @vinhhungjsc.com';
+
+        passwordInput.placeholder =
+          'Tạo mật khẩu (tối thiểu 6 ký tự)';
+
+        passwordInput.autocomplete =
+          'new-password';
+
+        document.getElementById('auth-footer-text').innerText =
+          'Đăng ký xong, hệ thống sẽ gửi yêu cầu phê duyệt tới Quản trị viên.';
       }
     }
 
+
     function showAlert(msg) {
-      const alertBox = document.getElementById('auth-alert');
+
+      const alertBox =
+        document.getElementById('auth-alert');
+
       alertBox.innerText = msg;
+
       alertBox.style.display = 'block';
     }
 
-    function handleAuthSubmit() {
-      const u = document.getElementById('auth-email').value.trim().toLowerCase();
-      const p = document.getElementById('auth-password').value.trim();
 
-      if (currentAuthMode === 'reg') {
-        showAlert("Đăng ký thành công! Vui lòng xác thực email và chờ Quản trị viên phê duyệt.");
+    /*
+     * ĐĂNG KÝ / ĐĂNG NHẬP THẬT
+     * Kết nối Apps Script Web App
+     */
+
+    async function handleAuthSubmit() {
+
+      const email =
+        document.getElementById('auth-email')
+          .value
+          .trim()
+          .toLowerCase();
+
+      const password =
+        document.getElementById('auth-password')
+          .value;
+
+      const btn =
+        document.getElementById('auth-submit-btn');
+
+      const submitText =
+        document.getElementById('auth-btn-text');
+
+
+      if (!email || !password) {
+
+        showAlert(
+          'Vui lòng nhập đầy đủ Email và mật khẩu.'
+        );
+
         return;
       }
 
-      if (ADMIN_ACCOUNTS.includes(u)) {
-        if (!p) {
-          showAlert("Vui lòng nhập mật khẩu!");
+
+      /* Kiểm tra email khi đăng ký */
+
+      if (
+        currentAuthMode === 'reg' &&
+        !email.endsWith('@vinhhungjsc.com')
+      ) {
+
+        showAlert(
+          'Chỉ được đăng ký bằng Email công ty @vinhhungjsc.com.'
+        );
+
+        return;
+      }
+
+
+      /* Kiểm tra mật khẩu */
+
+      if (
+        currentAuthMode === 'reg' &&
+        password.length < 6
+      ) {
+
+        showAlert(
+          'Mật khẩu phải có ít nhất 6 ký tự.'
+        );
+
+        return;
+      }
+
+
+      btn.disabled = true;
+
+      submitText.innerText =
+        currentAuthMode === 'reg'
+          ? 'Đang đăng ký...'
+          : 'Đang kiểm tra...';
+
+
+      try {
+
+        /*
+         * Dùng text/plain để tránh trình duyệt
+         * gửi CORS preflight OPTIONS.
+         */
+
+        const response =
+          await fetch(
+            AUTH_API_URL,
+            {
+              method: 'POST',
+
+              headers: {
+                'Content-Type':
+                  'text/plain;charset=utf-8'
+              },
+
+              body: JSON.stringify({
+
+                action:
+                  currentAuthMode === 'reg'
+                    ? 'register'
+                    : 'login',
+
+                email:
+                  email,
+
+                password:
+                  password
+
+              })
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            'Máy chủ phản hồi lỗi HTTP ' +
+            response.status
+          );
+        }
+
+
+        const result =
+          await response.json();
+
+
+        /* ================= ĐĂNG KÝ ================= */
+
+        if (
+          currentAuthMode === 'reg'
+        ) {
+
+          if (result.success) {
+
+            showAlert(
+              'Đăng ký thành công! ' +
+              'Yêu cầu đã được gửi tới Quản trị viên. ' +
+              'Vui lòng chờ phê duyệt trước khi đăng nhập.'
+            );
+
+            document.getElementById(
+              'auth-password'
+            ).value = '';
+
+            /*
+             * Chuyển về màn hình đăng nhập
+             * sau khi đăng ký thành công.
+             */
+
+            setTimeout(function () {
+
+              switchMode('login');
+
+              document.getElementById(
+                'auth-password'
+              ).value = '';
+
+            }, 1800);
+
+          } else {
+
+            showAlert(
+              result.message ||
+              'Đăng ký không thành công.'
+            );
+          }
+
           return;
         }
-        sessionStorage.setItem('vhip_logged_in', 'true');
-        showApp();
-        return;
-      }
 
-      if (u.includes("@")) {
-        showAlert("Tài khoản đã xác thực email và đang chờ quản trị viên phê duyệt.");
-      } else {
-        showAlert("Tên đăng nhập hoặc mật khẩu không chính xác!");
+
+        /* ================= ĐĂNG NHẬP ================= */
+
+        if (result.success) {
+
+          sessionStorage.setItem(
+            'vhip_logged_in',
+            'true'
+          );
+
+          sessionStorage.setItem(
+            'vhip_email',
+            email
+          );
+
+          showApp();
+
+          return;
+        }
+
+
+        /*
+         * Tài khoản đang chờ duyệt
+         */
+
+        if (
+          result.status === 'CHỜ DUYỆT'
+        ) {
+
+          showAlert(
+            'Tài khoản của bạn đang chờ Quản trị viên phê duyệt.'
+          );
+
+          return;
+        }
+
+
+        /*
+         * Tài khoản bị từ chối
+         */
+
+        if (
+          result.status === 'TỪ CHỐI'
+        ) {
+
+          showAlert(
+            'Tài khoản của bạn đã bị từ chối.'
+          );
+
+          return;
+        }
+
+
+        /*
+         * Sai mật khẩu / không tìm thấy
+         */
+
+        if (
+          result.status === 'SAI_MAT_KHAU' ||
+          result.status === 'KHONG_TIM_THAY'
+        ) {
+
+          showAlert(
+            'Email hoặc mật khẩu không đúng.'
+          );
+
+          return;
+        }
+
+
+        showAlert(
+          result.message ||
+          'Đăng nhập không thành công.'
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          'AUTH ERROR:',
+          error
+        );
+
+        showAlert(
+          'Không thể kết nối đến hệ thống xác thực. ' +
+          'Vui lòng thử lại sau.'
+        );
+
+      } finally {
+
+        btn.disabled = false;
+
+        submitText.innerText =
+          currentAuthMode === 'reg'
+            ? 'Tạo tài khoản'
+            : 'Đăng nhập';
       }
     }
 
+
     function handleLogout() {
-      sessionStorage.removeItem('vhip_logged_in');
+
+      sessionStorage.removeItem(
+        'vhip_logged_in'
+      );
+
+      sessionStorage.removeItem(
+        'vhip_email'
+      );
+
       location.reload();
     }
 
+
     function showApp() {
-      document.body.style.background = "linear-gradient(180deg, #eef4ff 0%, #f7faff 35%, #ffffff 100%)";
-      document.getElementById('login-wrapper').style.display = 'none';
-      document.getElementById('app').style.display = 'block';
+
+      document.body.style.background =
+        "linear-gradient(180deg, #eef4ff 0%, #f7faff 35%, #ffffff 100%)";
+
+      document.getElementById(
+        'login-wrapper'
+      ).style.display = 'none';
+
+      document.getElementById(
+        'app'
+      ).style.display = 'block';
+
       buildTabs();
+
       fetchData();
     }
 
-    if (sessionStorage.getItem('vhip_logged_in') === 'true') {
+
+    /*
+     * Nếu đã đăng nhập trong phiên hiện tại
+     * thì mở dashboard.
+     */
+
+    if (
+      sessionStorage.getItem(
+        'vhip_logged_in'
+      ) === 'true'
+    ) {
+
       showApp();
     }
 
-    /* ================= LOGIC DỮ LIỆU & DASHBOARD ================= */
-    const GGS_CSV_URL = "https://docs.google.com/spreadsheets/d/1Wewl_WwSYLR0ydq71vtHJC82ndk4EjqcNMqSVNvsByw/export?format=csv&gid=984933238";
+
+    /* =========================================================
+       LOGIC DỮ LIỆU & DASHBOARD
+       ========================================================= */
+
+    const GGS_CSV_URL =
+      "https://docs.google.com/spreadsheets/d/1Wewl_WwSYLR0ydq71vtHJC82ndk4EjqcNMqSVNvsByw/export?format=csv&gid=984933238";
+
     let rawData = [];
+
     let currentTab = 0;
+
     let currentSubTab = 'MOI';
+
     let currentSubProduct = 'ALL';
 
+
     const TABS = [
-      { name: "📊 Dashboard Tổng", col: "So_Luong_Tong_DH", label: "Tổng ĐH", isDecimal: false },
-      { name: "🚨 Chưa Chốt Tiến Độ Giao Hàng", col: "So_Luong_Tong_DH", label: "Tổng ĐH", isDecimal: false },
-      { name: "📦 Gối Chậu", col: "SL_GoiChau", label: "Gối Chậu", isDecimal: false },
-      { name: "⚙️ Khe Răng Lược", col: "SL_KheRangLuoc", label: "Khe Răng Lược", isDecimal: true },
-      { name: "🧱 Tấm VCO", col: "SL_TamVCO", label: "Tấm VCO", isDecimal: false },
-      { name: "🏗️ Cột H (Phụ Kiện)", col: "SL_HeCotPhuKien", label: "Cột H", isDecimal: false },
-      { name: "📋 Sản Phẩm Khác", col: "SL_NhomKhac", label: "SP Khác", isDecimal: false }
+
+      {
+        name: "📊 Dashboard Tổng",
+        col: "So_Luong_Tong_DH",
+        label: "Tổng ĐH",
+        isDecimal: false
+      },
+
+      {
+        name: "🚨 Chưa Chốt Tiến Độ Giao Hàng",
+        col: "So_Luong_Tong_DH",
+        label: "Tổng ĐH",
+        isDecimal: false
+      },
+
+      {
+        name: "📦 Gối Chậu",
+        col: "SL_GoiChau",
+        label: "Gối Chậu",
+        isDecimal: false
+      },
+
+      {
+        name: "⚙️ Khe Răng Lược",
+        col: "SL_KheRangLuoc",
+        label: "Khe Răng Lược",
+        isDecimal: true
+      },
+
+      {
+        name: "🧱 Tấm VCO",
+        col: "SL_TamVCO",
+        label: "Tấm VCO",
+        isDecimal: false
+      },
+
+      {
+        name: "🏗️ Cột H (Phụ Kiện)",
+        col: "SL_HeCotPhuKien",
+        label: "Cột H",
+        isDecimal: false
+      },
+
+      {
+        name: "📋 Sản Phẩm Khác",
+        col: "SL_NhomKhac",
+        label: "SP Khác",
+        isDecimal: false
+      }
+
     ];
 
+
     function buildTabs() {
-      const container = document.getElementById('product-tabs');
-      container.innerHTML = TABS.map((t, idx) => `
-        <button class="tab-btn ${idx === currentTab ? 'active' : ''}" onclick="setTab(${idx})">${t.name}</button>
-      `).join('');
+
+      const container =
+        document.getElementById(
+          'product-tabs'
+        );
+
+      container.innerHTML =
+        TABS.map(
+          (t, idx) => `
+
+            <button
+              class="tab-btn ${idx === currentTab ? 'active' : ''}"
+              onclick="setTab(${idx})"
+            >
+              ${t.name}
+            </button>
+
+          `
+        ).join('');
     }
+
 
     function setTab(idx) {
+
       currentTab = idx;
+
       buildTabs();
-      const subBar = document.getElementById('subproduct-bar');
-      if (TABS[idx].name === "📋 Sản Phẩm Khác") {
-        subBar.style.display = 'flex';
+
+      const subBar =
+        document.getElementById(
+          'subproduct-bar'
+        );
+
+      if (
+        TABS[idx].name ===
+        "📋 Sản Phẩm Khác"
+      ) {
+
+        subBar.style.display =
+          'flex';
+
       } else {
-        subBar.style.display = 'none';
-        currentSubProduct = 'ALL';
+
+        subBar.style.display =
+          'none';
+
+        currentSubProduct =
+          'ALL';
       }
 
-      const thSL = document.getElementById('th-soluong');
-      const btnExportText = document.getElementById('btn-export-excel');
-      
-      if (currentTab === 0 || currentTab === 1) {
-        thSL.innerText = "Tổng Số Lượng";
-        btnExportText.innerText = "📥 Xuất Excel Tổng";
+
+      const thSL =
+        document.getElementById(
+          'th-soluong'
+        );
+
+      const btnExportText =
+        document.getElementById(
+          'btn-export-excel'
+        );
+
+
+      if (
+        currentTab === 0 ||
+        currentTab === 1
+      ) {
+
+        thSL.innerText =
+          "Tổng Số Lượng";
+
+        btnExportText.innerText =
+          "📥 Xuất Excel Tổng";
+
       } else {
-        thSL.innerText = `SL ${TABS[currentTab].label}`;
-        btnExportText.innerText = `📥 Xuất Excel ${TABS[currentTab].label}`;
+
+        thSL.innerText =
+          `SL ${TABS[currentTab].label}`;
+
+        btnExportText.innerText =
+          `📥 Xuất Excel ${TABS[currentTab].label}`;
       }
+
 
       render();
     }
+
 
     function setSubProduct(colKey) {
-      currentSubProduct = colKey;
-      document.querySelectorAll('.subprod-chip').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+
+      currentSubProduct =
+        colKey;
+
+      document
+        .querySelectorAll(
+          '.subprod-chip'
+        )
+        .forEach(
+          btn =>
+            btn.classList.remove(
+              'active'
+            )
+        );
+
+      event.target.classList.add(
+        'active'
+      );
+
       render();
     }
 
+
     function setSubTab(sub) {
-      currentSubTab = sub;
-      document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+
+      currentSubTab =
+        sub;
+
+      document
+        .querySelectorAll(
+          '.sub-tab-btn'
+        )
+        .forEach(
+          btn =>
+            btn.classList.remove(
+              'active'
+            )
+        );
+
+      event.target.classList.add(
+        'active'
+      );
+
       renderTable();
     }
 
+
     function parseCSVText(text) {
-      let p = '', c = '', r = [];
+
+      let p = '';
+
+      let c = '';
+
+      let r = [];
+
       let q = false;
+
       let row = [''];
-      for (let i = 0; i < text.length; i++) {
+
+
+      for (
+        let i = 0;
+        i < text.length;
+        i++
+      ) {
+
         c = text[i];
-        let next = text[i+1];
+
+        let next =
+          text[i + 1];
+
+
         if (c === '"') {
-          if (q && next === '"') { row[row.length - 1] += '"'; i++; }
-          else { q = !q; }
-        } else if (c === ',' && !q) {
+
+          if (
+            q &&
+            next === '"'
+          ) {
+
+            row[
+              row.length - 1
+            ] += '"';
+
+            i++;
+
+          } else {
+
+            q = !q;
+          }
+
+        } else if (
+          c === ',' &&
+          !q
+        ) {
+
           row.push('');
-        } else if ((c === '\r' || c === '\n') && !q) {
-          if (c === '\r' && next === '\n') { i++; }
+
+        } else if (
+          (
+            c === '\r' ||
+            c === '\n'
+          ) &&
+          !q
+        ) {
+
+          if (
+            c === '\r' &&
+            next === '\n'
+          ) {
+
+            i++;
+          }
+
           r.push(row);
+
           row = [''];
+
         } else {
-          row[row.length - 1] += c;
+
+          row[
+            row.length - 1
+          ] += c;
         }
       }
-      if (row.length > 1 || row[0] !== '') { r.push(row); }
+
+
+      if (
+        row.length > 1 ||
+        row[0] !== ''
+      ) {
+
+        r.push(row);
+      }
+
+
       return r;
     }
 
+
     function fetchData() {
-      document.getElementById('loading').style.display = 'block';
-      fetch(GGS_CSV_URL + "&_v=" + new Date().getTime())
-        .then(res => res.text())
-        .then(csvText => {
-          const rows = parseCSVText(csvText);
-          parseData(rows);
-          document.getElementById('loading').style.display = 'none';
-          document.getElementById('update-badge').innerText = `🔄 Cập nhật: ${new Date().toLocaleTimeString('vi-VN')} ${new Date().toLocaleDateString('vi-VN')}`;
-        })
-        .catch(err => {
-          alert("Lỗi tải dữ liệu: " + err);
-          document.getElementById('loading').style.display = 'none';
-        });
+
+      document.getElementById(
+        'loading'
+      ).style.display =
+        'block';
+
+
+      fetch(
+        GGS_CSV_URL +
+        "&_v=" +
+        new Date().getTime()
+      )
+
+        .then(
+          res =>
+            res.text()
+        )
+
+        .then(
+          csvText => {
+
+            const rows =
+              parseCSVText(
+                csvText
+              );
+
+            parseData(rows);
+
+            document.getElementById(
+              'loading'
+            ).style.display =
+              'none';
+
+            document.getElementById(
+              'update-badge'
+            ).innerText =
+              `🔄 Cập nhật: ${new Date().toLocaleTimeString('vi-VN')} ${new Date().toLocaleDateString('vi-VN')}`;
+          }
+        )
+
+        .catch(
+          err => {
+
+            alert(
+              "Lỗi tải dữ liệu: " +
+              err
+            );
+
+            document.getElementById(
+              'loading'
+            ).style.display =
+              'none';
+          }
+        );
     }
 
-    function clean_number(val) {
-      if (val === null || val === undefined) return 0.0;
-      let val_str = String(val).trim().replace(/\xa0/g, '').replace(/ /g, '');
-      if (!val_str || ['nan', 'none', 'null', '-', ''].includes(val_str.toLowerCase())) return 0.0;
 
-      if (val_str.includes('.') && val_str.includes(',')) {
-        val_str = val_str.replace(/\./g, '').replace(',', '.');
-      } else if (val_str.includes(',')) {
-        val_str = val_str.replace(',', '.');
-      } else if (val_str.includes('.')) {
-        let parts = val_str.split('.');
-        if (parts.length > 1 && parts[parts.length - 1].length === 3) {
-          val_str = val_str.replace(/\./g, '');
+    function clean_number(val) {
+
+      if (
+        val === null ||
+        val === undefined
+      ) {
+
+        return 0.0;
+      }
+
+
+      let val_str =
+        String(val)
+          .trim()
+          .replace(/\xa0/g, '')
+          .replace(/ /g, '');
+
+
+      if (
+        !val_str ||
+        [
+          'nan',
+          'none',
+          'null',
+          '-',
+          ''
+        ].includes(
+          val_str.toLowerCase()
+        )
+      ) {
+
+        return 0.0;
+      }
+
+
+      if (
+        val_str.includes('.') &&
+        val_str.includes(',')
+      ) {
+
+        val_str =
+          val_str
+            .replace(/\./g, '')
+            .replace(',', '.');
+
+      } else if (
+        val_str.includes(',')
+      ) {
+
+        val_str =
+          val_str.replace(
+            ',',
+            '.'
+          );
+
+      } else if (
+        val_str.includes('.')
+      ) {
+
+        let parts =
+          val_str.split('.');
+
+        if (
+          parts.length > 1 &&
+          parts[
+            parts.length - 1
+          ].length === 3
+        ) {
+
+          val_str =
+            val_str.replace(
+              /\./g,
+              ''
+            );
         }
       }
 
-      let res = parseFloat(val_str);
-      return isNaN(res) ? 0.0 : res;
+
+      let res =
+        parseFloat(
+          val_str
+        );
+
+
+      return isNaN(res)
+        ? 0.0
+        : res;
     }
+
 
     function clean_status(val) {
-      if (val === null || val === undefined) return 'Chưa SX';
-      let val_str = String(val).trim().replace(/\s+/g, ' ');
-      if (!val_str || ['nan', 'none', 'null', ''].includes(val_str.toLowerCase())) return 'Chưa SX';
+
+      if (
+        val === null ||
+        val === undefined
+      ) {
+
+        return 'Chưa SX';
+      }
+
+
+      let val_str =
+        String(val)
+          .trim()
+          .replace(
+            /\s+/g,
+            ' '
+          );
+
+
+      if (
+        !val_str ||
+        [
+          'nan',
+          'none',
+          'null',
+          ''
+        ].includes(
+          val_str.toLowerCase()
+        )
+      ) {
+
+        return 'Chưa SX';
+      }
+
+
       const ban_do = {
-        'chua sx': 'Chưa SX', 'chưa sx': 'Chưa SX', 'chua sản xuất': 'Chưa SX', 'chưa sản xuất': 'Chưa SX',
-        'dang sx': 'Đang SX', 'đang sx': 'Đang SX', 'dang sản xuất': 'Đang SX', 'đang sản xuất': 'Đang SX',
-        'tam dung sx': 'Tạm Dừng SX', 'tạm dừng sx': 'Tạm Dừng SX', 'tam dung': 'Tạm Dừng SX', 'tạm dừng': 'Tạm Dừng SX',
-        'done': 'Done', 'hoan thanh': 'Done', 'hoàn thành': 'Done'
+
+        'chua sx':
+          'Chưa SX',
+
+        'chưa sx':
+          'Chưa SX',
+
+        'chua sản xuất':
+          'Chưa SX',
+
+        'chưa sản xuất':
+          'Chưa SX',
+
+        'dang sx':
+          'Đang SX',
+
+        'đang sx':
+          'Đang SX',
+
+        'dang sản xuất':
+          'Đang SX',
+
+        'đang sản xuất':
+          'Đang SX',
+
+        'tam dung sx':
+          'Tạm Dừng SX',
+
+        'tạm dừng sx':
+          'Tạm Dừng SX',
+
+        'tam dung':
+          'Tạm Dừng SX',
+
+        'tạm dừng':
+          'Tạm Dừng SX',
+
+        'done':
+          'Done',
+
+        'hoan thanh':
+          'Done',
+
+        'hoàn thành':
+          'Done'
       };
-      return ban_do[val_str.toLowerCase()] || val_str;
+
+
+      return (
+        ban_do[
+          val_str.toLowerCase()
+        ] ||
+        val_str
+      );
     }
 
-    function chuan_hoa_ten_nv(ten) {
+
+    function chuan_hoa_ten_nv(
+      ten
+    ) {
+
       if (!ten) return '';
-      let s = String(ten).trim();
-      return s.replace(/\s+/g, ' ');
+
+      let s =
+        String(ten).trim();
+
+      return s.replace(
+        /\s+/g,
+        ' '
+      );
     }
+
 
     function parseDate(val) {
+
       if (!val) return null;
-      let s = String(val).trim();
-      let parts = s.split(/[\/\-]/);
-      if (parts.length >= 3) {
-        let d = parseInt(parts[0], 10);
-        let m = parseInt(parts[1], 10) - 1;
-        let y = parseInt(parts[2], 10);
-        if (y < 100) y += 2000;
-        return new Date(y, m, d);
+
+      let s =
+        String(val).trim();
+
+      let parts =
+        s.split(/[\/\-]/);
+
+
+      if (
+        parts.length >= 3
+      ) {
+
+        let d =
+          parseInt(
+            parts[0],
+            10
+          );
+
+        let m =
+          parseInt(
+            parts[1],
+            10
+          ) - 1;
+
+        let y =
+          parseInt(
+            parts[2],
+            10
+          );
+
+
+        if (y < 100) {
+          y += 2000;
+        }
+
+
+        return new Date(
+          y,
+          m,
+          d
+        );
       }
+
+
       return null;
     }
 
+
     function parseData(rows) {
+
       rawData = [];
+
       let lastDH = '';
-      // BẮT ĐẦU ĐỌC CHUẨN TỪ HÀNG THỨ 5 TRỞ ĐI (r = 4) TRONG FILE GOOGLE SHEETS
-      for (let r = 4; r < rows.length; r++) {
-        const row = rows[r];
-        if (!row || row.length < 2) continue;
 
-        let dh = String(row[1] || '').trim(); // Cột B: Số ĐH
-        if (dh) lastDH = dh; else dh = lastDH;
-        if (!dh || /Tổng|Tong|STT|Số ĐH/i.test(dh)) continue;
 
-        let status = clean_status(row[2]);    // Cột C: Tình trạng sản xuất
-        let namCotD = String(row[3] || '').trim(); // Cột D: Năm
+      for (
+        let r = 4;
+        r < rows.length;
+        r++
+      ) {
 
-        // CỘT E: Bộ phận KD[cite: 1]
-        let dept = String(row[4] || '').trim();
-        if (!dept) dept = 'Bộ phận KD';
+        const row =
+          rows[r];
 
-        // CỘT G: Nhân viên KD (Giữ nguyên văn tuyệt đối tên từ Cột G, lọc bỏ từ khóa rác như PKD nếu có)[cite: 1]
-        let empRaw = String(row[6] || '').trim();
-        let emp = chuan_hoa_ten_nv(empRaw);
-        if (!emp || emp.toUpperCase() === 'PKD' || emp.toUpperCase() === 'VTTB') emp = 'Chung';
+        if (
+          !row ||
+          row.length < 2
+        ) continue;
 
-        let project = String(row[7] || '').trim();
-        let spec = String(row[9] || '').trim();
-        let unit = String(row[10] || 'cái').trim();
 
-        let slTongRaw = row[13];
-        let slGoi = clean_number(row[15]);
-        let slKhe = clean_number(row[14]);
-        let slVCO = clean_number(row[23]);
-        let slCot = clean_number(row[24]);
+        let dh =
+          String(
+            row[1] || ''
+          ).trim();
 
-        let slNhomNhom = clean_number(row[16]);
-        let slLoXo = clean_number(row[17]);
-        let slThanhNeo = clean_number(row[18]);
-        let slSPKhac = clean_number(row[19]);
-        let slTamDe = clean_number(row[20]);
-        let slStelPin = clean_number(row[21]);
-        let slVanKhuon = clean_number(row[22]);
-        let slLanCan = clean_number(row[25]);
 
-        let slKhac = slNhomNhom + slLoXo + slThanhNeo + slSPKhac + slTamDe + slStelPin + slVanKhuon + slLanCan;
-        let slCalculated = slKhe + slGoi + slVCO + slCot + slKhac;
+        if (dh) {
 
-        let slTong = clean_number(slTongRaw);
-        if (slTong <= 0) slTong = slCalculated;
+          lastDH =
+            dh;
 
-        let dGui = parseDate(row[26]);
-        let dAB = parseDate(row[27]);
-        let dAC = parseDate(row[28]);
-        let dAG = parseDate(row[32]);
-        let dNK = parseDate(row[33]);
-
-        let parsedNamCotD = parseInt(namCotD);
-        let namDat;
-        if (dGui) {
-          namDat = dGui.getFullYear();
-        } else if (dAB) {
-          namDat = dAB.getFullYear();
-        } else if (!isNaN(parsedNamCotD) && parsedNamCotD > 2000) {
-          namDat = parsedNamCotD;
         } else {
-          namDat = 2026;
+
+          dh =
+            lastDH;
         }
 
-        let dDat = dGui || dAB || new Date(namDat, 0, 1);
-        let daNhapKho = (status.toLowerCase() === 'done') || (dNK !== null);
+
+        if (
+          !dh ||
+          /Tổng|Tong|STT|Số ĐH/i.test(
+            dh
+          )
+        ) continue;
+
+
+        let status =
+          clean_status(
+            row[2]
+          );
+
+
+        let namCotD =
+          String(
+            row[3] || ''
+          ).trim();
+
+
+        let dept =
+          String(
+            row[4] || ''
+          ).trim();
+
+
+        if (!dept) {
+
+          dept =
+            'Bộ phận KD';
+        }
+
+
+        let empRaw =
+          String(
+            row[6] || ''
+          ).trim();
+
+
+        let emp =
+          chuan_hoa_ten_nv(
+            empRaw
+          );
+
+
+        if (
+          !emp ||
+          emp.toUpperCase() === 'PKD' ||
+          emp.toUpperCase() === 'VTTB'
+        ) {
+
+          emp =
+            'Chung';
+        }
+
+
+        let project =
+          String(
+            row[7] || ''
+          ).trim();
+
+
+        let spec =
+          String(
+            row[9] || ''
+          ).trim();
+
+
+        let unit =
+          String(
+            row[10] ||
+            'cái'
+          ).trim();
+
+
+        let slTongRaw =
+          row[13];
+
+        let slGoi =
+          clean_number(
+            row[15]
+          );
+
+        let slKhe =
+          clean_number(
+            row[14]
+          );
+
+        let slVCO =
+          clean_number(
+            row[23]
+          );
+
+        let slCot =
+          clean_number(
+            row[24]
+          );
+
+        let slNhomNhom =
+          clean_number(
+            row[16]
+          );
+
+        let slLoXo =
+          clean_number(
+            row[17]
+          );
+
+        let slThanhNeo =
+          clean_number(
+            row[18]
+          );
+
+        let slSPKhac =
+          clean_number(
+            row[19]
+          );
+
+        let slTamDe =
+          clean_number(
+            row[20]
+          );
+
+        let slStelPin =
+          clean_number(
+            row[21]
+          );
+
+        let slVanKhuon =
+          clean_number(
+            row[22]
+          );
+
+        let slLanCan =
+          clean_number(
+            row[25]
+          );
+
+
+        let slKhac =
+          slNhomNhom +
+          slLoXo +
+          slThanhNeo +
+          slSPKhac +
+          slTamDe +
+          slStelPin +
+          slVanKhuon +
+          slLanCan;
+
+
+        let slCalculated =
+          slKhe +
+          slGoi +
+          slVCO +
+          slCot +
+          slKhac;
+
+
+        let slTong =
+          clean_number(
+            slTongRaw
+          );
+
+
+        if (
+          slTong <= 0
+        ) {
+
+          slTong =
+            slCalculated;
+        }
+
+
+        let dGui =
+          parseDate(
+            row[26]
+          );
+
+        let dAB =
+          parseDate(
+            row[27]
+          );
+
+        let dAC =
+          parseDate(
+            row[28]
+          );
+
+        let dAG =
+          parseDate(
+            row[32]
+          );
+
+        let dNK =
+          parseDate(
+            row[33]
+          );
+
+
+        let parsedNamCotD =
+          parseInt(
+            namCotD
+          );
+
+
+        let namDat;
+
+
+        if (dGui) {
+
+          namDat =
+            dGui.getFullYear();
+
+        } else if (dAB) {
+
+          namDat =
+            dAB.getFullYear();
+
+        } else if (
+          !isNaN(
+            parsedNamCotD
+          ) &&
+          parsedNamCotD > 2000
+        ) {
+
+          namDat =
+            parsedNamCotD;
+
+        } else {
+
+          namDat =
+            2026;
+        }
+
+
+        let dDat =
+          dGui ||
+          dAB ||
+          new Date(
+            namDat,
+            0,
+            1
+          );
+
+
+        let daNhapKho =
+          (
+            status.toLowerCase() ===
+            'done'
+          ) ||
+          (
+            dNK !== null
+          );
+
 
         rawData.push({
-          So_DH: dh, Trang_Thai_SX: status, Nam_DatHang: namDat,
-          Bo_Phan_KD: dept, NV_KD: emp, Du_An: project, Quy_Cach: spec, DVT: unit,
-          So_Luong_Tong_DH: slTong, SL_GoiChau: slGoi, SL_KheRangLuoc: slKhe, SL_TamVCO: slVCO,
-          SL_HeCotPhuKien: slCot, SL_NhomKhac: slKhac,
-          SL_TamDeNeo: slTamDe, SL_ThanhNeo: slThanhNeo, SL_StelPin: slStelPin,
-          SL_LoXoNeo: slLoXo, SL_VanKhuon: slVanKhuon, SL_LanCan: slLanCan,
-          SL_KheRangLuocNhom: slNhomNhom, SL_SPKhac: slSPKhac,
-          Ngay_DatHang: dDat, Ngay_Duyet_AB: dAB, Ngay_KD_Can_AC: dAC, Ngay_Chot_AG: dAG, Ngay_NhapKho_DT: dNK,
-          Da_Nhap_Kho: daNhapKho
+
+          So_DH:
+            dh,
+
+          Trang_Thai_SX:
+            status,
+
+          Nam_DatHang:
+            namDat,
+
+          Bo_Phan_KD:
+            dept,
+
+          NV_KD:
+            emp,
+
+          Du_An:
+            project,
+
+          Quy_Cach:
+            spec,
+
+          DVT:
+            unit,
+
+          So_Luong_Tong_DH:
+            slTong,
+
+          SL_GoiChau:
+            slGoi,
+
+          SL_KheRangLuoc:
+            slKhe,
+
+          SL_TamVCO:
+            slVCO,
+
+          SL_HeCotPhuKien:
+            slCot,
+
+          SL_NhomKhac:
+            slKhac,
+
+          SL_TamDeNeo:
+            slTamDe,
+
+          SL_ThanhNeo:
+            slThanhNeo,
+
+          SL_StelPin:
+            slStelPin,
+
+          SL_LoXoNeo:
+            slLoXo,
+
+          SL_VanKhuon:
+            slVanKhuon,
+
+          SL_LanCan:
+            slLanCan,
+
+          SL_KheRangLuocNhom:
+            slNhomNhom,
+
+          SL_SPKhac:
+            slSPKhac,
+
+          Ngay_DatHang:
+            dDat,
+
+          Ngay_Duyet_AB:
+            dAB,
+
+          Ngay_KD_Can_AC:
+            dAC,
+
+          Ngay_Chot_AG:
+            dAG,
+
+          Ngay_NhapKho_DT:
+            dNK,
+
+          Da_Nhap_Kho:
+            daNhapKho
+
         });
       }
+
+
       populateFilterOptions();
+
       onPeriodChange();
     }
 
+
     function populateFilterOptions() {
-      let yearSet = new Set();
-      rawData.forEach(d => {
-        if (d.Nam_DatHang) yearSet.add(d.Nam_DatHang);
-        if (d.Ngay_KD_Can_AC) yearSet.add(d.Ngay_KD_Can_AC.getFullYear());
-        if (d.Ngay_NhapKho_DT) yearSet.add(d.Ngay_NhapKho_DT.getFullYear());
-      });
-      const years = [...yearSet].sort((a,b) => b - a);
 
-      const sYear = document.getElementById('f-year');
-      let yearOpts = `<option value="ALL">Tất cả các năm</option>`;
-      years.forEach(y => {
-        yearOpts += `<option value="${y}" ${y === 2026 ? 'selected' : ''}>Năm ${y}</option>`;
-      });
-      sYear.innerHTML = yearOpts;
+      let yearSet =
+        new Set();
 
-      const depts = [...new Set(rawData.map(d => d.Bo_Phan_KD).filter(Boolean))].sort();
-      const sDept = document.getElementById('f-dept');
-      sDept.innerHTML = `<option value="ALL">Tất cả bộ phận</option>` + depts.map(d => `<option value="${d}">${d}</option>`).join('');
 
-      const emps = [...new Set(rawData.map(d => d.NV_KD).filter(e => e && e !== 'Chung'))].sort();
-      const datalistEmp = document.getElementById('nvkd-list');
-      datalistEmp.innerHTML = emps.map(e => `<option value="${e}"></option>`).join('');
+      rawData.forEach(
+        d => {
 
-      const statuses = [...new Set(rawData.map(d => d.Trang_Thai_SX).filter(s => s && s.toLowerCase() !== 'vhip'))].sort();
-      const sStatus = document.getElementById('f-status');
-      sStatus.innerHTML = `<option value="ALL">Tất cả tình trạng</option>` + statuses.map(s => `<option value="${s}">${s}</option>`).join('');
+          if (
+            d.Nam_DatHang
+          ) {
+
+            yearSet.add(
+              d.Nam_DatHang
+            );
+          }
+
+          if (
+            d.Ngay_KD_Can_AC
+          ) {
+
+            yearSet.add(
+              d.Ngay_KD_Can_AC
+                .getFullYear()
+            );
+          }
+
+          if (
+            d.Ngay_NhapKho_DT
+          ) {
+
+            yearSet.add(
+              d.Ngay_NhapKho_DT
+                .getFullYear()
+            );
+          }
+
+        }
+      );
+
+
+      const years =
+        [
+          ...yearSet
+        ].sort(
+          (a, b) => b - a
+        );
+
+
+      const sYear =
+        document.getElementById(
+          'f-year'
+        );
+
+
+      let yearOpts =
+        `<option value="ALL">Tất cả các năm</option>`;
+
+
+      years.forEach(
+        y => {
+
+          yearOpts +=
+            `<option value="${y}" ${y === 2026 ? 'selected' : ''}>Năm ${y}</option>`;
+        }
+      );
+
+
+      sYear.innerHTML =
+        yearOpts;
+
+
+      const depts =
+        [
+          ...new Set(
+            rawData
+              .map(
+                d =>
+                  d.Bo_Phan_KD
+              )
+              .filter(Boolean)
+          )
+        ].sort();
+
+
+      const sDept =
+        document.getElementById(
+          'f-dept'
+        );
+
+
+      sDept.innerHTML =
+        `<option value="ALL">Tất cả bộ phận</option>` +
+        depts
+          .map(
+            d =>
+              `<option value="${d}">${d}</option>`
+          )
+          .join('');
+
+
+      const emps =
+        [
+          ...new Set(
+            rawData
+              .map(
+                d =>
+                  d.NV_KD
+              )
+              .filter(
+                e =>
+                  e &&
+                  e !== 'Chung'
+              )
+          )
+        ].sort();
+
+
+      const datalistEmp =
+        document.getElementById(
+          'nvkd-list'
+        );
+
+
+      datalistEmp.innerHTML =
+        emps
+          .map(
+            e =>
+              `<option value="${e}"></option>`
+          )
+          .join('');
+
+
+      const statuses =
+        [
+          ...new Set(
+            rawData
+              .map(
+                d =>
+                  d.Trang_Thai_SX
+              )
+              .filter(
+                s =>
+                  s &&
+                  s.toLowerCase() !==
+                  'vhip'
+              )
+          )
+        ].sort();
+
+
+      const sStatus =
+        document.getElementById(
+          'f-status'
+        );
+
+
+      sStatus.innerHTML =
+        `<option value="ALL">Tất cả tình trạng</option>` +
+        statuses
+          .map(
+            s =>
+              `<option value="${s}">${s}</option>`
+          )
+          .join('');
     }
+
 
     function onDeptChange() {
+
       render();
     }
+
 
     function onPeriodChange() {
-      const p = document.getElementById('f-period').value;
-      const sub = document.getElementById('f-subperiod');
-      if (p === 'MONTH') {
-        sub.disabled = false;
-        sub.innerHTML = Array.from({length: 12}, (_, i) => `<option value="${i+1}" ${i+1 === 9 ? 'selected' : ''}>Tháng ${i+1}</option>`).join('');
-      } else if (p === 'QUARTER') {
-        sub.disabled = false;
-        sub.innerHTML = [1,2,3,4].map(q => `<option value="${q}" ${q === 3 ? 'selected' : ''}>Quý ${q}</option>`).join('');
+
+      const p =
+        document.getElementById(
+          'f-period'
+        ).value;
+
+
+      const sub =
+        document.getElementById(
+          'f-subperiod'
+        );
+
+
+      if (
+        p === 'MONTH'
+      ) {
+
+        sub.disabled =
+          false;
+
+
+        sub.innerHTML =
+          Array
+            .from(
+              { length: 12 },
+              (_, i) =>
+                `<option value="${i+1}" ${i+1 === 9 ? 'selected' : ''}>Tháng ${i+1}</option>`
+            )
+            .join('');
+
+
+      } else if (
+        p === 'QUARTER'
+      ) {
+
+        sub.disabled =
+          false;
+
+
+        sub.innerHTML =
+          [1, 2, 3, 4]
+            .map(
+              q =>
+                `<option value="${q}" ${q === 3 ? 'selected' : ''}>Quý ${q}</option>`
+            )
+            .join('');
+
+
       } else {
-        sub.disabled = true;
-        sub.innerHTML = `<option value="ALL">Tất cả (Cả năm)</option>`;
+
+        sub.disabled =
+          true;
+
+
+        sub.innerHTML =
+          `<option value="ALL">Tất cả (Cả năm)</option>`;
       }
+
+
       render();
     }
 
-    let filteredMoi = [], filteredCanGiao = [], filteredTon = [], filteredDone = [], filteredChuaChot = [];
-    let currentStartDate = null, currentEndDate = null;
-    let labelKyDatMoi = "Đặt Mới";
+
+    let filteredMoi = [];
+
+    let filteredCanGiao = [];
+
+    let filteredTon = [];
+
+    let filteredDone = [];
+
+    let filteredChuaChot = [];
+
+
+    let currentStartDate =
+      null;
+
+    let currentEndDate =
+      null;
+
+
+    let labelKyDatMoi =
+      "Đặt Mới";
+
 
     function getActiveCol() {
-      if (TABS[currentTab].name === "📋 Sản Phẩm Khác" && currentSubProduct !== 'ALL') {
+
+      if (
+        TABS[currentTab].name ===
+        "📋 Sản Phẩm Khác" &&
+        currentSubProduct !==
+        'ALL'
+      ) {
+
         return currentSubProduct;
       }
-      return TABS[currentTab].col;
+
+
+      return TABS[
+        currentTab
+      ].col;
     }
 
+
     function render() {
-      const y = document.getElementById('f-year').value;
-      const p = document.getElementById('f-period').value;
-      const sub = document.getElementById('f-subperiod').value;
-      const st = document.getElementById('f-status').value;
-      const dept = document.getElementById('f-dept').value;
-      
-      const empInput = document.getElementById('f-emp').value.trim();
-      const empInputClean = empInput.toLowerCase().replace(/[\.\s]/g, '');
 
-      let base = rawData.filter(d => {
-        if (dept !== 'ALL' && d.Bo_Phan_KD !== dept) return false;
-        if (empInput) {
-          let dbVal = String(d.NV_KD || '').trim();
-          let dbValClean = dbVal.toLowerCase().replace(/[\.\s]/g, '');
-          
-          let isMatchExact = dbVal.toLowerCase() === empInput.toLowerCase();
-          let isMatchFuzzy = dbValClean.includes(empInputClean);
+      const y =
+        document.getElementById(
+          'f-year'
+        ).value;
 
-          if (!isMatchExact && !isMatchFuzzy) return false;
-        }
-        return true;
-      });
 
-      if (y === 'ALL') {
-        currentStartDate = null;
-        currentEndDate = null;
-        labelKyDatMoi = "Đặt Mới (Tất Cả)";
-        filteredMoi = base;
-        filteredCanGiao = base;
-        filteredTon = base.filter(d => !d.Da_Nhap_Kho && !d.Trang_Thai_SX.toLowerCase().includes('tạm dừng'));
-        filteredDone = base.filter(d => d.Da_Nhap_Kho);
-        filteredChuaChot = base.filter(d => !d.Ngay_Chot_AG && !d.Da_Nhap_Kho && !d.Trang_Thai_SX.toLowerCase().includes('tạm dừng'));
+      const p =
+        document.getElementById(
+          'f-period'
+        ).value;
+
+
+      const sub =
+        document.getElementById(
+          'f-subperiod'
+        ).value;
+
+
+      const st =
+        document.getElementById(
+          'f-status'
+        ).value;
+
+
+      const dept =
+        document.getElementById(
+          'f-dept'
+        ).value;
+
+
+      const empInput =
+        document.getElementById(
+          'f-emp'
+        ).value.trim();
+
+
+      const empInputClean =
+        empInput
+          .toLowerCase()
+          .replace(
+            /[\.\s]/g,
+            ''
+          );
+
+
+      let base =
+        rawData.filter(
+          d => {
+
+            if (
+              dept !== 'ALL' &&
+              d.Bo_Phan_KD !== dept
+            ) {
+
+              return false;
+            }
+
+
+            if (empInput) {
+
+              let dbVal =
+                String(
+                  d.NV_KD ||
+                  ''
+                ).trim();
+
+
+              let dbValClean =
+                dbVal
+                  .toLowerCase()
+                  .replace(
+                    /[\.\s]/g,
+                    ''
+                  );
+
+
+              let isMatchExact =
+                dbVal.toLowerCase() ===
+                empInput.toLowerCase();
+
+
+              let isMatchFuzzy =
+                dbValClean.includes(
+                  empInputClean
+                );
+
+
+              if (
+                !isMatchExact &&
+                !isMatchFuzzy
+              ) {
+
+                return false;
+              }
+            }
+
+
+            return true;
+          }
+        );
+
+
+      if (
+        y === 'ALL'
+      ) {
+
+        currentStartDate =
+          null;
+
+        currentEndDate =
+          null;
+
+        labelKyDatMoi =
+          "Đặt Mới (Tất Cả)";
+
+        filteredMoi =
+          base;
+
+        filteredCanGiao =
+          base;
+
+        filteredTon =
+          base.filter(
+            d =>
+              !d.Da_Nhap_Kho &&
+              !d.Trang_Thai_SX
+                .toLowerCase()
+                .includes(
+                  'tạm dừng'
+                )
+          );
+
+        filteredDone =
+          base.filter(
+            d =>
+              d.Da_Nhap_Kho
+          );
+
+        filteredChuaChot =
+          base.filter(
+            d =>
+              !d.Ngay_Chot_AG &&
+              !d.Da_Nhap_Kho &&
+              !d.Trang_Thai_SX
+                .toLowerCase()
+                .includes(
+                  'tạm dừng'
+                )
+          );
+
       } else {
-        let yearEff = parseInt(y);
 
-        if (p === 'MONTH') {
-          const m = parseInt(sub);
-          currentStartDate = new Date(yearEff, m - 1, 1, 0, 0, 0);
-          currentEndDate = new Date(yearEff, m, 0, 23, 59, 59);
-          labelKyDatMoi = `Đặt Mới Tháng ${m}/${yearEff}`;
-        } else if (p === 'QUARTER') {
-          const q = parseInt(sub);
-          currentStartDate = new Date(yearEff, (q - 1) * 3, 1, 0, 0, 0);
-          currentEndDate = new Date(yearEff, q * 3, 0, 23, 59, 59);
-          labelKyDatMoi = `Đặt Mới Quý ${q}/${yearEff}`;
+        let yearEff =
+          parseInt(y);
+
+
+        if (
+          p === 'MONTH'
+        ) {
+
+          const m =
+            parseInt(sub);
+
+          currentStartDate =
+            new Date(
+              yearEff,
+              m - 1,
+              1,
+              0,
+              0,
+              0
+            );
+
+          currentEndDate =
+            new Date(
+              yearEff,
+              m,
+              0,
+              23,
+              59,
+              59
+            );
+
+          labelKyDatMoi =
+            `Đặt Mới Tháng ${m}/${yearEff}`;
+
+        } else if (
+          p === 'QUARTER'
+        ) {
+
+          const q =
+            parseInt(sub);
+
+          currentStartDate =
+            new Date(
+              yearEff,
+              (q - 1) * 3,
+              1,
+              0,
+              0,
+              0
+            );
+
+          currentEndDate =
+            new Date(
+              yearEff,
+              q * 3,
+              0,
+              23,
+              59,
+              59
+            );
+
+          labelKyDatMoi =
+            `Đặt Mới Quý ${q}/${yearEff}`;
+
         } else {
-          currentStartDate = new Date(yearEff, 0, 1, 0, 0, 0);
-          currentEndDate = new Date(yearEff, 11, 31, 23, 59, 59);
-          labelKyDatMoi = `Đặt Mới Năm ${yearEff}`;
+
+          currentStartDate =
+            new Date(
+              yearEff,
+              0,
+              1,
+              0,
+              0,
+              0
+            );
+
+          currentEndDate =
+            new Date(
+              yearEff,
+              11,
+              31,
+              23,
+              59,
+              59
+            );
+
+          labelKyDatMoi =
+            `Đặt Mới Năm ${yearEff}`;
         }
 
-        filteredMoi = base.filter(d => d.Ngay_DatHang && d.Ngay_DatHang >= currentStartDate && d.Ngay_DatHang <= currentEndDate);
 
-        filteredCanGiao = filteredMoi.filter(d => {
-          let dYeuCau = d.Ngay_KD_Can_AC || d.Ngay_Chot_AG;
-          if (!dYeuCau) return true;
-          return (dYeuCau >= currentStartDate && dYeuCau <= currentEndDate);
-        });
+        filteredMoi =
+          base.filter(
+            d =>
+              d.Ngay_DatHang &&
+              d.Ngay_DatHang >=
+                currentStartDate &&
+              d.Ngay_DatHang <=
+                currentEndDate
+          );
 
-        filteredTon = base.filter(d => {
-          let datTruocKy = d.Ngay_DatHang && d.Ngay_DatHang < currentStartDate;
-          let chuaXongDauKy = !d.Da_Nhap_Kho || (d.Ngay_NhapKho_DT && d.Ngay_NhapKho_DT >= currentStartDate);
-          if (!datTruocKy || !chuaXongDauKy) return false;
-          if (d.Trang_Thai_SX.toLowerCase().includes('tạm dừng')) return false;
 
-          let dYeuCau = d.Ngay_KD_Can_AC || d.Ngay_Chot_AG;
-          if (!dYeuCau) return false;
-          return (dYeuCau >= currentStartDate && dYeuCau <= currentEndDate);
-        });
+        filteredCanGiao =
+          filteredMoi.filter(
+            d => {
 
-        filteredDone = base.filter(d => d.Ngay_NhapKho_DT && d.Ngay_NhapKho_DT >= currentStartDate && d.Ngay_NhapKho_DT <= currentEndDate);
+              let dYeuCau =
+                d.Ngay_KD_Can_AC ||
+                d.Ngay_Chot_AG;
 
-        filteredChuaChot = [...filteredMoi, ...filteredTon].filter(d => !d.Ngay_Chot_AG && !d.Da_Nhap_Kho && !d.Trang_Thai_SX.toLowerCase().includes('tạm dừng'));
+
+              if (!dYeuCau)
+                return true;
+
+
+              return (
+                dYeuCau >=
+                  currentStartDate &&
+                dYeuCau <=
+                  currentEndDate
+              );
+            }
+          );
+
+
+        filteredTon =
+          base.filter(
+            d => {
+
+              let datTruocKy =
+                d.Ngay_DatHang &&
+                d.Ngay_DatHang <
+                  currentStartDate;
+
+
+              let chuaXongDauKy =
+                !d.Da_Nhap_Kho ||
+                (
+                  d.Ngay_NhapKho_DT &&
+                  d.Ngay_NhapKho_DT >=
+                    currentStartDate
+                );
+
+
+              if (
+                !datTruocKy ||
+                !chuaXongDauKy
+              ) {
+
+                return false;
+              }
+
+
+              if (
+                d.Trang_Thai_SX
+                  .toLowerCase()
+                  .includes(
+                    'tạm dừng'
+                  )
+              ) {
+
+                return false;
+              }
+
+
+              let dYeuCau =
+                d.Ngay_KD_Can_AC ||
+                d.Ngay_Chot_AG;
+
+
+              if (!dYeuCau)
+                return false;
+
+
+              return (
+                dYeuCau >=
+                  currentStartDate &&
+                dYeuCau <=
+                  currentEndDate
+              );
+            }
+          );
+
+
+        filteredDone =
+          base.filter(
+            d =>
+              d.Ngay_NhapKho_DT &&
+              d.Ngay_NhapKho_DT >=
+                currentStartDate &&
+              d.Ngay_NhapKho_DT <=
+                currentEndDate
+          );
+
+
+        filteredChuaChot =
+          [
+            ...filteredMoi,
+            ...filteredTon
+          ].filter(
+            d =>
+              !d.Ngay_Chot_AG &&
+              !d.Da_Nhap_Kho &&
+              !d.Trang_Thai_SX
+                .toLowerCase()
+                .includes(
+                  'tạm dừng'
+                )
+          );
       }
 
-      if (st !== 'ALL') {
-        const matchStatus = d => st.toLowerCase() === 'đang sx' ? ['đang sx', 'done'].includes(d.Trang_Thai_SX.toLowerCase()) : d.Trang_Thai_SX.toLowerCase() === st.toLowerCase();
-        filteredMoi = filteredMoi.filter(matchStatus);
-        filteredCanGiao = filteredCanGiao.filter(matchStatus);
-        filteredTon = filteredTon.filter(matchStatus);
-        filteredDone = filteredDone.filter(matchStatus);
-        filteredChuaChot = filteredChuaChot.filter(matchStatus);
+
+      if (
+        st !== 'ALL'
+      ) {
+
+        const matchStatus =
+          d =>
+            st.toLowerCase() ===
+            'đang sx'
+              ? [
+                  'đang sx',
+                  'done'
+                ].includes(
+                  d.Trang_Thai_SX
+                    .toLowerCase()
+                )
+              : d.Trang_Thai_SX
+                  .toLowerCase() ===
+                st.toLowerCase();
+
+
+        filteredMoi =
+          filteredMoi.filter(
+            matchStatus
+          );
+
+        filteredCanGiao =
+          filteredCanGiao.filter(
+            matchStatus
+          );
+
+        filteredTon =
+          filteredTon.filter(
+            matchStatus
+          );
+
+        filteredDone =
+          filteredDone.filter(
+            matchStatus
+          );
+
+        filteredChuaChot =
+          filteredChuaChot.filter(
+            matchStatus
+          );
       }
+
 
       renderMetrics();
+
       renderTable();
     }
 
-    function format_number_smart(val) {
-      if (val === null || val === undefined || isNaN(val)) return "0";
-      let f_val = parseFloat(val);
-      if (Number.isInteger(f_val)) {
-        return Math.round(f_val).toLocaleString('vi-VN');
+
+    function format_number_smart(
+      val
+    ) {
+
+      if (
+        val === null ||
+        val === undefined ||
+        isNaN(val)
+      ) {
+
+        return "0";
       }
-      return f_val.toLocaleString('vi-VN', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+
+
+      let f_val =
+        parseFloat(val);
+
+
+      if (
+        Number.isInteger(
+          f_val
+        )
+      ) {
+
+        return Math.round(
+          f_val
+        ).toLocaleString(
+          'vi-VN'
+        );
+      }
+
+
+      return f_val.toLocaleString(
+        'vi-VN',
+        {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 2
+        }
+      );
     }
+
 
     function renderMetrics() {
-      const container = document.getElementById('metrics-container');
-      const subTabs = document.getElementById('sub-tabs-container');
-      const currentTabObj = TABS[currentTab];
-      const qCol = getActiveCol();
 
-      if (currentTabObj.name === "🚨 Chưa Chốt Tiến Độ Giao Hàng") {
-        subTabs.style.display = 'none';
-        const sum = col => filteredChuaChot.reduce((a, b) => a + (b[col] || 0), 0);
+      const container =
+        document.getElementById(
+          'metrics-container'
+        );
+
+
+      const subTabs =
+        document.getElementById(
+          'sub-tabs-container'
+        );
+
+
+      const currentTabObj =
+        TABS[currentTab];
+
+
+      const qCol =
+        getActiveCol();
+
+
+      if (
+        currentTabObj.name ===
+        "🚨 Chưa Chốt Tiến Độ Giao Hàng"
+      ) {
+
+        subTabs.style.display =
+          'none';
+
+
+        const sum =
+          col =>
+            filteredChuaChot.reduce(
+              (a, b) =>
+                a +
+                (b[col] || 0),
+              0
+            );
+
+
         container.innerHTML = `
+
           <div class="metric-grid-3">
-            <div class="metric-card-pro"><div class="metric-label-pro">📄 ĐH Chưa Chốt</div><div class="metric-value-pro">${format_number_smart(filteredChuaChot.length)}</div></div>
-            <div class="metric-card-pro"><div class="metric-label-pro">📦 Gối Chậu</div><div class="metric-value-pro">${format_number_smart(sum('SL_GoiChau'))}</div></div>
-            <div class="metric-card-pro"><div class="metric-label-pro">⚙️ Khe Răng</div><div class="metric-value-pro">${format_number_smart(sum('SL_KheRangLuoc'))}</div></div>
+
+            <div class="metric-card-pro">
+
+              <div class="metric-label-pro">
+                📄 ĐH Chưa Chốt
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  filteredChuaChot.length
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="metric-card-pro">
+
+              <div class="metric-label-pro">
+                📦 Gối Chậu
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  sum('SL_GoiChau')
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="metric-card-pro">
+
+              <div class="metric-label-pro">
+                ⚙️ Khe Răng
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  sum('SL_KheRangLuoc')
+                )}
+              </div>
+
+            </div>
+
           </div>
+
+
           <div class="metric-grid-3">
-            <div class="metric-card-pro"><div class="metric-label-pro">🧱 Tấm VCO</div><div class="metric-value-pro">${format_number_smart(sum('SL_TamVCO'))}</div></div>
-            <div class="metric-card-pro"><div class="metric-label-pro">🏗️ Cột H</div><div class="metric-value-pro">${format_number_smart(sum('SL_HeCotPhuKien'))}</div></div>
-            <div class="metric-card-pro"><div class="metric-label-pro">🎯 Tổng Số Lượng</div><div class="metric-value-pro">${format_number_smart(sum('So_Luong_Tong_DH'))}</div></div>
+
+            <div class="metric-card-pro">
+
+              <div class="metric-label-pro">
+                🧱 Tấm VCO
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  sum('SL_TamVCO')
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="metric-card-pro">
+
+              <div class="metric-label-pro">
+                🏗️ Cột H
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  sum('SL_HeCotPhuKien')
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="metric-card-pro">
+
+              <div class="metric-label-pro">
+                🎯 Tổng Số Lượng
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  sum('So_Luong_Tong_DH')
+                )}
+              </div>
+
+            </div>
+
           </div>
         `;
+
       } else {
-        subTabs.style.display = 'flex';
-        let subM = currentTab === 0 ? filteredMoi : filteredMoi.filter(d => (d[qCol] || 0) > 0);
-        let subCG = currentTab === 0 ? filteredCanGiao : filteredCanGiao.filter(d => (d[qCol] || 0) > 0);
-        let subT = currentTab === 0 ? filteredTon : filteredTon.filter(d => (d[qCol] || 0) > 0);
-        let subD = currentTab === 0 ? filteredDone : filteredDone.filter(d => (d[qCol] || 0) > 0);
 
-        const sumCol = arr => arr.reduce((a, b) => a + (b[qCol] || 0), 0);
-        const khongTamDung = arr => arr.filter(d => !d.Trang_Thai_SX.toLowerCase().includes('tạm dừng'));
+        subTabs.style.display =
+          'flex';
 
-        let tongDatMoi = sumCol(subM);
-        let datVaCanGiao = sumCol(subCG);
-        let tonLuyKe = sumCol(subT);
 
-        let tongCanSX = sumCol(khongTamDung(subCG)) + tonLuyKe;
-        let daNhapKho = sumCol(subD);
-        let conPhaiSX = (tongCanSX > daNhapKho) ? (tongCanSX - daNhapKho) : 0;
+        let subM =
+          currentTab === 0
+            ? filteredMoi
+            : filteredMoi.filter(
+                d =>
+                  (d[qCol] || 0) >
+                  0
+              );
+
+
+        let subCG =
+          currentTab === 0
+            ? filteredCanGiao
+            : filteredCanGiao.filter(
+                d =>
+                  (d[qCol] || 0) >
+                  0
+              );
+
+
+        let subT =
+          currentTab === 0
+            ? filteredTon
+            : filteredTon.filter(
+                d =>
+                  (d[qCol] || 0) >
+                  0
+              );
+
+
+        let subD =
+          currentTab === 0
+            ? filteredDone
+            : filteredDone.filter(
+                d =>
+                  (d[qCol] || 0) >
+                  0
+              );
+
+
+        const sumCol =
+          arr =>
+            arr.reduce(
+              (a, b) =>
+                a +
+                (b[qCol] || 0),
+              0
+            );
+
+
+        const khongTamDung =
+          arr =>
+            arr.filter(
+              d =>
+                !d.Trang_Thai_SX
+                  .toLowerCase()
+                  .includes(
+                    'tạm dừng'
+                  )
+            );
+
+
+        let tongDatMoi =
+          sumCol(subM);
+
+
+        let datVaCanGiao =
+          sumCol(subCG);
+
+
+        let tonLuyKe =
+          sumCol(subT);
+
+
+        let tongCanSX =
+          sumCol(
+            khongTamDung(
+              subCG
+            )
+          ) +
+          tonLuyKe;
+
+
+        let daNhapKho =
+          sumCol(subD);
+
+
+        let conPhaiSX =
+          (
+            tongCanSX >
+            daNhapKho
+          )
+            ? tongCanSX -
+              daNhapKho
+            : 0;
+
 
         container.innerHTML = `
-          <div class="metric-grid-3">
-            <div class="metric-card-pro">
-              <div class="metric-label-pro">📦 ${labelKyDatMoi}</div>
-              <div class="metric-value-pro">${format_number_smart(tongDatMoi)}</div>
-            </div>
-            <div class="metric-card-pro">
-              <div class="metric-label-pro">🔥 Đặt & Cần Giao</div>
-              <div class="metric-value-pro">${format_number_smart(datVaCanGiao)}</div>
-            </div>
-            <div class="metric-card-pro">
-              <div class="metric-label-pro">⏳ Tồn Lũy Kế</div>
-              <div class="metric-value-pro">${format_number_smart(tonLuyKe)}</div>
-            </div>
-          </div>
 
           <div class="metric-grid-3">
+
             <div class="metric-card-pro">
-              <div class="metric-label-pro">🎯 Tổng Cần SX</div>
-              <div class="metric-value-pro">${format_number_smart(tongCanSX)}</div>
+
+              <div class="metric-label-pro">
+                📦 ${labelKyDatMoi}
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  tongDatMoi
+                )}
+              </div>
+
             </div>
+
+
             <div class="metric-card-pro">
-              <div class="metric-label-pro">✅ Đã Nhập Kho</div>
-              <div class="metric-value-pro">${format_number_smart(daNhapKho)}</div>
+
+              <div class="metric-label-pro">
+                🔥 Đặt & Cần Giao
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  datVaCanGiao
+                )}
+              </div>
+
             </div>
+
+
             <div class="metric-card-pro">
-              <div class="metric-label-pro">⚠️ Còn Phải SX</div>
-              <div class="metric-value-pro">${format_number_smart(conPhaiSX)}</div>
+
+              <div class="metric-label-pro">
+                ⏳ Tồn Lũy Kế
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  tonLuyKe
+                )}
+              </div>
+
             </div>
+
+          </div>
+
+
+          <div class="metric-grid-3">
+
+            <div class="metric-card-pro">
+
+              <div class="metric-label-pro">
+                🎯 Tổng Cần SX
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  tongCanSX
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="metric-card-pro">
+
+              <div class="metric-label-pro">
+                ✅ Đã Nhập Kho
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  daNhapKho
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="metric-card-pro">
+
+              <div class="metric-label-pro">
+                ⚠️ Còn Phải SX
+              </div>
+
+              <div class="metric-value-pro">
+                ${format_number_smart(
+                  conPhaiSX
+                )}
+              </div>
+
+            </div>
+
           </div>
         `;
       }
     }
+
 
     function calcCanhBao(d) {
-      if (d.Da_Nhap_Kho) return { text: "✅ Đã Hoàn Thành", cls: "cb-green" };
-      if (!d.Ngay_Duyet_AB) return { text: "⚪ Chưa Duyệt SX (AB trống)", cls: "cb-gray" };
-      if (!d.Ngay_Chot_AG) return { text: "⚠️ Thiếu Ngày Chốt AG", cls: "cb-yellow" };
 
-      const diffDays = Math.ceil((d.Ngay_Chot_AG - new Date()) / (1000 * 60 * 60 * 24));
-      if (diffDays <= 5) return { text: "🔴 Rất Nguy Hiểm (≤ 5 Ngày)", cls: "cb-red" };
-      if (diffDays <= 7) return { text: "🟠 Cấp Bách (6-7 Ngày)", cls: "cb-orange" };
-      if (diffDays <= 15) return { text: "🟡 Tiến Độ Bình Thường (8-15 Ngày)", cls: "cb-yellow" };
-      if (diffDays <= 30) return { text: "🟢 An Toàn (16-30 Ngày)", cls: "cb-green" };
-      return { text: "🔵 Rất An Toàn (> 30 Ngày)", cls: "" };
+      if (
+        d.Da_Nhap_Kho
+      ) {
+
+        return {
+          text:
+            "✅ Đã Hoàn Thành",
+
+          cls:
+            "cb-green"
+        };
+      }
+
+
+      if (
+        !d.Ngay_Duyet_AB
+      ) {
+
+        return {
+          text:
+            "⚪ Chưa Duyệt SX (AB trống)",
+
+          cls:
+            "cb-gray"
+        };
+      }
+
+
+      if (
+        !d.Ngay_Chot_AG
+      ) {
+
+        return {
+          text:
+            "⚠️ Thiếu Ngày Chốt AG",
+
+          cls:
+            "cb-yellow"
+        };
+      }
+
+
+      const diffDays =
+        Math.ceil(
+          (
+            d.Ngay_Chot_AG -
+            new Date()
+          ) /
+          (
+            1000 *
+            60 *
+            60 *
+            24
+          )
+        );
+
+
+      if (
+        diffDays <= 5
+      ) {
+
+        return {
+          text:
+            "🔴 Rất Nguy Hiểm (≤ 5 Ngày)",
+
+          cls:
+            "cb-red"
+        };
+      }
+
+
+      if (
+        diffDays <= 7
+      ) {
+
+        return {
+          text:
+            "🟠 Cấp Bách (6-7 Ngày)",
+
+          cls:
+            "cb-orange"
+        };
+      }
+
+
+      if (
+        diffDays <= 15
+      ) {
+
+        return {
+          text:
+            "🟡 Tiến Độ Bình Thường (8-15 Ngày)",
+
+          cls:
+            "cb-yellow"
+        };
+      }
+
+
+      if (
+        diffDays <= 30
+      ) {
+
+        return {
+          text:
+            "🟢 An Toàn (16-30 Ngày)",
+
+          cls:
+            "cb-green"
+        };
+      }
+
+
+      return {
+        text:
+          "🔵 Rất An Toàn (> 30 Ngày)",
+
+        cls:
+          ""
+      };
     }
+
 
     function fmtDate(d) {
+
       if (!d) return '';
-      return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+
+      return `${String(
+        d.getDate()
+      ).padStart(
+        2,
+        '0'
+      )}/${String(
+        d.getMonth() + 1
+      ).padStart(
+        2,
+        '0'
+      )}/${d.getFullYear()}`;
     }
 
-    function getTableData() {
-      const qCol = getActiveCol();
-      let data = [];
-      if (TABS[currentTab].name === "🚨 Chưa Chốt Tiến Độ Giao Hàng") {
-        data = filteredChuaChot;
-      } else {
-        if (currentSubTab === 'MOI') data = filteredMoi;
-        else if (currentSubTab === 'CAN_GIAO') data = filteredCanGiao;
-        else if (currentSubTab === 'TON') data = filteredTon;
-        else data = filteredDone;
 
-        if (currentTab !== 0) data = data.filter(d => (d[qCol] || 0) > 0);
+    function getTableData() {
+
+      const qCol =
+        getActiveCol();
+
+
+      let data = [];
+
+
+      if (
+        TABS[currentTab].name ===
+        "🚨 Chưa Chốt Tiến Độ Giao Hàng"
+      ) {
+
+        data =
+          filteredChuaChot;
+
+      } else {
+
+        if (
+          currentSubTab ===
+          'MOI'
+        ) {
+
+          data =
+            filteredMoi;
+
+        } else if (
+          currentSubTab ===
+          'CAN_GIAO'
+        ) {
+
+          data =
+            filteredCanGiao;
+
+        } else if (
+          currentSubTab ===
+          'TON'
+        ) {
+
+          data =
+            filteredTon;
+
+        } else {
+
+          data =
+            filteredDone;
+        }
+
+
+        if (
+          currentTab !== 0
+        ) {
+
+          data =
+            data.filter(
+              d =>
+                (d[qCol] || 0) >
+                0
+            );
+        }
       }
-      const kw = document.getElementById('search-kw').value.trim().toLowerCase();
+
+
+      const kw =
+        document.getElementById(
+          'search-kw'
+        ).value
+          .trim()
+          .toLowerCase();
+
+
       if (kw) {
-        data = data.filter(d => d.So_DH.toLowerCase().includes(kw) || d.Du_An.toLowerCase().includes(kw));
+
+        data =
+          data.filter(
+            d =>
+              d.So_DH
+                .toLowerCase()
+                .includes(kw) ||
+
+              d.Du_An
+                .toLowerCase()
+                .includes(kw)
+          );
       }
+
+
       return data;
     }
 
-    function renderTable() {
-      const list = getTableData();
-      const qCol = getActiveCol();
-      const tbody = document.getElementById('table-body');
 
-      if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="13" style="padding: 20px; color: #64748b; font-weight: 600;">Không có dữ liệu phù hợp.</td></tr>`;
+    function renderTable() {
+
+      const list =
+        getTableData();
+
+
+      const qCol =
+        getActiveCol();
+
+
+      const tbody =
+        document.getElementById(
+          'table-body'
+        );
+
+
+      if (
+        list.length === 0
+      ) {
+
+        tbody.innerHTML = `
+
+          <tr>
+
+            <td
+              colspan="13"
+              style="
+                padding: 20px;
+                color: #64748b;
+                font-weight: 600;
+              "
+            >
+              Không có dữ liệu phù hợp.
+            </td>
+
+          </tr>
+
+        `;
+
         return;
       }
 
-      tbody.innerHTML = list.map(d => {
-        const cb = calcCanhBao(d);
-        return `
-          <tr>
-            <td style="font-weight:700; color:#0d47a1;">${d.So_DH}</td>
-            <td>${d.Bo_Phan_KD}</td>
-            <td>${d.NV_KD}</td>
-            <td class="col-expand" title="${d.Du_An}">${d.Du_An}</td>
-            <td class="col-expand" title="${d.Quy_Cach}">${d.Quy_Cach}</td>
-            <td>${d.DVT}</td>
-            <td style="font-weight:800; color:#0b3d91;">${format_number_smart(d[qCol] || 0)}</td>
-            <td class="${cb.cls}">${cb.text}</td>
-            <td>${d.Trang_Thai_SX}</td>
-            <td>${fmtDate(d.Ngay_Duyet_AB)}</td>
-            <td>${fmtDate(d.Ngay_KD_Can_AC)}</td>
-            <td>${fmtDate(d.Ngay_Chot_AG)}</td>
-            <td>${fmtDate(d.Ngay_NhapKho_DT)}</td>
-          </tr>
-        `;
-      }).join('');
+
+      tbody.innerHTML =
+        list.map(
+          d => {
+
+            const cb =
+              calcCanhBao(d);
+
+
+            return `
+
+              <tr>
+
+                <td
+                  style="
+                    font-weight:700;
+                    color:#0d47a1;
+                  "
+                >
+                  ${d.So_DH}
+                </td>
+
+                <td>
+                  ${d.Bo_Phan_KD}
+                </td>
+
+                <td>
+                  ${d.NV_KD}
+                </td>
+
+                <td
+                  class="col-expand"
+                  title="${d.Du_An}"
+                >
+                  ${d.Du_An}
+                </td>
+
+                <td
+                  class="col-expand"
+                  title="${d.Quy_Cach}"
+                >
+                  ${d.Quy_Cach}
+                </td>
+
+                <td>
+                  ${d.DVT}
+                </td>
+
+                <td
+                  style="
+                    font-weight:800;
+                    color:#0b3d91;
+                  "
+                >
+                  ${format_number_smart(
+                    d[qCol] || 0
+                  )}
+                </td>
+
+                <td
+                  class="${cb.cls}"
+                >
+                  ${cb.text}
+                </td>
+
+                <td>
+                  ${d.Trang_Thai_SX}
+                </td>
+
+                <td>
+                  ${fmtDate(
+                    d.Ngay_Duyet_AB
+                  )}
+                </td>
+
+                <td>
+                  ${fmtDate(
+                    d.Ngay_KD_Can_AC
+                  )}
+                </td>
+
+                <td>
+                  ${fmtDate(
+                    d.Ngay_Chot_AG
+                  )}
+                </td>
+
+                <td>
+                  ${fmtDate(
+                    d.Ngay_NhapKho_DT
+                  )}
+                </td>
+
+              </tr>
+
+            `;
+          }
+        ).join('');
     }
+
 
     function exportExcel() {
-      const list = getTableData();
-      const qCol = getActiveCol();
-      const currentTabObj = TABS[currentTab];
-      const tenColSL = (currentTab === 0 || currentTab === 1) ? "Số Lượng Tổng" : `SL ${currentTabObj.label}`;
 
-      const exportRows = list.map(d => ({
-        "Mã ĐH": d.So_DH,
-        "Bộ Phận": d.Bo_Phan_KD,
-        "NVKD": d.NV_KD,
-        "Dự Án": d.Du_An,
-        "Quy Cách": d.Quy_Cach,
-        "ĐVT": d.DVT,
-        [tenColSL]: d[qCol] || 0,
-        "Cảnh Báo": calcCanhBao(d).text,
-        "Trạng Thái": d.Trang_Thai_SX,
-        "Duyệt Base SX": fmtDate(d.Ngay_Duyet_AB),
-        "KD Cần Ngày Giao Hàng": fmtDate(d.Ngay_KD_Can_AC),
-        "Chốt Tiến Độ": fmtDate(d.Ngay_Chot_AG),
-        "Ngày Nhập Kho": fmtDate(d.Ngay_NhapKho_DT)
-      }));
+      const list =
+        getTableData();
 
-      const ws = XLSX.utils.json_to_sheet(exportRows);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Bao_Cao");
-      
-      let safeName = currentTabObj.name.replace(/[^a-zA-Z0-9_\u00C0-\u024F\u1E00-\u1EFF]/g, '_');
-      XLSX.writeFile(wb, `Bao_Cao_${safeName}.xlsx`);
+
+      const qCol =
+        getActiveCol();
+
+
+      const currentTabObj =
+        TABS[currentTab];
+
+
+      const tenColSL =
+        (
+          currentTab === 0 ||
+          currentTab === 1
+        )
+          ? "Số Lượng Tổng"
+          : `SL ${currentTabObj.label}`;
+
+
+      const exportRows =
+        list.map(
+          d => ({
+
+            "Mã ĐH":
+              d.So_DH,
+
+            "Bộ Phận":
+              d.Bo_Phan_KD,
+
+            "NVKD":
+              d.NV_KD,
+
+            "Dự Án":
+              d.Du_An,
+
+            "Quy Cách":
+              d.Quy_Cach,
+
+            "ĐVT":
+              d.DVT,
+
+            [tenColSL]:
+              d[qCol] || 0,
+
+            "Cảnh Báo":
+              calcCanhBao(d).text,
+
+            "Trạng Thái":
+              d.Trang_Thai_SX,
+
+            "Duyệt Base SX":
+              fmtDate(
+                d.Ngay_Duyet_AB
+              ),
+
+            "KD Cần Ngày Giao Hàng":
+              fmtDate(
+                d.Ngay_KD_Can_AC
+              ),
+
+            "Chốt Tiến Độ":
+              fmtDate(
+                d.Ngay_Chot_AG
+              ),
+
+            "Ngày Nhập Kho":
+              fmtDate(
+                d.Ngay_NhapKho_DT
+              )
+
+          })
+        );
+
+
+      const ws =
+        XLSX.utils.json_to_sheet(
+          exportRows
+        );
+
+
+      const wb =
+        XLSX.utils.book_new();
+
+
+      XLSX.utils.book_append_sheet(
+        wb,
+        ws,
+        "Bao_Cao"
+      );
+
+
+      let safeName =
+        currentTabObj.name.replace(
+          /[^a-zA-Z0-9_\u00C0-\u024F\u1E00-\u1EFF]/g,
+          '_'
+        );
+
+
+      XLSX.writeFile(
+        wb,
+        `Bao_Cao_${safeName}.xlsx`
+      );
     }
+
   </script>
+
 </body>
 </html>

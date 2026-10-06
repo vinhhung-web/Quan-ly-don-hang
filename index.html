@@ -372,10 +372,6 @@
       <button type="button" id="forgot-link" class="auth-link" onclick="switchMode('forgot')">🔑 Quên mật khẩu?</button>
       <button type="button" id="forgot-back" class="auth-back" onclick="switchMode('login')" style="display:none;">← Quay lại đăng nhập</button>
 
-      <div style="margin-top:12px; text-align:center;">
-        <button type="button" onclick="openForgotPassword()" style="border:none;background:none;color:#0b459c;font-size:12px;font-weight:700;cursor:pointer;">🔑 Quên mật khẩu?</button>
-      </div>
-
       <div id="forgot-panel" style="display:none;margin-top:14px;padding:14px;background:#f8fbff;border:1px solid #cfe0ff;border-radius:12px;text-align:left;">
         <div style="font-weight:800;color:#173b6c;margin-bottom:8px;">🔐 Đặt lại mật khẩu</div>
         <div id="forgot-step-1">
@@ -508,7 +504,7 @@
   <div id="loading" style="display: none;">Đang kết nối dữ liệu từ Google Sheets, vui lòng đợi...</div>
 
   <script>
-    /* ================= LOGIC AUTH V3 ================= */
+    /* ================= LOGIC AUTH V4 ================= */
     let currentAuthMode = 'login';
     const AUTH_API_URL = "https://script.google.com/macros/s/AKfycbzZcpG88JppgUGqDPDATusX0yOwZXmWkWsm0Wt075DWEa4r4OlsiKqtuEiVY9udouz9/exec";
     let forgotEmail = '';
@@ -679,18 +675,40 @@
     }
 
     function fetchData() {
-      document.getElementById('loading').style.display = 'block';
-      fetch(GGS_CSV_URL + "&_v=" + new Date().getTime())
-        .then(res => res.text())
+      const loading = document.getElementById('loading');
+      const badge = document.getElementById('update-badge');
+      loading.style.display = 'block';
+      badge.innerText = '🔄 Đang tải dữ liệu từ Google Sheets...';
+
+      fetch(GGS_CSV_URL + "&_v=" + Date.now(), { cache: 'no-store' })
+        .then(res => {
+          if (!res.ok) throw new Error('Google Sheets trả về HTTP ' + res.status);
+          return res.text();
+        })
         .then(csvText => {
+          if (!csvText || csvText.trim().length < 10) {
+            throw new Error('Google Sheets trả về dữ liệu rỗng. Hãy kiểm tra quyền chia sẻ của file nguồn.');
+          }
+
           const rows = parseCSVText(csvText);
+          if (!rows || rows.length < 2) {
+            throw new Error('Không đọc được các dòng dữ liệu từ Google Sheets.');
+          }
+
           parseData(rows);
-          document.getElementById('loading').style.display = 'none';
-          document.getElementById('update-badge').innerText = `🔄 Cập nhật: ${new Date().toLocaleTimeString('vi-VN')} ${new Date().toLocaleDateString('vi-VN')}`;
+
+          loading.style.display = 'none';
+          badge.innerText = `🔄 ${rawData.length.toLocaleString('vi-VN')} dòng dữ liệu • Cập nhật: ${new Date().toLocaleTimeString('vi-VN')} ${new Date().toLocaleDateString('vi-VN')}`;
+
+          if (rawData.length === 0) {
+            document.getElementById('table-body').innerHTML = '<tr><td colspan="13" style="padding:30px;color:#b45309;font-weight:800;">⚠️ Đã kết nối được Google Sheets nhưng chưa đọc được dòng đơn hàng. Hệ thống đã tự tìm dòng tiêu đề và cấu trúc dữ liệu.</td></tr>';
+          }
         })
         .catch(err => {
-          alert("Lỗi tải dữ liệu: " + err);
-          document.getElementById('loading').style.display = 'none';
+          console.error('VHIP fetchData error:', err);
+          loading.style.display = 'none';
+          badge.innerText = '❌ Không tải được dữ liệu';
+          document.getElementById('table-body').innerHTML = `<tr><td colspan="13" style="padding:30px;color:#b91c1c;font-weight:800;text-align:left;">❌ Lỗi tải dữ liệu: ${String(err.message || err)}<br><small style="font-weight:600;color:#64748b;">Nguồn: Google Sheets “Theo dõi ĐH” • GID 984933238</small></td></tr>`;
         });
     }
 
@@ -749,73 +767,76 @@
 
     function parseData(rows) {
       rawData = [];
+      let headerRowIndex = -1;
+
+      // TỰ TÌM DÒNG TIÊU ĐỀ THẬT THAY VÌ CỐ ĐỊNH HÀNG 5.
+      // Điều này giúp Dashboard không bị trắng khi Google Sheet thêm/bớt dòng tiêu đề phía trên.
+      for (let i = 0; i < Math.min(rows.length, 20); i++) {
+        const b = String((rows[i] || [])[1] || '').trim().toLowerCase();
+        const c = String((rows[i] || [])[2] || '').trim().toLowerCase();
+        if ((b === 'số đh' || b === 'số đơn hàng' || b.includes('số đh')) && (c.includes('tình trạng') || c.includes('trạng thái'))) {
+          headerRowIndex = i;
+          break;
+        }
+      }
+
+      // Nếu không tìm thấy tiêu đề theo tên, giữ tương thích với Dashboard cũ: dữ liệu bắt đầu từ hàng 5.
+      const dataStart = headerRowIndex >= 0 ? headerRowIndex + 1 : 4;
       let lastDH = '';
-      // BẮT ĐẦU ĐỌC CHUẨN TỪ HÀNG THỨ 5 TRỞ ĐI (r = 4) TRONG FILE GOOGLE SHEETS
-      for (let r = 4; r < rows.length; r++) {
-        const row = rows[r];
-        if (!row || row.length < 2) continue;
 
-        let dh = String(row[1] || '').trim(); // Cột B: Số ĐH
-        if (dh) lastDH = dh; else dh = lastDH;
-        if (!dh || /Tổng|Tong|STT|Số ĐH/i.test(dh)) continue;
+      for (let r = dataStart; r < rows.length; r++) {
+        const row = rows[r] || [];
+        if (row.length < 2) continue;
 
-        let status = clean_status(row[2]);    // Cột C: Tình trạng sản xuất
-        let namCotD = String(row[3] || '').trim(); // Cột D: Năm
+        let dh = String(row[1] || '').trim();
+        if (dh) lastDH = dh;
+        else dh = lastDH;
 
-        // CỘT E: Bộ phận KD[cite: 1]
-        let dept = String(row[4] || '').trim();
-        if (!dept) dept = 'Bộ phận KD';
+        // Bỏ các dòng tiêu đề/tổng/ghi chú.
+        if (!dh || /^(tổng|tong|stt|số đh|số đơn hàng)$/i.test(dh)) continue;
 
-        // CỘT G: Nhân viên KD (Giữ nguyên văn tuyệt đối tên từ Cột G, lọc bỏ từ khóa rác như PKD nếu có)[cite: 1]
+        let status = clean_status(row[2]);
+        let namCotD = String(row[3] || '').trim();
+        let dept = String(row[4] || '').trim() || 'Bộ phận KD';
+
         let empRaw = String(row[6] || '').trim();
         let emp = chuan_hoa_ten_nv(empRaw);
-        if (!emp || emp.toUpperCase() === 'PKD' || emp.toUpperCase() === 'VTTB') emp = 'Chung';
+        if (!emp || ['PKD', 'VTTB'].includes(emp.toUpperCase())) emp = 'Chung';
 
         let project = String(row[7] || '').trim();
         let spec = String(row[9] || '').trim();
         let unit = String(row[10] || 'cái').trim();
 
-        let slTongRaw = row[13];
-        let slGoi = clean_number(row[15]);
-        let slKhe = clean_number(row[14]);
-        let slVCO = clean_number(row[23]);
-        let slCot = clean_number(row[24]);
-
-        let slNhomNhom = clean_number(row[16]);
-        let slLoXo = clean_number(row[17]);
-        let slThanhNeo = clean_number(row[18]);
-        let slSPKhac = clean_number(row[19]);
-        let slTamDe = clean_number(row[20]);
-        let slStelPin = clean_number(row[21]);
-        let slVanKhuon = clean_number(row[22]);
-        let slLanCan = clean_number(row[25]);
+        let slTongRaw = row[13]; // N
+        let slKhe = clean_number(row[14]); // O
+        let slGoi = clean_number(row[15]); // P
+        let slNhomNhom = clean_number(row[16]); // Q
+        let slLoXo = clean_number(row[17]); // R
+        let slThanhNeo = clean_number(row[18]); // S
+        let slSPKhac = clean_number(row[19]); // T
+        let slTamDe = clean_number(row[20]); // U
+        let slStelPin = clean_number(row[21]); // V
+        let slVanKhuon = clean_number(row[22]); // W
+        let slVCO = clean_number(row[23]); // X
+        let slCot = clean_number(row[24]); // Y
+        let slLanCan = clean_number(row[25]); // Z
 
         let slKhac = slNhomNhom + slLoXo + slThanhNeo + slSPKhac + slTamDe + slStelPin + slVanKhuon + slLanCan;
         let slCalculated = slKhe + slGoi + slVCO + slCot + slKhac;
-
         let slTong = clean_number(slTongRaw);
         if (slTong <= 0) slTong = slCalculated;
 
+        // AA: Ngày gửi | AB: Ngày duyệt | AC: Ngày KD cần | AG: Ngày chốt | AH: Ngày nhập kho
         let dGui = parseDate(row[26]);
         let dAB = parseDate(row[27]);
         let dAC = parseDate(row[28]);
         let dAG = parseDate(row[32]);
         let dNK = parseDate(row[33]);
 
-        let parsedNamCotD = parseInt(namCotD);
-        let namDat;
-        if (dGui) {
-          namDat = dGui.getFullYear();
-        } else if (dAB) {
-          namDat = dAB.getFullYear();
-        } else if (!isNaN(parsedNamCotD) && parsedNamCotD > 2000) {
-          namDat = parsedNamCotD;
-        } else {
-          namDat = 2026;
-        }
-
+        let parsedNamCotD = parseInt(namCotD, 10);
+        let namDat = dGui ? dGui.getFullYear() : dAB ? dAB.getFullYear() : (!isNaN(parsedNamCotD) && parsedNamCotD > 2000 ? parsedNamCotD : 2026);
         let dDat = dGui || dAB || new Date(namDat, 0, 1);
-        let daNhapKho = (status.toLowerCase() === 'done') || (dNK !== null);
+        let daNhapKho = status.toLowerCase() === 'done' || dNK !== null;
 
         rawData.push({
           So_DH: dh, Trang_Thai_SX: status, Nam_DatHang: namDat,
@@ -829,6 +850,7 @@
           Da_Nhap_Kho: daNhapKho
         });
       }
+
       populateFilterOptions();
       onPeriodChange();
     }
